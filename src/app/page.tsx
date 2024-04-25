@@ -1,10 +1,12 @@
 import Image from "next/image";
+import SectionHero from '../components/SectionHero';
+import Advantages from "@/components/Advantages";
 
-export default function Home() {
+export default async function Home() {
   return (
     <div>
-      <h1>hello world</h1>
-        <button>hola</button>
+      <SectionHero/>
+      <Advantages/>
     </div>
   );
 }
