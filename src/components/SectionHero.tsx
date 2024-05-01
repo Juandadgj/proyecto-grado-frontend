@@ -13,14 +13,14 @@ function SectionHero() {
           alt="Descripción de la imagen"
           width={420}   // Especifica el ancho de la imagen
           height={500}  // Especifica la altura de la imagen
-          className='rigth-0 ml-12'
+          className='rigth-0 ml-20'
         />
         <Image
           src="/hero.svg"
           alt="Descripción de la imagen"
           width={500}   // Especifica el ancho de la imagen
-          height={500}  // Especifica la altura de la imagen
-          className='absolute bottom-0 left-0 w-full z-10'
+          height={100}  // Especifica la altura de la imagen
+          className='absolute bottom-0 left-0 w-full'
         />
     </section>
   )
