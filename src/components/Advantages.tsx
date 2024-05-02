@@ -47,10 +47,10 @@ const ventajas = [
 function Advantages() {
   return (
     <section id='advantages' className='bg-white'>
-      <div className='flex p-10 pl-40 justify-between'>
+      <div className='flex p-10 pl-24 justify-between'>
         <div className='flex flex-col space-y-5'>
           <h1 className='font-bold text-3xl text-[#212121]'>Descubra las <span className='text-[#00C1FF]'>ventajas <br /></span> exclusivas de Helpear</h1>
-          <button className="bg-gradient-to-b w-max mx-auto text-[#00C1FF] font-semibold from-slate-50 to-blue-100 px-10 py-3 rounded-2xl shadow-blue-400 shadow-md border-b-4 hover border-blue-200 hover:shadow-sm transition-all duration-500">Ver mas ventajas</button>
+          <button className="w-max mx-auto text-[#00C1FF] font-semibold px-10 py-3 rounded-full border-2 border-[#00C1FF] hover:border-[#0066ff]  hover:shadow-xl">Ver mas ventajas</button>
         </div>
         <div className='flex flex-row mt-10'>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
