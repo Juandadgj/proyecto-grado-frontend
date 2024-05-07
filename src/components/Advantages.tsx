@@ -1,6 +1,7 @@
 import { title } from 'process'
 import React from 'react'
 import CardAdvantages from './CardAdvantages'
+import Link from 'next/link'
 
 const ventajas = [
   {
@@ -50,7 +51,8 @@ function Advantages() {
       <div className='flex p-10 pl-24 justify-between'>
         <div className='flex flex-col space-y-5'>
           <h1 className='font-bold text-3xl text-[#212121]'>Descubra las <span className='text-[#00C1FF]'>ventajas <br /></span> exclusivas de Helpear</h1>
-          <button className="w-max mx-auto text-[#00C1FF] font-semibold px-10 py-3 rounded-full border-2 border-[#00C1FF] hover:border-[#0066ff]  hover:shadow-xl">Ver mas ventajas</button>
+          <Link href="/login"><button className="w-max mx-auto text-[#00C1FF] font-semibold px-10 py-3 rounded-full border-2 border-[#00C1FF] hover:border-[#0066ff]  hover:shadow-xl">Ver mas ventajas</button>
+          </Link>
         </div>
         <div className='flex flex-row mt-10'>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">

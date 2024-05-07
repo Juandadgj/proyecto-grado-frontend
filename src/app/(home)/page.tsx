@@ -1,7 +1,8 @@
 import Image from "next/image";
-import SectionHero from '../components/SectionHero';
+import SectionHero from '../../components/SectionHero';
 import Advantages from "@/components/Advantages";
 import Courses from "@/components/Courses";
+import Footer from "@/components/Footer";
 
 export default async function Home() {
   return (
@@ -9,6 +10,7 @@ export default async function Home() {
       <SectionHero/>
       <Advantages/>
       <Courses/>
+      <Footer/>
     </div>
   );
 }

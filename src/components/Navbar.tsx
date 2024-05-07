@@ -17,6 +17,7 @@ const Navbar = () => {
       <div className="hidden md:flex items-center space-x-1">
         <Link href="/" className="text-gray-800 hover:text-blue-500 px-3 py-2 rounded-md text-lg font-medium">Inicio</Link>
         <Link href="/#advantages" className="text-gray-800 hover:text-blue-500 px-3 py-2 rounded-md text-lg font-medium">Ventajas</Link>
+        <Link href="/#courses" className="text-gray-800 hover:text-blue-500 px-3 py-2 rounded-md text-lg font-medium">Categorías</Link>
         <Link href="/sign-up" className="text-[#00cef8] hover:text-blue-500 px-3 py-2 rounded-md text-lg font-bold">Registrarse</Link>
         <Link href="/login" className="text-gray-800 hover:text-blue-500 px-3 py-2 rounded-full border-2 border-black hover:border-blue-500 text-lg font-semibold">Iniciar sesión</Link>
       </div>

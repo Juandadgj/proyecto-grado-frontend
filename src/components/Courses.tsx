@@ -1,5 +1,6 @@
 import React from 'react'
 import CardCourses from './CardCourses';
+import Link from 'next/link';
 
 const data = [
   {
@@ -21,11 +22,11 @@ const data = [
 
 const Courses = () => {
   return (
-    <div className='bg-white p-24'>
-      <div className='flex mb-16 flex-row justify-between'>
-        <div>
+    <div  className='bg-white p-24'>
+      <div id='courses' className='flex mb-16 flex-row justify-between'>
+        <Link href="/login">
           <button className="w-max mx-auto text-[#00C1FF] font-semibold px-10 py-3 rounded-full border-2 border-[#00C1FF] hover:border-[#0066ff]  hover:shadow-xl">Ver más</button>
-        </div>
+        </Link >
         <div><h1 className='font-bold text-3xl text-[#212121]'>Encuentra el mejor <span className='text-[#00C1FF]'>camino <br /></span> para aprender español</h1></div>
       </div>
       <div className='flex flex-row space-x-3'>
