@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 const Navbar = () => {
   return (
-    <nav className="bg-white w-full flex justify-between items-center h-20 px-8">
+    <nav className="bg-white w-full flex justify-between items-center h-20 pl-9 px-8">
       <div className="flex">
         <Image
           src="/deaf.png"
