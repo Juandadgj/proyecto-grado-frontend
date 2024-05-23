@@ -21,11 +21,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
-      <Provider>
-        <div className="flex">
-          <Sidebar/>
-          {children}
-        </div>
+        <Provider>
+          <div className="flex h-screen">
+            <Sidebar />
+            <div className="overflow-y-auto h-full flex-grow">
+              {children}
+            </div>
+          </div>
         </Provider>
 
       </body>
