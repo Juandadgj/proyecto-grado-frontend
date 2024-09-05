@@ -3,9 +3,9 @@ import React from 'react'
 const SearchBar = () => {
   return (
     // <div className='flex items-center justify-center min-h-[50px]'>
-      <div className="flex w-[30%] mx-10 rounded-xl shadow-md ">
+      <div className="flex w-[30%] mx-10 rounded-xl shadow-md bg-[#d3fdff]">
         <input 
-          className="w-full border-none bg-transparent px-4 py-1 text-gray-400 outline-none focus:outline-none"
+          className="placeholder:text-gray-900 w-full border-none bg-transparent px-4 py-1 text-gray-900 outline-none focus:outline-none"
           type="text" // Usar "text" en lugar de "search"
           name="search"
           placeholder="Buscar..."

@@ -75,7 +75,7 @@ const temario = [
 
 const Games = () => {
   return (
-    <div className='px-20 py-10 w-full'>
+    <div className='px-20 py-10 w-full  bg-gradient-to-r from-[#b1f9fd] via-[#d1fbfd] to-[#F9F9F9]'>
       <div className="p-6 bg-white rounded-lg shadow-lg w-[700px]">
         <div className="flex top-4 left-4">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
