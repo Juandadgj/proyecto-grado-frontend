@@ -1,0 +1,33 @@
+.memory-game {
+  text-align: center;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 100px);
+  gap: 10px;
+  justify-content: center;
+}
+
+.card {
+  width: 100px;
+  height: 100px;
+  background: #ddd;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s;
+}
+
+.card.flipped {
+  transform: rotateY(180deg);
+}
+
+.card .word {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #000000;
+  font-size: 18px;
+  font-weight: bold;
+}
