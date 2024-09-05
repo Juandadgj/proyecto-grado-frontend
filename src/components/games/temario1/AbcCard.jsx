@@ -1,16 +1,19 @@
 import React from 'react'
 
-const AbcCard = ({ image, word, onClick, isFlipped }) => {
+const AbcCard = ({ content, type, onClick, isFlipped }) => {
   return (
-    <div
-      className={`card ${isFlipped ? 'flipped' : ''}`}
-      onClick={onClick}
-      style={{
-        backgroundImage: isFlipped ? `url(${image})` : 'none',
-        backgroundColor: isFlipped ? 'transparent' : '#ddd',
-      }}
-    >
-      {isFlipped && <span className="word">{word}</span>}
+    <div className={`card ${isFlipped ? 'flipped' : ''}`} onClick={onClick}>
+      {isFlipped ? (
+        <div className="card-content">
+          {type === 'image' ? (
+            <img src={content} alt="content" className="card-image" />
+          ) : (
+            <span className="card-word">{content}</span>
+          )}
+        </div>
+      ) : (
+        <div className="card-back"></div> 
+      )}
     </div>
   );
 };

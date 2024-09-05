@@ -98,9 +98,14 @@ const AbcGame = () => {
   const [turns, setTurns] = useState(0);
 
   useEffect(() => {
-    const shuffledImages = shuffle([...imgs, ...imgs]);
-    setCards(shuffledImages);
-    console.log(cards)
+    const shuffledCards = shuffle(
+      imgs.flatMap(({ img, word }) => [
+        { content: img, type: "image", word },  // Carta con imagen
+        { content: word, type: "word", word },  // Carta con palabra
+      ])
+    );
+    setCards(shuffledCards);
+    console.log(shuffledCards)
   }, []);
 
   useEffect(() => {
@@ -109,14 +114,14 @@ const AbcGame = () => {
       const firstCard = cards[firstIndex];
       const secondCard = cards[secondIndex];
 
-      if (firstCard.word === secondCard.word) {
+      if (firstCard.word === secondCard.word && firstCard.type !== secondCard.type) {
         setMatchedPairs((prev) => [...prev, firstCard.word]);
       }
 
       setTimeout(() => setFlippedIndices([]), 1000);
       setTurns((prev) => prev + 1);
     }
-  }, [flippedIndices]);
+  }, [flippedIndices, cards]);
 
   const handleCardClick = (index) => {
     if (flippedIndices.length < 2 && !flippedIndices.includes(index)) {
@@ -130,17 +135,17 @@ const AbcGame = () => {
         {cards.map((card, index) => (
           <AbcCard 
           key={index}
-            image={card.url}
-            word={card.word}
+          content={card.content}
+          type={card.type}
             onClick={() => handleCardClick(index)}
             isFlipped={flippedIndices.includes(index) || matchedPairs.includes(card.word)}
           
           />
         ))}
       </div>
-      <div className="info">
+      <div className="text-black font-semibold text-xl mt-10">
         <p>Turns: {turns}</p>
-        <p>Matched Pairs: {matchedPairs.length / 2}</p>
+        <p>Matched Pairs: {matchedPairs.length}</p>
       </div>
     </div>
   )
