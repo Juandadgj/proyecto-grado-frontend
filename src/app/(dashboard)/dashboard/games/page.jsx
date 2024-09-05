@@ -1,8 +1,11 @@
+"use client"
 import TemarioCard from '@/components/temario/TemarioCard';
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 const temario = [
   {
+    id: 1,
+    bgColor: "#325afa",
     titulo: 'Introducción al Lenguaje de Señas Español (LSE)',
     subtemarios: [
       { titulo: 'Aprender los saludos básicos', imagen: '/images/saludos.jpg' },
@@ -11,6 +14,8 @@ const temario = [
     ],
   },
   {
+    id: 2,
+    bgColor: "#fa3f32",
     titulo: 'Alfabeto y Números',
     subtemarios: [
       { titulo: 'Aprender las señas del alfabeto', imagen: '/images/alfabeto.jpg' },
@@ -20,6 +25,8 @@ const temario = [
     ],
   },
   {
+    id: 3,
+    bgColor: "#bfbd37",
     titulo: 'Vocabulario Básico',
     subtemarios: [
       { titulo: 'Palabras y señas para miembros de la familia', imagen: '/images/familia.jpg' },
@@ -29,6 +36,8 @@ const temario = [
     ],
   },
   {
+    id: 4,
+    bgColor: "#56FA2F",
     titulo: 'Frases Cotidianas',
     subtemarios: [
       { titulo: 'Aprender frases simples para situaciones diarias', imagen: '/images/frases_simples.jpg' },
@@ -36,6 +45,8 @@ const temario = [
     ],
   },
   {
+    id: 5,
+    bgColor: "#1e969e",
     titulo: 'Gramática Básica',
     subtemarios: [
       { titulo: 'Yo, tú, él/ella, nosotros, vosotros, ellos/ellas', imagen: '/images/pronombres.jpg' },
@@ -46,6 +57,8 @@ const temario = [
     ],
   },
   {
+    id: 6,
+    bgColor: "#C12FFA",
     titulo: 'Comprensión y Expresión',
     subtemarios: [
       { titulo: 'Uso de imágenes y señas para contar historias simples', imagen: '/images/historias.jpg' },
@@ -55,6 +68,8 @@ const temario = [
     ],
   },
   {
+    id: 7,
+    bgColor: "#FA2F9E",
     titulo: 'Juegos y Actividades Lúdicas',
     subtemarios: [
       { titulo: 'Juegos de memoria con tarjetas de vocabulario', imagen: '/images/memoria.jpg' },
@@ -63,6 +78,8 @@ const temario = [
     ],
   },
   {
+    id: 8,
+    bgColor: "#FA962F",
     titulo: 'Cultura Sorda y Comunidad',
     subtemarios: [
       { titulo: 'Introducción a la comunidad sorda y su cultura', imagen: '/images/comunidad.jpg' },
@@ -74,26 +91,78 @@ const temario = [
 
 
 const Games = () => {
+
+  const [currentTitle, setCurrentTitle] = useState('');
+  const [idTitle, setidTitle] = useState(1)
+  const [bgColor, setBgColor] = useState("#325afa")
+  const sectionRefs = useRef([]); // Referencia a las secciones
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const title = entry.target.getAttribute('data-title');
+            const idTitle = entry.target.getAttribute('data-id');
+            const bgColor = entry.target.getAttribute('data-bgColor');
+            setCurrentTitle(title); // Actualizar el estado con el título visible
+            setidTitle(idTitle)
+            setBgColor(bgColor)
+          }
+        });
+      },
+      {
+        threshold: 0.6, // Cuando el 50% del card sea visible
+      }
+    );
+
+    sectionRefs.current.forEach((section) => {
+      if (section) {
+        observer.observe(section);
+      }
+    });
+
+    return () => {
+      sectionRefs.current.forEach((section) => {
+        if (section) {
+          observer.unobserve(section);
+        }
+      });
+    };
+  }, []);
+
   return (
-    <div className='px-20 py-10 w-full'>
-      <div className="p-6 bg-white rounded-lg shadow-lg w-[700px]">
+    <div className='px-20 pb-10 w-full  bg-gradient-to-r from-[#b1f9fd] via-[#d1fbfd] to-[#F9F9F9]'>
+      <div className='flex flex-col fixed z-10 '>
+      <div className='bg-gradient-to-r from-[#b1f9fd] via-[#d1fbfd] to-[#F9F9F9] h-10 z-20'></div>
+      <div style={{ backgroundColor: bgColor }} className={`p-6 rounded-lg shadow-lg w-[700px]`}>
         <div className="flex top-4 left-4">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
             <path fillRule="evenodd" d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z" clipRule="evenodd" />
           </svg>
-          <h2 className="text-xl font-bold bg-clip-text ml-4 text-gray-400">
-            Título Semidegradado
+          <h2 className="text-xl font-bold bg-clip-text ml-4 text-gray-200">
+            Sección # {idTitle}
           </h2>
         </div>
-          <h1 className="text-3xl font-bold text-gray-800 mt-4">
-            Título Más Grande
+          <h1 className="text-3xl font-bold text-gray-50 mt-4">
+          {currentTitle ? currentTitle : 'Desplázate para ver más'}
           </h1>
       </div>
+      </div>
 
-      <div className="min-h-screen p-6">
-      {temario.map((section) => (
-        <TemarioCard key={section.titulo} titulo={section.titulo} subtemarios={section.subtemarios} />
-      ))}
+
+      <div className="min-h-screen p-6 pt-56">
+        {temario.map((section, index) => (
+          <div
+            id={section.index}
+            ref={(el) => (sectionRefs.current[index] = el)}
+            data-title={section.titulo} // Añadir atributo data-title para identificar el título
+            data-id={section.id}
+            data-bgColor={section.bgColor}
+          >
+            <TemarioCard titulo={section.titulo} subtemarios={section.subtemarios} />
+          </div>
+        ))}
     </div>
     </div>
   )

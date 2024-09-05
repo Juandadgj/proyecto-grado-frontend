@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import Navbar from '../../components/Navbar';
 import "../globals.css";
-import Provider from "../Provider";
 
 const poppins = Poppins({ weight: ['400', '700'], preload: false });
 
@@ -20,10 +19,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <Provider>
           <Navbar />
           {children}
-        </Provider>
       </body>
     </html>
   );

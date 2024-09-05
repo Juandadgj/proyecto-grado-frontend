@@ -27,7 +27,7 @@ const levels = [
 
 const Levels = () => {
   return (
-    <div className='px-20 py-10 w-full'>
+    <div className='px-20 py-10 w-full  bg-gradient-to-r from-[#b1f9fd] via-[#d1fbfd] to-[#F9F9F9]'>
       <div className="relative flex justify-between items-center w-[600px] h-[220px] p-6 bg-[#ffb041] rounded-xl shadow-lg">
         <div className="relative flex-shrink-0">
           <h1 className="text-2xl font-bold text-white">¡Bienvenido!</h1>

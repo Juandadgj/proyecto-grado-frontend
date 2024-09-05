@@ -1,5 +1,4 @@
 "use client"
-import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -7,13 +6,11 @@ import { useState } from 'react';
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
   const toggleOpen = () => setOpen(!open);
-  const {data: session} = useSession();
-  const userImage = session?.user?.image || '/alex.jpg';
 
   return (
     <div className="md:flex flex-col md:flex-row md:min-h-screen w-[256px]">
       <div
-        className={`flex flex-col w-full md:w-64 text-gray-700 bg-[#00C1FF] dark:text-white dark:bg-gray-800 flex-shrink-0`}
+        className={`flex flex-col w-full md:w-64 text-gray-700 bg-[#00C1FF]  flex-shrink-0`}
       >
         <div className="flex-shrink-0 px-8 py-4 flex flex-row items-center justify-between">
           <Link href="/dashboard">
@@ -25,7 +22,7 @@ const Sidebar = () => {
               className='rounded-[50%]'
             />
           </Link>
-          <Link href="/dashboard" className="text-lg font-semibold tracking-widest text-white uppercase rounded-lg dark:text-white focus:outline-none focus:shadow-outline">
+          <Link href="/dashboard" className="text-lg font-semibold tracking-widest text-white uppercase rounded-lg focus:outline-none focus:shadow-outline">
             Helpear
           </Link>
           <button className="rounded-lg md:hidden focus:outline-none focus:shadow-outline" onClick={toggleOpen}>
@@ -50,7 +47,7 @@ const Sidebar = () => {
         <nav className={`flex-grow md:block px-4 pb-4 md:pb-0 md:overflow-y-auto ${open ? 'block' : 'hidden'}`}>
 
           <Link
-            className="flex flex-row items-center px-4 py-2 mt-2 text-sm font-semibold text-white bg-gradient-to-r from-[#00C1FF] to-[#11ffd762] rounded-lg dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:bg-gray-600 dark:focus:text-white dark:hover:text-white hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+            className="flex flex-row items-center px-4 py-2 mt-2 text-sm font-semibold text-white bg-gradient-to-r from-[#00C1FF] to-[#11ffd762] rounded-lg hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
             href="/dashboard"
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-3">
@@ -62,7 +59,7 @@ const Sidebar = () => {
 
           <div className="relative">
             <button
-              className="flex flex-row items-center w-full px-4 py-2 mt-2 text-sm font-semibold text-white text-left bg-transparent bg-gradient-to-r from-[#00C1FF] to-[#11ffd762] rounded-lg dark:bg-transparent dark:focus:text-white dark:hover:text-white md:block hover:text-white focus:text-white0 hover:bg-gray-200 focus:bg-[#00C1FF] focus:outline-none focus:shadow-outline"
+              className="flex flex-row items-center w-full px-4 py-2 mt-2 text-sm font-semibold text-white text-left bg-transparent bg-gradient-to-r from-[#00C1FF] to-[#11ffd762] rounded-lg md:block hover:text-white focus:text-white0 hover:bg-gray-200 focus:bg-[#00C1FF] focus:outline-none focus:shadow-outline"
               onClick={toggleOpen}
             >
               <span className='flex flex-row items-center'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-3">
@@ -88,30 +85,30 @@ const Sidebar = () => {
               <div
                 className="absolute right-0 w-full text-white mt-2 origin-top-right rounded-md shadow-lg"
               >
-                <div className="px-2 py-2 bg-[#00C1FF] rounded-md shadow dark:bg-white">
+                <div className="px-2 py-2 bg-[#00C1FF] rounded-md shadow ">
                   <Link
-                    className="block bg-gradient-to-r from-[#00C1FF] to-[#11ffd762] px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark:bg-transparent dark:hover:bg-gray-600 dark:focus:bg-gray-600 dark:focus:text-white dark:hover:text-white dark:text-white md:mt-0 hover:text-white focus:text-white hover:bg-gray-200 focus:outline-none focus:shadow-outline"
+                    className="block bg-gradient-to-r from-[#00C1FF] to-[#11ffd762] px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 hover:text-white focus:text-white hover:bg-gray-200 focus:outline-none focus:shadow-outline"
                     onClick={toggleOpen}
                     href="/dashboard/levels"
                   >
                     6-8 años
                   </Link>
                   <Link
-                    className="block bg-gradient-to-r from-[#00C1FF] to-[#11ffd762] px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark:bg-transparent dark:hover:bg-gray-600 dark:focus:bg-gray-600 dark:focus:text-white dark:hover:text-white dark:text-white md:mt-0 hover:text-white focus:text-white hover:bg-gray-200 focus:outline-none focus:shadow-outline"
+                    className="block bg-gradient-to-r from-[#00C1FF] to-[#11ffd762] px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 hover:text-white focus:text-white hover:bg-gray-200 focus:outline-none focus:shadow-outline"
                     onClick={toggleOpen}
                     href="/dashboard/levels"
                   >
                     9-11 años
                   </Link>
                   <Link
-                    className="block bg-gradient-to-r from-[#00C1FF] to-[#11ffd762] px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark:bg-transparent dark:hover:bg-gray-600 dark:focus:bg-gray-600 dark:focus:text-white dark:hover:text-white dark:text-white md:mt-0 hover:text-white focus:text-white hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                    className="block bg-gradient-to-r from-[#00C1FF] to-[#11ffd762] px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 hover:text-white focus:text-white hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
                     onClick={toggleOpen}
                     href="/dashboard/levels"
                   >
                     12-15 años
                   </Link>
                   <Link
-                    className="block bg-gradient-to-r from-[#00C1FF] to-[#11ffd762] px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark:bg-transparent dark:hover:bg-gray-600 dark:focus:bg-gray-600 dark:focus:text-white dark:hover:text-white dark:text-white md:mt-0 hover:text-white focus:text-white hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                    className="block bg-gradient-to-r from-[#00C1FF] to-[#11ffd762] px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 hover:text-white focus:text-white hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
                     onClick={toggleOpen}
                     href="/dashboard/levels"
                   >
@@ -122,7 +119,7 @@ const Sidebar = () => {
             )}
           </div>
           <Link
-            className="flex flex-row items-center px-4 py-2 mt-2 text-sm font-semibold text-white bg-gradient-to-r from-[#00C1FF] to-[#11ffd762] rounded-lg dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:bg-gray-600 dark:focus:text-white dark:hover:text-white  hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+            className="flex flex-row items-center px-4 py-2 mt-2 text-sm font-semibold text-white bg-gradient-to-r from-[#00C1FF] to-[#11ffd762] rounded-lg  hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
             href="/dashboard/categories"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6 w-6 h-6 mr-3">
@@ -139,18 +136,14 @@ const Sidebar = () => {
             height={40}  // Especifica la altura de la imagen
             className='rounded-[20%]'
           /> */}
-          <img className='rounded-[20%] w-11 h-11' src={userImage} alt="" />
+          <img className='rounded-[20%] w-11 h-11' src="/deaf.png" alt="" />
           <div>
-            <h2 className='font-normal text-sm'>{session?.user?.name}</h2>
+            <h2 className='font-normal text-sm'>asasasasas</h2>
             <p className='text-[10px]'>Estudiante</p>
           </div>
           <div>
             {/* <Link href="/"> */}
-            <button onClick={() =>{
-              signOut({
-                callbackUrl:'/',
-              })
-            }}>
+            <button >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
               </svg>

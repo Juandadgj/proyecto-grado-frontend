@@ -7,7 +7,7 @@ import Progress from '@/components/Progress';
 const Dashboard = () => {
 
   return (
-    <div className='w-full p-10 pt-20 bg-gradient-to-r from-[#6afaff36] via-[#F9F9F9] to-[#F9F9F9]'>
+    <div className='w-full p-10 pt-20 bg-gradient-to-r from-[#b1f9fd] via-[#d1fbfd] to-[#F9F9F9]'>
       <div className='flex flex-row justify-between h-[60px]'>
         <SearchBar />
         <div className='flex flex-row space-x-4'>
