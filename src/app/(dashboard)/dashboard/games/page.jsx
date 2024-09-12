@@ -134,20 +134,20 @@ const Games = () => {
   return (
     <div className='px-20 pb-10 w-full  bg-gradient-to-r from-[#b1f9fd] via-[#d1fbfd] to-[#F9F9F9]'>
       <div className='flex flex-col fixed z-10 '>
-      <div className='bg-gradient-to-r from-[#b1f9fd] via-[#d1fbfd] to-[#F9F9F9] h-10 z-20'></div>
-      <div style={{ backgroundColor: bgColor }} className={`p-6 rounded-lg shadow-lg w-[700px]`}>
-        <div className="flex top-4 left-4">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-            <path fillRule="evenodd" d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z" clipRule="evenodd" />
-          </svg>
-          <h2 className="text-xl font-bold bg-clip-text ml-4 text-gray-200">
-            Sección # {idTitle}
-          </h2>
-        </div>
+        <div className='bg-gradient-to-r w-full from-[#b1f9fd] via-[#d1fbfd] to-[#d1fbfd] h-10 z-20'></div>
+        <div style={{ backgroundColor: bgColor }} className={`p-6 rounded-lg shadow-lg w-[700px]`}>
+          <div className="flex top-4 left-4">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
+              <path fillRule="evenodd" d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z" clipRule="evenodd" />
+            </svg>
+            <h2 className="text-xl font-bold bg-clip-text ml-4 text-gray-200">
+              Sección # {idTitle}
+            </h2>
+          </div>
           <h1 className="text-3xl font-bold text-gray-50 mt-4">
-          {currentTitle ? currentTitle : 'Desplázate para ver más'}
+            {currentTitle ? currentTitle : 'Desplázate para ver más'}
           </h1>
-      </div>
+        </div>
       </div>
 
 

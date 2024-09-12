@@ -6,23 +6,18 @@ const levels = [
   {
     title: 'Fácil',
     image: '/bby.png',
-    route: '/dashboard/games' // Asegúrate de tener estas imágenes en el directorio public/images
+    route: '/dashboard/games/levels/01' // Asegúrate de tener estas imágenes en el directorio public/images
   },
   {
     title: 'Normal',
     image: '/teen.png',
-    route: '/dashboard/games'
+    route: '/dashboard/games/levels/02'
   },
   {
     title: 'Difícil',
     image: '/juan.png',
-    route: '/dashboard/games'
-  },
-  {
-    title: 'Veterano',
-    image: '/old.png',
-    route: '/dashboard/games'
-  },
+    route: '/dashboard/games/levels/03'
+  }
 ];
 
 const Levels = () => {
@@ -64,7 +59,7 @@ const Levels = () => {
       </div>
 
       {/* cartas de niveles */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 py-6">
+      <div className="grid grid-cols-1 mx-auto md:grid-cols-2 lg:grid-cols-3 gap-6 py-6 justify-center items-center">
         {levels.map((level) => (
           <Link href={level.route}>
             <div

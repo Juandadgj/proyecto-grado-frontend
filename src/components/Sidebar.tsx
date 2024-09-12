@@ -89,30 +89,30 @@ const Sidebar = () => {
                   <Link
                     className="block bg-gradient-to-r from-[#00C1FF] to-[#11ffd762] px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 hover:text-white focus:text-white hover:bg-gray-200 focus:outline-none focus:shadow-outline"
                     onClick={toggleOpen}
-                    href="/dashboard/levels"
+                    href="/dashboard/games"
                   >
-                    6-8 años
+                    1° Grado
                   </Link>
                   <Link
                     className="block bg-gradient-to-r from-[#00C1FF] to-[#11ffd762] px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 hover:text-white focus:text-white hover:bg-gray-200 focus:outline-none focus:shadow-outline"
                     onClick={toggleOpen}
-                    href="/dashboard/levels"
+                    href="/dashboard/games"
                   >
-                    9-11 años
+                    2° Grado
                   </Link>
                   <Link
                     className="block bg-gradient-to-r from-[#00C1FF] to-[#11ffd762] px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 hover:text-white focus:text-white hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
                     onClick={toggleOpen}
-                    href="/dashboard/levels"
+                    href="/dashboard/games"
                   >
-                    12-15 años
+                    3° Grado
                   </Link>
                   <Link
                     className="block bg-gradient-to-r from-[#00C1FF] to-[#11ffd762] px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 hover:text-white focus:text-white hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
                     onClick={toggleOpen}
-                    href="/dashboard/levels"
+                    href="/dashboard/games"
                   >
-                    16-17 años
+                    4° Grado
                   </Link>
                 </div>
               </div>
