@@ -1,101 +1,64 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import './abcGame.css'
 import AbcCard from './abcCard'
 
 const imgs = [
   {
     id:1,
-    img: "/abcGame/bien.png",
-    word: "bien"
+    img: "/abcGame/BALON.jpg",
+    word: "Balón"
   },
   {
     id:2,
-    img: "/abcGame/como.png",
-    word: "como"
+    img: "/abcGame/CABALLO.jpg",
+    word: "Caballo"
   },{
     id:3,
-    img: "/abcGame/cual.png",
-    word: "cual"
+    img: "/abcGame/ELEFANTE.jpg",
+    word: "Elefante"
   },{
     id:4,
-    img: "/abcGame/cuando.png",
-    word: "cuando"
+    img: "/abcGame/GATO.jpg",
+    word: "Gato"
   },{
     id:5,
-    img: "/abcGame/cuantos.png",
-    word: "cuantos"
-  },{
-    id:6,
-    img: "/abcGame/donde.png",
-    word: "donde"
-  },{
-    id:7,
-    img: "/abcGame/es.png",
-    word: "es"
-  },{
-    id:8,
-    img: "/abcGame/gracias.png",
-    word: "gracias"
-  },{
-    id:9,
-    img: "/abcGame/mal.png",
-    word: "mal"
-  },{
-    id:10,
-    img: "/abcGame/nop.png",
-    word: "nop"
-  },
-  // {
-  //   id:11,
-  //   img: "/abcGame/para.png",
-  //   word: "para"
-  // },{
-  //   id:12,
-  //   img: "/abcGame/perdon.png",
-  //   word: "perdon"
-  // },{
-  //   id:13,
-  //   img: "/abcGame/por.png",
-  //   word: "por"
-  // },{
-  //   id:14,
-  //   img: "/abcGame/porfa.png",
-  //   word: "porfa"
-  // },{
-  //   id:15,
-  //   img: "/abcGame/que.png",
-  //   word: "que"
-  // },{
-  //   id:16,
-  //   img: "/abcGame/quePaso.png",
-  //   word: "quePaso"
-  // },{
-  //   id:17,
-  //   img: "/abcGame/quien.png",
-  //   word: "quien"
-  // },{
-  //   id:18,
-  //   img: "/abcGame/si.png",
-  //   word: "si"
-  // },{
-  //   id:19,
-  //   img: "/abcGame/with.png",
-  //   word: "with"
-  // },{
-  //   id:20,
-  //   img: "/abcGame/ya.png",
-  //   word: "ya"
-  // },
+    img: "/abcGame/JIRAFA.jpg",
+    word: "Jirafa"
+   },{
+     id:6,
+     img: "/abcGame/LEÓN.jpg",
+     word: "León"
+   },{
+     id:7,
+     img: "/abcGame/SAPO.jpg",
+     word: "Sapo"
+   },{
+     id:8,
+     img: "/abcGame/PELOTA.jpg",
+     word: "Pelota"
+   },{
+     id:9,
+     img: "/abcGame/RATÓN.jpg",
+     word: "Ratón"
+   },{
+     id:10,
+     img: "/abcGame/SOMBRERO RANA.jpg",
+     word: "Sombrero"
+   }
 ]
 
 const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
-const AbcGame = () => {
+const AbcGame = ({setWhatGame, whatGame}) => {
   const [cards, setCards] = useState([]);
   const [flippedIndices, setFlippedIndices] = useState([]);
   const [matchedPairs, setMatchedPairs] = useState([]);
   const [turns, setTurns] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  const maxTurns = 20; // Número máximo de intentos ideales
+  const scorePercentage = Math.max(100 - Math.floor((turns / maxTurns) * 100), 0);
 
   useEffect(() => {
     const shuffledCards = shuffle(
@@ -105,8 +68,37 @@ const AbcGame = () => {
       ])
     );
     setCards(shuffledCards);
-    console.log(shuffledCards)
   }, []);
+
+  useEffect(() => {
+    if (matchedPairs.length === 10) {
+      // Abre el modal
+      document.getElementById('my_modal_6').checked = true;
+      // document.getElementById('my_modal_1').showModal();
+    }
+  }, [matchedPairs, setWhatGame])
+
+  const handleCloseModal = () => {
+    document.getElementById('my_modal_6').checked = false;
+
+    setWhatGame("ANIMAL_BY_SIZE");
+  }  
+
+  const handleGameAgain = () => {
+    document.getElementById('my_modal_6').checked = false;
+    setCards(shuffle(
+      imgs.flatMap(({ img, word }) => [
+        { content: img, type: "image", word },  // Carta con imagen
+        { content: word, type: "word", word },  // Carta con palabra
+      ])
+    ));
+  
+    // Reinicia los estados relevantes
+    setFlippedIndices([]);
+    setMatchedPairs([]);
+    setTurns(0);
+    setWhatGame("MEMORY");
+  }  
 
   useEffect(() => {
     if (flippedIndices.length === 2) {
@@ -144,9 +136,47 @@ const AbcGame = () => {
         ))}
       </div>
       <div className="text-black font-semibold text-xl mt-10">
-        <p>Turns: {turns}</p>
-        <p>Matched Pairs: {matchedPairs.length}</p>
+        <p>Intentos: {turns}</p>
+        <p>Parejas encontradas: {matchedPairs.length}</p>
       </div>
+
+      {/* MODAL */}
+      <input type="checkbox" id="my_modal_6" className="modal-toggle" />
+      <div className="modal">
+        <div className="modal-box bg-white">
+        <h3 className="text-lg font-bold text-center text-gray-900">¡Juego Terminado!</h3>
+    <p className="py-4 text-center text-gray-900">¡Felicidades por completar el juego!</p>
+
+    {/* Información de los intentos y puntuación */}
+    <div className="text-center space-y-4">
+      <p className="text-xl font-semibold text-gray-900">Intentos realizados: <span className="text-blue-500">{turns}</span></p>
+      <p className="text-xl font-semibold text-gray-900">
+        Puntuación: 
+        <span className={`text-2xl font-bold ${scorePercentage >= 80 ? 'text-green-500' : scorePercentage >= 50 ? 'text-yellow-500' : 'text-red-500'}`}>
+          {'  ' + scorePercentage}%
+        </span>
+      </p>
+    </div>
+
+    {/* Mensaje de ánimo */}
+    <p className="text-center mt-4 text-gray-900">
+      {scorePercentage >= 80 ? "¡Excelente trabajo!" : scorePercentage >= 50 ? "¡Bien hecho! Pero puedes mejorar." : "Sigue intentándolo, lo harás mejor la próxima vez."}
+    </p>
+          <div className="modal-action justify-between">
+            <button
+              className="btn bg-gray-600 text-white border-black border-2"
+              onClick={handleGameAgain}
+            >Repasar Juego
+            </button>
+            <button
+              className="btn bg-green-500 text-white border-green-900 border-2 hover:bg-green-950"
+              onClick={handleCloseModal}
+            >Siguiente Juego
+            </button>
+          </div>
+        </div>
+      </div>
+
     </div>
   )
 }

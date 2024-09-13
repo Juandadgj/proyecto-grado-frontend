@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AnimalByColor = () => {
+const AnimalByColor = ({setWhatGame, whatGame}) => {
   return (
     <div>AnimalByColor</div>
   )
