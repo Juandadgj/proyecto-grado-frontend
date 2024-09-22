@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import { getAccessToken } from "@/services/auth.service";
+import { saveGame } from "@/services/games.service";
+import { jwtDecode } from "jwt-decode";
+import React, { useEffect, useState } from "react";
 
 type Option = {
   id: string;
@@ -78,7 +81,19 @@ const QuizGames: React.FC = () => {
 
   const [responses, setResponses] = useState<Record<number, string>>({});
   const [resultMessage, setResultMessage] = useState<string>("");
+  const [user, setUser] = useState<any>(null);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = await getAccessToken()
+      if (!token) {
+        return
+      }
+      const user = jwtDecode(token)
+      setUser(user)
+    }
+    fetchData()
+  }, [])
   const handleOptionChange = (
     questionIndex: number,
     selectedOption: string
@@ -104,6 +119,13 @@ const QuizGames: React.FC = () => {
         `Has acertado ${correctCount} de ${questions.length} preguntas. Inténtalo de nuevo.`
       );
     }
+
+    saveGame({
+      userId: user.id,
+      id: user.id,
+      score: correctCount,
+      type: "quiz",
+    });
   };
 
   const resetQuiz = () => {

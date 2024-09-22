@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import { getAccessToken } from "@/services/auth.service";
+import { saveGame } from "@/services/games.service";
+import { jwtDecode } from "jwt-decode";
+import React, { useEffect, useState } from "react";
 
 type Animal = {
   id: number;
@@ -19,7 +22,19 @@ const AnimalQuizGame: React.FC = () => {
   // Estado para las respuestas ingresadas por el usuario
   const [responses, setResponses] = useState<Record<number, string>>({});
   const [resultMessage, setResultMessage] = useState<string>("");
+  const [user, setUser] = useState<any>(null);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = await getAccessToken()
+      if (!token) {
+        return
+      }
+      const user = jwtDecode(token)
+      setUser(user)
+    }
+    fetchData()
+  }, [])
   // Función que maneja el cambio de input en cada imagen
   const handleInputChange = (animalId: number, value: string) => {
     setResponses({
@@ -45,6 +60,13 @@ const AnimalQuizGame: React.FC = () => {
         `Has acertado ${correctCount} de ${animals.length} animales. ¡Inténtalo de nuevo!`
       );
     }
+
+    saveGame({
+      userId: user.id,
+      id: user.id,
+      score: correctCount,
+      type: "AnimalQuiz",
+    });
   };
 
   // Función para reiniciar el juego

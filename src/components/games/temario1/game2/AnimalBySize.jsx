@@ -1,9 +1,25 @@
 "use client";
-import React, { useState } from "react";
+import { getAccessToken } from "@/services/auth.service";
+import { saveGame } from "@/services/games.service";
+import { jwtDecode } from "jwt-decode";
+import React, { useEffect, useState } from "react";
 
 const AnimalBySize = ({ setWhatGame, whatGame }) => {
   const [responses, setResponses] = useState([]);
+  const [user, setUser] = useState(null);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = await getAccessToken()
+      if (!token) {
+        return
+      }
+      const user = jwtDecode(token)
+      setUser(user)
+    }
+
+    fetchData()
+  }, [])
   const imgs = [
     { id: 1, img: "/abcGame/SAPO.jpg", word: "Sapo", size: "small" },
     { id: 2, img: "/abcGame/RANA.jpg", word: "Rana", size: "small" },
@@ -57,13 +73,33 @@ const AnimalBySize = ({ setWhatGame, whatGame }) => {
       return correctAnswer && correctAnswer.size === response.sizeType;
     });
 
+    // PUNTAJE OBTENIDO
+    const score = responses.reduce((acc, response) => {
+      const correctAnswer = correctAnswers.find(
+        (answer) => answer.id === response.id
+      );
+      return correctAnswer && correctAnswer.size === response.sizeType
+        ? acc + 1
+        : acc;
+    }, 0);
+
     if (allCorrect) {
       setResultMessage("¡Todas las respuestas son correctas!");
+    } else if (score > 0) {
+      setResultMessage(
+        `Obtuviste ${score} respuesta(s) correcta(s). Inténtalo de nuevo.`
+      );
     } else {
       setResultMessage(
         "Algunas respuestas son incorrectas. Inténtalo de nuevo."
       );
     }
+    saveGame({
+      type: "AnimalBySize",
+      score,
+      id: user.id,
+      userId: user.userId,
+    });
   };
 
   const resetGame = () => {

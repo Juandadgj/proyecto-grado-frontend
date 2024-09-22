@@ -1,3 +1,5 @@
+import { getAccessToken } from "@/services/auth.service";
+import { jwtDecode } from "jwt-decode";
 import React, { useState, useEffect } from "react";
 
 type Board = string[][];
@@ -85,7 +87,6 @@ const WordSearchGame: React.FC = () => {
   const [foundWords, setFoundWords] = useState<string[]>([]);
   const [selectedPositions, setSelectedPositions] = useState<Position[]>([]);
   const [wordsOnBoard, setWordsOnBoard] = useState<Word[]>([]);
-
   // Generar la sopa de letras
   useEffect(() => {
     const newBoard = generateEmptyBoard();

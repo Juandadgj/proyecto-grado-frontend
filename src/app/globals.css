@@ -46,3 +46,19 @@ body {
     text-wrap: balance;
   }
 }
+
+.slick-dots li.slick-active button {
+  background: #000 !important;
+}
+
+.slick-dots li button {
+  background: #00bfffdc !important;
+}
+
+.slick-prev {
+  color: #000 !important;
+}
+
+.slick-next {
+  color: #000 !important;
+}

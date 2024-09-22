@@ -1,12 +1,13 @@
 import React from "react";
 import { Carousel } from "antd";
+import Image from "next/image";
 
 const contentStyle: React.CSSProperties = {
   margin: 0,
-  height: "420px",
+  height: "800px",
   color: "#fff",
   textAlign: "center",
-  background: "#00C1FF",
+  background: "rgba(0, 193, 255, 0.1)",
   display: "flex",
   alignItems: 'center',
   justifyContent: 'center',
@@ -29,11 +30,11 @@ const cuento: { id: number; img: string; pageNumber: number }[] = [
 const CustomCarousel: React.FC = () => (
   <>
     <br />
-    <Carousel arrows infinite={false}>
+    <Carousel className="p-8 px-16" arrows infinite={false} effect="fade">
       {cuento.map((c) => (
         <div className="flex justify-center items-center">
-          <div style={contentStyle}>
-            <img src={c.img} alt="" className="h-[380px] w-[350px] rounded" />
+          <div style={{...contentStyle, backgroundImage: `url(${c.img})`, backgroundPosition: 'center', backgroundSize: 'contain', backgroundRepeat: 'no-repeat'}}>
+            {/* <Image src={c.img} alt="" width={350} height={380} className="h-[380px] w-[350px] rounded" /> */}
           </div>
         </div>
       ))}
