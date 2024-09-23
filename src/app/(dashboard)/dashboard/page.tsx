@@ -7,8 +7,8 @@ import Progress from '@/components/Progress';
 const Dashboard = () => {
 
   return (
-    <div className='w-full p-10 pt-20 bg-gradient-to-r from-[#b1f9fd] via-[#d1fbfd] to-[#F9F9F9]'>
-      <div className='flex flex-row justify-between h-[60px]'>
+    <div className='w-full h-screen p-16 pt-20 bg-gradient-to-r from-[#b1f9fd] via-[#d1fbfd] to-[#F9F9F9] '>
+      <div className='flex flex-row justify-between h-[60px] w-full'>
         <SearchBar />
         <div className='flex flex-row space-x-4'>
           <button style={{boxShadow:  '4px 4px 10px rgba(0, 0, 0, 0.4)'}} className='hover:-translate-y-1 transition-all duration-300 w-11 h-11 shadow-xl rounded-lg flex items-center justify-center'><svg xmlns="http://www.w3.org/2000/svg" fill="#B90512" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -23,7 +23,7 @@ const Dashboard = () => {
           </button>
         </div>
       </div>
-      <div className='my-8 w-[40%] flex flex-col space-y-7'>
+      <div className='my-8 flex flex-col space-y-7 w-[36%]'>
         <CarouselDashboard />
         <div>
           <Progress/>

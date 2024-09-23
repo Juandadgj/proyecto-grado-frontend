@@ -23,9 +23,9 @@ const CarouselDashboard = () => {
     }
   }
   return (
-    <main className="grid  h-[300px]">
-      <div className="relative mx-auto max-w-lg overflow-hidden rounded-md bg-gray-100 shadow-xl">
-        <div className="absolute right-5 top-5 z-10 rounded-full bg-gray-600 px-2 text-center text-sm text-white">
+    <main className="grid  h-[300px] w-full">
+      <div className="relative mx-auto max-w-lg overflow-hidden rounded-md bg-gray-100 shadow-xl w-full">
+        <div className="absolute  right-5 top-5 z-10 rounded-full bg-gray-600 px-2 text-center text-sm text-white">
           {currentIndex}/{images.length}
         </div>
 
@@ -49,7 +49,7 @@ const CarouselDashboard = () => {
 
         </button>
 
-        <div className="relative h-80" style={{ width: '30rem' }}>
+        <div className="relative h-80 w-full" >
           {images.map((image, index) => (
             <div
               key={index}

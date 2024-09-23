@@ -1,11 +1,35 @@
 "use client"
+import { logout } from '@/services';
+import { getAccessToken } from '@/services/auth.service';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { jwtDecode } from "jwt-decode";
 
 const Sidebar = () => {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
   const toggleOpen = () => setOpen(!open);
+  const handleLogout = async () => {
+    await logout();
+    router.push('/');
+  }
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = await getAccessToken()
+      if (!token) {
+        return
+      }
+      const user = jwtDecode(token)
+      setUser(user)
+    }
+
+    fetchData()
+  }, [])
 
   return (
     <div className="md:flex flex-col md:flex-row md:min-h-screen w-[256px]">
@@ -67,17 +91,17 @@ const Sidebar = () => {
               </svg>
 
                 Categorías
-              <svg
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                className={`inline w-4 h-4 ml-1 transition-transform duration-200 transform ${open ? 'rotate-180' : 'rotate-0'}`}
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
+                <svg
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  className={`inline w-4 h-4 ml-1 transition-transform duration-200 transform ${open ? 'rotate-180' : 'rotate-0'}`}
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  />
+                </svg>
               </span>
             </button>
 
@@ -128,26 +152,27 @@ const Sidebar = () => {
             Configuración
           </Link>
         </nav>
-        <div className='px-4 pb-5 text-white space-x-2 flex flex-row'>
-          {/* <Image
-            src={userImage}
+        <div className='px-4 pb-5 text-white space-x-2 flex flex-row items-center w-full '>
+          {user?.image ? <Image
+            src={user?.image}
             alt="Descripción de la imagen"
-            width={40}   // Especifica el ancho de la imagen
-            height={40}  // Especifica la altura de la imagen
+            width={60}   // Especifica el ancho de la imagen
+            height={60}  // Especifica la altura de la imagen
             className='rounded-[20%]'
-          /> */}
-          <img className='rounded-[20%] w-11 h-11' src="/deaf.png" alt="" />
-          <div>
-            <h2 className='font-normal text-sm'>asasasasas</h2>
+          /> :
+            <img className='rounded-[20%] w-11 h-11' src="/deaf.png" alt="" />
+          }
+          <div className='h-11 w-full flex-col justify-center items-center'>
+            <h2 className='font-normal text-sm'>{user?.username}</h2>
             <p className='text-[10px]'>Estudiante</p>
           </div>
-          <div>
+          <div className='h-10 flex-col justify-center items-center'>
             {/* <Link href="/"> */}
-            <button >
+            <button onClick={handleLogout}>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
               </svg>
-              </button>
+            </button>
             {/* </Link> */}
 
           </div>

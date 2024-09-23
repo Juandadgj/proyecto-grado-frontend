@@ -2,6 +2,9 @@
 import React, { use, useEffect, useState } from 'react'
 import './abcGame.css'
 import AbcCard from './abcCard'
+import { saveGame } from '@/services/games.service'
+import { getAccessToken } from '@/services/auth.service'
+import { jwtDecode } from 'jwt-decode'
 
 const imgs = [
   {
@@ -56,7 +59,19 @@ const AbcGame = ({setWhatGame, whatGame}) => {
   const [matchedPairs, setMatchedPairs] = useState([]);
   const [turns, setTurns] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = await getAccessToken()
+      if (!token) {
+        return
+      }
+      const user = jwtDecode(token)
+      setUser(user)
+    }
+    fetchData()
+  }, [])
   const maxTurns = 20; // Número máximo de intentos ideales
   const scorePercentage = Math.max(100 - Math.floor((turns / maxTurns) * 100), 0);
 
@@ -74,6 +89,12 @@ const AbcGame = ({setWhatGame, whatGame}) => {
     if (matchedPairs.length === 10) {
       // Abre el modal
       document.getElementById('my_modal_6').checked = true;
+      saveGame({
+        type: "AbcGame",
+        score: Math.max(100 - Math.floor((turns / maxTurns) * 100), 0),
+        id: user.id,
+        userId: user.userId,
+      });
       // document.getElementById('my_modal_1').showModal();
     }
   }, [matchedPairs, setWhatGame])

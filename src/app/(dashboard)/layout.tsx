@@ -35,7 +35,7 @@ export default function RootLayout({
         >
           <div className="flex h-screen">
             <Sidebar />
-            <div className="overflow-auto flex-grow">{children}</div>
+            <div className="overflow-auto flex-grow h-screen">{children}</div>
           </div>
         </ConfigProvider>
       </body>
