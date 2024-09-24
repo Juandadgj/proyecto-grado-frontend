@@ -156,4 +156,11 @@ class HttpService {
   }
 }
 
-export { HttpService };
+
+const instance = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  timeout: 1000,
+  headers: { "Content-Type": "application/json" }
+});
+
+export { HttpService, instance };

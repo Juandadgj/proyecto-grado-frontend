@@ -14,7 +14,7 @@ type Question = {
   correctAnswer: string;
 };
 
-const QuizGames: React.FC = () => {
+const QuizGames = ({ score }: { score: number }) => {
   const questions: Question[] = [
     {
       question: "¿CON QUIÉN IBA EL SAPO?",
@@ -85,15 +85,15 @@ const QuizGames: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = await getAccessToken()
+      const token = await getAccessToken();
       if (!token) {
-        return
+        return;
       }
-      const user = jwtDecode(token)
-      setUser(user)
-    }
-    fetchData()
-  }, [])
+      const user = jwtDecode(token);
+      setUser(user);
+    };
+    fetchData();
+  }, []);
   const handleOptionChange = (
     questionIndex: number,
     selectedOption: string
@@ -173,6 +173,10 @@ const QuizGames: React.FC = () => {
           </p>
         </div>
       )}
+      <div className="w-full flex justify-center items-center mt-4 text-black font-semibold text-xl">
+        <p>Puntaje obtenido: {score ?? 0}</p>
+      </div>
+      <br />
     </div>
   );
 };

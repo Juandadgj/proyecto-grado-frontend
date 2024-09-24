@@ -49,7 +49,7 @@ const Sidebar = () => {
           {/* <Link href="/dashboard" className="text-lg font-semibold tracking-widest text-white uppercase rounded-lg focus:outline-none focus:shadow-outline">
             Helpear
           </Link> */}
-          <h1 className="text-base font-semibold tracking-widest text-white uppercase rounded-lg focus:outline-none focus:shadow-outline">!Bienvenido de nuevo {user.username}!</h1>
+          <h1 className="text-base font-semibold tracking-widest text-white uppercase rounded-lg focus:outline-none focus:shadow-outline">!Bienvenido de nuevo {user?.username}!</h1>
           <button className="rounded-lg md:hidden focus:outline-none focus:shadow-outline" onClick={toggleOpen}>
             <svg fill="currentColor" viewBox="0 0 20 20" className="w-6 h-6">
               {open ? (

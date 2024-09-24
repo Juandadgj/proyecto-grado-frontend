@@ -4,22 +4,22 @@ import { saveGame } from "@/services/games.service";
 import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from "react";
 
-const AnimalBySize = ({ setWhatGame, whatGame }) => {
+const AnimalBySize = ({ setWhatGame, whatGame, score }) => {
   const [responses, setResponses] = useState([]);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = await getAccessToken()
+      const token = await getAccessToken();
       if (!token) {
-        return
+        return;
       }
-      const user = jwtDecode(token)
-      setUser(user)
-    }
+      const user = jwtDecode(token);
+      setUser(user);
+    };
 
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
   const imgs = [
     { id: 1, img: "/abcGame/SAPO.jpg", word: "Sapo", size: "small" },
     { id: 2, img: "/abcGame/RANA.jpg", word: "Rana", size: "small" },
@@ -157,6 +157,9 @@ const AnimalBySize = ({ setWhatGame, whatGame }) => {
           </p>
         </div>
       )}
+      <div className="w-full flex justify-center items-center mt-4 text-black font-semibold text-xl">
+        <p>Puntaje obtenido: {score ?? 0}</p>
+      </div>
     </div>
   );
 };

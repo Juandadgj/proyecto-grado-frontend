@@ -9,8 +9,9 @@ type Animal = {
   imgSrc: string;
 };
 
-const AnimalQuizGame: React.FC = () => {
+const AnimalQuizGame = ({score}: {score: number}) => {
   // Lista de animales con sus imágenes y nombres correctos
+  console.log("s",score)
   const animals: Animal[] = [
     { id: 1, name: "Elefante", imgSrc: "/abcGame/ELEFANTE.jpg" },
     { id: 2, name: "Rana", imgSrc: "/abcGame/RANA.jpg" },
@@ -114,6 +115,9 @@ const AnimalQuizGame: React.FC = () => {
           </p>
         </div>
       )}
+      <div className="w-full flex justify-center items-center mt-4 font-semibold text-xl">
+        <p>Puntaje obtenido: {score ?? 0}</p>
+      </div>
     </div>
   );
 };

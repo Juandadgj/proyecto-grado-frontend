@@ -121,7 +121,6 @@ const Games = () => {
         observer.observe(section);
       }
     });
-
     return () => {
       sectionRefs.current.forEach((section) => {
         if (section) {
