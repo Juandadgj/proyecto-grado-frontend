@@ -8,85 +8,85 @@ const temario = [
     bgColor: "#325afa",
     titulo: 'Introducción al Lenguaje de Señas Español (LSE)',
     subtemarios: [
-      { titulo: 'Aprender los saludos básicos', imagen: '/images/saludos.jpg' },
-      { titulo: 'Presentarse (nombre, edad)', imagen: '/images/presentarse.jpg' },
-      { titulo: 'Señas para expresiones cotidianas (por favor, gracias, perdón)', imagen: '/images/expresiones.jpg' },
+      { titulo: 'Aprender nombre de los animales', imagen: '/abcGame/GATO.jpg' },
+      // { titulo: 'Presentarse (nombre, edad)', imagen: '/images/presentarse.jpg' },
+      // { titulo: 'Señas para expresiones cotidianas (por favor, gracias, perdón)', imagen: '/images/expresiones.jpg' },
     ],
   },
-  {
-    id: 2,
-    bgColor: "#fa3f32",
-    titulo: 'Alfabeto y Números',
-    subtemarios: [
-      { titulo: 'Aprender las señas del alfabeto', imagen: '/images/alfabeto.jpg' },
-      { titulo: 'Correspondencia entre letras y señas', imagen: '/images/letras.jpg' },
-      { titulo: 'Señas de los números del 1 al 20', imagen: '/images/numeros1_20.jpg' },
-      { titulo: 'Números escritos y su correspondencia en señas', imagen: '/images/numeros_escritos.jpg' },
-    ],
-  },
-  {
-    id: 3,
-    bgColor: "#bfbd37",
-    titulo: 'Vocabulario Básico',
-    subtemarios: [
-      { titulo: 'Palabras y señas para miembros de la familia', imagen: '/images/familia.jpg' },
-      { titulo: 'Nombres y señas de los colores básicos', imagen: '/images/colores.jpg' },
-      { titulo: 'Vocabulario de animales comunes y sus señas correspondientes', imagen: '/images/animales.jpg' },
-      { titulo: 'Vocabulario de objetos del hogar, la escuela y la comunidad', imagen: '/images/objetos.jpg' },
-    ],
-  },
-  {
-    id: 4,
-    bgColor: "#56FA2F",
-    titulo: 'Frases Cotidianas',
-    subtemarios: [
-      { titulo: 'Aprender frases simples para situaciones diarias', imagen: '/images/frases_simples.jpg' },
-      { titulo: 'Ejercicios de práctica con ilustraciones y señas', imagen: '/images/ejercicios.jpg' },
-    ],
-  },
-  {
-    id: 5,
-    bgColor: "#1e969e",
-    titulo: 'Gramática Básica',
-    subtemarios: [
-      { titulo: 'Yo, tú, él/ella, nosotros, vosotros, ellos/ellas', imagen: '/images/pronombres.jpg' },
-      { titulo: 'Ser, estar, tener, hacer', imagen: '/images/verbos.jpg' },
-      { titulo: 'Conjugaciones básicas en presente', imagen: '/images/conjugaciones.jpg' },
-      { titulo: 'Formación de oraciones simples (Sujeto + Verbo + Objeto)', imagen: '/images/oraciones.jpg' },
-      { titulo: 'Práctica con ejemplos visuales', imagen: '/images/ejemplos_visuales.jpg' },
-    ],
-  },
-  {
-    id: 6,
-    bgColor: "#C12FFA",
-    titulo: 'Comprensión y Expresión',
-    subtemarios: [
-      { titulo: 'Uso de imágenes y señas para contar historias simples', imagen: '/images/historias.jpg' },
-      { titulo: 'Ejercicios de comprensión lectora con apoyo visual', imagen: '/images/comprension.jpg' },
-      { titulo: 'Escribir oraciones simples y realizar las señas correspondientes', imagen: '/images/escribir.jpg' },
-      { titulo: 'Describir imágenes usando lenguaje escrito y de señas', imagen: '/images/describir.jpg' },
-    ],
-  },
-  {
-    id: 7,
-    bgColor: "#FA2F9E",
-    titulo: 'Juegos y Actividades Lúdicas',
-    subtemarios: [
-      { titulo: 'Juegos de memoria con tarjetas de vocabulario', imagen: '/images/memoria.jpg' },
-      { titulo: 'Actividades de emparejamiento de señas con palabras escritas', imagen: '/images/emparejamiento.jpg' },
-      { titulo: 'Canciones y rimas adaptadas con señas', imagen: '/images/canciones.jpg' },
-    ],
-  },
-  {
-    id: 8,
-    bgColor: "#FA962F",
-    titulo: 'Cultura Sorda y Comunidad',
-    subtemarios: [
-      { titulo: 'Introducción a la comunidad sorda y su cultura', imagen: '/images/comunidad.jpg' },
-      { titulo: 'Importancia del respeto y la inclusión', imagen: '/images/respecto.jpg' },
-      { titulo: 'Historias de figuras importantes de la comunidad sorda', imagen: '/images/figuras.jpg' },
-    ],
-  },
+  // {
+  //   id: 2,
+  //   bgColor: "#fa3f32",
+  //   titulo: 'Alfabeto y Números',
+  //   subtemarios: [
+  //     { titulo: 'Aprender las señas del alfabeto', imagen: '/images/alfabeto.jpg' },
+  //     { titulo: 'Correspondencia entre letras y señas', imagen: '/images/letras.jpg' },
+  //     { titulo: 'Señas de los números del 1 al 20', imagen: '/images/numeros1_20.jpg' },
+  //     { titulo: 'Números escritos y su correspondencia en señas', imagen: '/images/numeros_escritos.jpg' },
+  //   ],
+  // },
+  // {
+  //   id: 3,
+  //   bgColor: "#bfbd37",
+  //   titulo: 'Vocabulario Básico',
+  //   subtemarios: [
+  //     { titulo: 'Palabras y señas para miembros de la familia', imagen: '/images/familia.jpg' },
+  //     { titulo: 'Nombres y señas de los colores básicos', imagen: '/images/colores.jpg' },
+  //     { titulo: 'Vocabulario de animales comunes y sus señas correspondientes', imagen: '/images/animales.jpg' },
+  //     { titulo: 'Vocabulario de objetos del hogar, la escuela y la comunidad', imagen: '/images/objetos.jpg' },
+  //   ],
+  // },
+  // {
+  //   id: 4,
+  //   bgColor: "#56FA2F",
+  //   titulo: 'Frases Cotidianas',
+  //   subtemarios: [
+  //     { titulo: 'Aprender frases simples para situaciones diarias', imagen: '/images/frases_simples.jpg' },
+  //     { titulo: 'Ejercicios de práctica con ilustraciones y señas', imagen: '/images/ejercicios.jpg' },
+  //   ],
+  // },
+  // {
+  //   id: 5,
+  //   bgColor: "#1e969e",
+  //   titulo: 'Gramática Básica',
+  //   subtemarios: [
+  //     { titulo: 'Yo, tú, él/ella, nosotros, vosotros, ellos/ellas', imagen: '/images/pronombres.jpg' },
+  //     { titulo: 'Ser, estar, tener, hacer', imagen: '/images/verbos.jpg' },
+  //     { titulo: 'Conjugaciones básicas en presente', imagen: '/images/conjugaciones.jpg' },
+  //     { titulo: 'Formación de oraciones simples (Sujeto + Verbo + Objeto)', imagen: '/images/oraciones.jpg' },
+  //     { titulo: 'Práctica con ejemplos visuales', imagen: '/images/ejemplos_visuales.jpg' },
+  //   ],
+  // },
+  // {
+  //   id: 6,
+  //   bgColor: "#C12FFA",
+  //   titulo: 'Comprensión y Expresión',
+  //   subtemarios: [
+  //     { titulo: 'Uso de imágenes y señas para contar historias simples', imagen: '/images/historias.jpg' },
+  //     { titulo: 'Ejercicios de comprensión lectora con apoyo visual', imagen: '/images/comprension.jpg' },
+  //     { titulo: 'Escribir oraciones simples y realizar las señas correspondientes', imagen: '/images/escribir.jpg' },
+  //     { titulo: 'Describir imágenes usando lenguaje escrito y de señas', imagen: '/images/describir.jpg' },
+  //   ],
+  // },
+  // {
+  //   id: 7,
+  //   bgColor: "#FA2F9E",
+  //   titulo: 'Juegos y Actividades Lúdicas',
+  //   subtemarios: [
+  //     { titulo: 'Juegos de memoria con tarjetas de vocabulario', imagen: '/images/memoria.jpg' },
+  //     { titulo: 'Actividades de emparejamiento de señas con palabras escritas', imagen: '/images/emparejamiento.jpg' },
+  //     { titulo: 'Canciones y rimas adaptadas con señas', imagen: '/images/canciones.jpg' },
+  //   ],
+  // },
+  // {
+  //   id: 8,
+  //   bgColor: "#FA962F",
+  //   titulo: 'Cultura Sorda y Comunidad',
+  //   subtemarios: [
+  //     { titulo: 'Introducción a la comunidad sorda y su cultura', imagen: '/images/comunidad.jpg' },
+  //     { titulo: 'Importancia del respeto y la inclusión', imagen: '/images/respecto.jpg' },
+  //     { titulo: 'Historias de figuras importantes de la comunidad sorda', imagen: '/images/figuras.jpg' },
+  //   ],
+  // },
 ];
 
 

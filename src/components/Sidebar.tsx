@@ -46,9 +46,10 @@ const Sidebar = () => {
               className='rounded-[50%]'
             />
           </Link>
-          <Link href="/dashboard" className="text-lg font-semibold tracking-widest text-white uppercase rounded-lg focus:outline-none focus:shadow-outline">
+          {/* <Link href="/dashboard" className="text-lg font-semibold tracking-widest text-white uppercase rounded-lg focus:outline-none focus:shadow-outline">
             Helpear
-          </Link>
+          </Link> */}
+          <h1 className="text-base font-semibold tracking-widest text-white uppercase rounded-lg focus:outline-none focus:shadow-outline">!Bienvenido de nuevo {user.username}!</h1>
           <button className="rounded-lg md:hidden focus:outline-none focus:shadow-outline" onClick={toggleOpen}>
             <svg fill="currentColor" viewBox="0 0 20 20" className="w-6 h-6">
               {open ? (
@@ -110,7 +111,7 @@ const Sidebar = () => {
                 className="absolute right-0 w-full text-white mt-2 origin-top-right rounded-md shadow-lg"
               >
                 <div className="px-2 py-2 bg-[#00C1FF] rounded-md shadow ">
-                  <Link
+                  {/* <Link
                     className="block bg-gradient-to-r from-[#00C1FF] to-[#11ffd762] px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 hover:text-white focus:text-white hover:bg-gray-200 focus:outline-none focus:shadow-outline"
                     onClick={toggleOpen}
                     href="/dashboard/games"
@@ -123,7 +124,7 @@ const Sidebar = () => {
                     href="/dashboard/games"
                   >
                     2° Grado
-                  </Link>
+                  </Link> */}
                   <Link
                     className="block bg-gradient-to-r from-[#00C1FF] to-[#11ffd762] px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 hover:text-white focus:text-white hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
                     onClick={toggleOpen}
@@ -131,13 +132,13 @@ const Sidebar = () => {
                   >
                     3° Grado
                   </Link>
-                  <Link
+                  {/* <Link
                     className="block bg-gradient-to-r from-[#00C1FF] to-[#11ffd762] px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 hover:text-white focus:text-white hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
                     onClick={toggleOpen}
                     href="/dashboard/games"
                   >
                     4° Grado
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
             )}

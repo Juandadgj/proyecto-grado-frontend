@@ -26,15 +26,15 @@ const AnimalQuizGame: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = await getAccessToken()
+      const token = await getAccessToken();
       if (!token) {
-        return
+        return;
       }
-      const user = jwtDecode(token)
-      setUser(user)
-    }
-    fetchData()
-  }, [])
+      const user = jwtDecode(token);
+      setUser(user);
+    };
+    fetchData();
+  }, []);
   // Función que maneja el cambio de input en cada imagen
   const handleInputChange = (animalId: number, value: string) => {
     setResponses({
@@ -93,7 +93,7 @@ const AnimalQuizGame: React.FC = () => {
               placeholder="Escribe el nombre del animal"
               value={responses[animal.id] || ""}
               onChange={(e) => handleInputChange(animal.id, e.target.value)}
-              className="input input-bordered"
+              className="mt-1 p-2 w-full border border-[#00cef8] rounded-md focus:border-[#00cef8]  focus:outline-none transition-colors duration-300 bg-white text-black"
             />
           </div>
         ))}
