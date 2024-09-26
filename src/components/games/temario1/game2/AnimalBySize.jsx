@@ -97,8 +97,8 @@ const AnimalBySize = ({ setWhatGame, whatGame, score }) => {
     saveGame({
       type: "AnimalBySize",
       score,
-      id: user.id,
-      userId: user.userId,
+      id: user?.id,
+      userId: user?.userId,
     });
   };
 
