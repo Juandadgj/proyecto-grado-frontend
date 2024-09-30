@@ -1,5 +1,3 @@
-import { getAccessToken } from "@/services/auth.service";
-import { jwtDecode } from "jwt-decode";
 import React, { useState, useEffect } from "react";
 
 type Board = string[][];
@@ -82,13 +80,15 @@ const fillBoardWithRandomLetters = (board: Board) => {
   }
 };
 
-const WordSearchGame: React.FC = () => {
+const WordSearchGame = ({setWhatGame}:any) => {
   const [board, setBoard] = useState<Board>(generateEmptyBoard());
   const [foundWords, setFoundWords] = useState<string[]>([]);
   const [selectedPositions, setSelectedPositions] = useState<Position[]>([]);
+  const [foundPositions, setFoundPositions] = useState<Position[]>([]);
   const [wordsOnBoard, setWordsOnBoard] = useState<Word[]>([]);
+
   // Generar la sopa de letras
-  useEffect(() => {
+  const generateBoard = () => {
     const newBoard = generateEmptyBoard();
     const placedWords: Word[] = [];
 
@@ -102,80 +102,106 @@ const WordSearchGame: React.FC = () => {
     fillBoardWithRandomLetters(newBoard);
     setBoard(newBoard);
     setWordsOnBoard(placedWords);
+  };
+
+  useEffect(() => {
+    generateBoard(); // Generar el tablero al iniciar el componente
   }, []);
 
   // Seleccionar una letra en la sopa de letras
   const handleSelectLetter = (position: Position) => {
-    setSelectedPositions((prev) => [...prev, position]);
-  };
-
-  // Validar si se encontró alguna palabra
-  const checkForWord = () => {
-    const selectedWord = selectedPositions
+    const newSelectedPositions = [...selectedPositions, position];
+    setSelectedPositions(newSelectedPositions);
+  
+    // Verificar automáticamente si hay palabras encontradas
+    const selectedWord = newSelectedPositions
       .map(({ row, col }) => board[row][col])
       .join("");
 
-    const wordFound = wordsOnBoard.find((wordObj) =>
-      wordObj.word === selectedWord &&
-      wordObj.positions.every(
-        (pos, index) =>
-          pos.row === selectedPositions[index].row &&
-          pos.col === selectedPositions[index].col
+      console.log("Slee", selectedWord)
+  
+    // Verificar si la palabra seleccionada es una de las palabras en el tablero
+    const foundWordsUpdate = wordsOnBoard
+      .filter(wordObj => 
+        wordObj.word === selectedWord &&
+        wordObj.positions.every(
+          (pos, index) =>
+            pos.row === newSelectedPositions[index].row &&
+            pos.col === newSelectedPositions[index].col
+        )
       )
-    );
+      .map(wordObj => wordObj.word);
 
-    if (wordFound) {
-      setFoundWords((prev) => [...prev, wordFound.word]);
-      setSelectedPositions([]);
-    } else {
-      alert("¡Sigue intentando!");
-      setSelectedPositions([]);
+      console.log("WORD", foundWordsUpdate)
+  
+    // Agregar nuevas palabras encontradas
+    setFoundWords(prev => [...prev, ...foundWordsUpdate.filter(word => !prev.includes(word))]);
+  
+    if (foundWordsUpdate.length > 0) {
+      const newFoundPositions = [...foundPositions, ...newSelectedPositions];
+      setFoundPositions(newFoundPositions); // Guardar las posiciones encontradas
+      setSelectedPositions([]); // Limpiar solo la selección actual
     }
   };
+  
 
   // Reiniciar el juego
   const resetGame = () => {
-    setBoard(generateEmptyBoard());
-    setFoundWords([]);
-    setSelectedPositions([]);
+    generateBoard(); // Generar un nuevo tablero
+    setFoundWords([]); // Reiniciar las palabras encontradas
+    setSelectedPositions([]); // Reiniciar las posiciones seleccionadas
   };
 
   return (
     <div className="word-search-game">
-      <h1 className="text-2xl font-bold mb-4">Sopa de Letras - Animales</h1>
-      <div className="grid grid-cols-10 gap-1 mb-4">
-        {board.map((row, rowIndex) =>
-          row.map((letter, colIndex) => (
-            <div
-              key={`${rowIndex}-${colIndex}`}
-              onClick={() => handleSelectLetter({ row: rowIndex, col: colIndex })}
+      <div className="flex flex-row gap-9 mx-9">
+        <div className="grid grid-cols-10 gap-1 w-[450px] mb-4">
+          {board.map((row, rowIndex) =>
+            row.map((letter, colIndex) => (
+              <div
+                key={`${rowIndex}-${colIndex}`}
+                onClick={() => handleSelectLetter({ row: rowIndex, col: colIndex })}
               className={`border w-10 h-10 flex items-center justify-center cursor-pointer ${
                 selectedPositions.some((pos) => pos.row === rowIndex && pos.col === colIndex)
                   ? "bg-blue-200"
-                  : ""
+                  : foundPositions.some((pos) => pos.row === rowIndex && pos.col === colIndex)
+                  ? "bg-green-200" // Color para letras encontradas
+                  : "text-black"
               }`}
-            >
-              {letter}
-            </div>
-          ))
-        )}
+              >
+                {letter}
+              </div>
+            ))
+          )}
+        </div>
+
+        <div>
+          <div className="text-black mb-4">
+            <h2 className="text-xl font-bold">Palabras a encontrar:</h2>
+            <ul className="list-disc pl-5">
+              {wordsList.map((word) => (
+                <li key={word} className={foundWords.includes(word) ? "line-through" : ""}>
+                  {word}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="text-black">
+            <h2 className="text-xl font-bold">Palabras encontradas:</h2>
+            <ul>
+              {foundWords.map((word) => (
+                <li key={word}>{word}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
 
-      <button className="btn btn-primary mb-4" onClick={checkForWord}>
-        Validar Palabra
-      </button>
-      <button className="btn btn-secondary mb-4 ml-2" onClick={resetGame}>
+      <button className="btn btn-secondary mb-4" onClick={resetGame}>
         Reiniciar Juego
       </button>
 
-      <div>
-        <h2 className="text-xl font-bold">Palabras encontradas:</h2>
-        <ul>
-          {foundWords.map((word) => (
-            <li key={word}>{word}</li>
-          ))}
-        </ul>
-      </div>
     </div>
   );
 };
