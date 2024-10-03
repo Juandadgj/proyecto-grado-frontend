@@ -9,6 +9,7 @@ import { getAccessToken } from "@/services/auth.service";
 import { jwtDecode } from "jwt-decode";
 import { getRatings } from "@/lib/ratings/actions";
 import WordSearchGame from "@/components/games/temario1/game6/WordSearchGame";
+import DragAndDrop from "@/components/games/temario1/game7/DragAndFrop";
 
 const page = ({ params }) => {
   const [whatGame, setWhatGame] = useState("MEMORY");
@@ -72,7 +73,7 @@ const page = ({ params }) => {
           ) : whatGame === "ANIMAL_BY_SIZE" ? (
             <AnimalBySize setWhatGame={setWhatGame} />
           ) : whatGame === "ANIMAL_BY_WORD" && (
-            <AnimalByColor setWhatGame={setWhatGame} />
+            <DragAndDrop /> //<AnimalByColor setWhatGame={setWhatGame} />
           )
         ) : params.gamy === "02" ? (
           whatGame === "SOPA_LETRAS" && (
