@@ -1,25 +1,142 @@
-/* Animación de saltar */
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-10px); /* Salto hacia arriba */
-  }
-  60% {
-    transform: translateY(-5px); /* Segundo pequeño salto */
+
+.timeline {
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+}
+
+.outer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.card {
+  position: relative;
+  max-width: 400px;
+  width: 100%;
+}
+
+.card:nth-child(odd) {
+  padding: 30px 0 30px 65px;
+  align-self: flex-start;
+}
+.card:nth-child(even) {
+  padding: 30px 65px 30px 0;
+  align-self: flex-end;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  width: 50%;
+  border: solid rgb(50, 90, 250);
+}
+
+.card:nth-child(odd)::before {
+  left: 0.2%;
+  top: -4.7px;
+  bottom: -4.5px;
+  border-width: 5px 0 5px 5px;
+  border-radius: 50px 0 0 50px;
+}
+
+.card:nth-child(even)::before {
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border-width: 5px 5px 5px 0;
+  border-radius: 0 50px 50px 0;
+}
+
+.card:first-child::before {
+  border-top: 0;
+  border-top-left-radius: 0;
+}
+
+.card:last-child:nth-child(odd)::before {
+  border-bottom: 0;
+  border-bottom-left-radius: 0;
+}
+
+.card:last-child:nth-child(even)::before {
+  border-bottom: 0;
+  border-bottom-right-radius: 0;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  background: #46575f;
+  color: gray;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.title {
+  color: rgb(49, 179, 255);
+  position: relative;
+}
+
+.card::after {
+  content: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100px;
+  height: 100px;
+  background: white;
+  border: 3px solid rgb(0, 26, 255);
+  border-radius: 50%;
+  z-index: 10;
+}
+
+/* DOT a la izquierda para cards impares */
+.card:nth-child(odd)::after {
+  left: -44px;
+}
+
+/* DOT a la derecha para cards pares */
+.card:nth-child(even)::after {
+  right: -44px;
+}
+
+.dot-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 96px;
+  height: 96px;
+  border-radius: 9999px;
+  background-color: white; /* mismo color que el antiguo ::after */
+  border: 3px solid rgb(0, 26, 255); /* mismo borde azul */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.dot-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 9999px;
+}
+
+.card:nth-child(odd) .dot-button {
+  left: -44px;
+}
+
+.card:nth-child(even) .dot-button {
+  right: -44px;
+}
+
+@media only screen and (max-width: 400px) {
+  .card:nth-child(odd)::before {
+    top: -5px;
+    bottom: -5px;
   }
 }
 
-/* Clase para el efecto de saltar */
-.animate-bounce {
-  animation: bounce 2s infinite;
-}
-
-.triangle {
-  width: 0;
-  height: 0;
-  border-left: 50px solid transparent;
-  border-right: 50px solid transparent;
-  border-top: 50px solid #293136; /* El color del triángulo */
-}

@@ -130,7 +130,7 @@ const Sidebar = () => {
                     onClick={toggleOpen}
                     href="/dashboard/games"
                   >
-                    3° Grado
+                    Unidad #1
                   </Link>
                   {/* <Link
                     className="block bg-gradient-to-r from-[#00C1FF] to-[#11ffd762] px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 hover:text-white focus:text-white hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"

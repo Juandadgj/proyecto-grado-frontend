@@ -6,24 +6,15 @@ const temario = [
   {
     id: 1,
     bgColor: "#325afa",
-    titulo: 'Introducción al Lenguaje de Señas Español (LSE)',
+    titulo: 'Lee, comprende y escribe',
     subtemarios: [
-      { titulo: 'Aprender nombre de los animales', imagen: '/abcGame/animals.jpeg' },
-      { titulo: 'Pablito y los números', imagen: '/abcGame/pablito.jpeg' },
-      { titulo: 'Señas para ssssssssssaaaaaaaaaaa', imagen: '/images/expresiones.jpg' },
+      { route: "abecedario", titulo: 'Abecedario', descripcion: "Aprende cada letra del abecedario con juegos y diversión.", imagen: '/unit1/consonante.jpg' },
+      { route: "mayusculas", titulo: 'Letra minúscula y letra mayúscula', descripcion: "Descubre cuándo usar mayúsculas y minúsculas correctamente.", imagen: '/unit1/vocales.jpg' },
+      { route: "silaba", titulo: 'Las silabas', descripcion: "Separa y une sílabas para formar palabras con ritmo.", imagen: '/unit1/digrafos.jpg' },
+      { route: 'oracion', titulo: 'La oración', descripcion: "Aprende a formar oraciones completas y con sentido.", imagen: '/unit1/minYMa.jpg' },
+      { route: 'partes-oracion', titulo: 'Partes de una oración', descripcion: "Identifica sujeto, verbo y complemento como un experto.", imagen: '/unit1/gameWord.jpg' },
     ],
   },
-  // {
-  //   id: 2,
-  //   bgColor: "#fa3f32",
-  //   titulo: 'Alfabeto y Números',
-  //   subtemarios: [
-  //     { titulo: 'Aprender las señas del alfabeto', imagen: '/images/alfabeto.jpg' },
-  //     { titulo: 'Correspondencia entre letras y señas', imagen: '/images/letras.jpg' },
-  //     { titulo: 'Señas de los números del 1 al 20', imagen: '/images/numeros1_20.jpg' },
-  //     { titulo: 'Números escritos y su correspondencia en señas', imagen: '/images/numeros_escritos.jpg' },
-  //   ],
-  // },
 ];
 
 
@@ -32,7 +23,7 @@ const Games = () => {
   const [currentTitle, setCurrentTitle] = useState('');
   const [idTitle, setidTitle] = useState(1)
   const [bgColor, setBgColor] = useState("#325afa")
-  const sectionRefs = useRef([]); // Referencia a las secciones
+  const sectionRefs = useRef([]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -42,7 +33,7 @@ const Games = () => {
             const title = entry.target.getAttribute('data-title');
             const idTitle = entry.target.getAttribute('data-id');
             const bgColor = entry.target.getAttribute('data-bgColor');
-            setCurrentTitle(title); // Actualizar el estado con el título visible
+            setCurrentTitle(title);
             setidTitle(idTitle)
             setBgColor(bgColor)
           }
@@ -71,7 +62,7 @@ const Games = () => {
     <div className='px-20 pb-10 w-full  bg-gradient-to-r from-[#b1f9fd] via-[#d1fbfd] to-[#F9F9F9]'>
       <div className='flex flex-col fixed z-20 '>
         <div className='bg-gradient-to-r w-full from-[#b1f9fd] via-[#d1fbfd] to-[#F0FAFA] h-10 z-20'></div>
-        <div style={{ backgroundColor: bgColor }} className={`p-6 rounded-lg shadow-lg w-full`}>
+        <div style={{ backgroundColor: bgColor }} className={`p-6 rounded-lg shadow-lg w-full `}>
           <div className="flex top-4 left-4 items-center">
             <button onClick={() => window.history.back()} style={{ backgroundColor: bgColor, borderColor: bgColor }} className={`btn bg-blue`}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="size-6">
