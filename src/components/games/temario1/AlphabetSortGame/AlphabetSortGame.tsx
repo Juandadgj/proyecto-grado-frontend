@@ -31,17 +31,17 @@ function SortableItem({ id }: { id: string }) {
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition,
-    padding: '0.5rem 1rem',
-    border: '1px solid #ccc',
-    borderRadius: '0.5rem',
-    backgroundColor: 'white',
-    cursor: 'grab',
-    boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+    transition: transform ? 'transform 150ms ease' : undefined
   }
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className="w-full bg-white shadow-lg text-xl font-bold text-center py-6 rounded-2xl border border-gray-300 cursor-grab active:cursor-grabbing transition-transform"
+    >
       {id}
     </div>
   )
@@ -86,12 +86,14 @@ export default function AlphabetSortGame({ onNextGame, onGoHome }: Props) {
   }
 
   return (
-    <div className="max-w-md mx-auto p-4 text-center space-y-4">
-      <h2 className="text-xl font-bold">Ordena las palabras alfabéticamente</h2>
+    <div className="min-h-full px-4 py-6 flex flex-col gap-6">
+      <h2 className="text-3xl font-extrabold text-center text-orange-800">
+        Ordena las palabras alfabéticamente
+      </h2>
 
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext items={words} strategy={verticalListSortingStrategy}>
-          <div className="flex flex-col space-y-2">
+          <div className="flex flex-col gap-4">
             {words.map((word) => (
               <SortableItem key={word} id={word} />
             ))}
@@ -100,15 +102,19 @@ export default function AlphabetSortGame({ onNextGame, onGoHome }: Props) {
       </DndContext>
 
       {result !== null && (
-        <p className={`font-semibold ${result ? 'text-green-600' : 'text-red-600'}`}>
+        <p
+          className={`font-bold text-center text-2xl ${
+            result ? 'text-green-600' : 'text-red-600'
+          }`}
+        >
           {result ? '¡Correcto!' : 'Aún no están en orden alfabético'}
         </p>
       )}
 
-      <div className="space-x-2">
+      <div className="flex justify-center gap-4 flex-wrap mt-4">
         <button
           onClick={validate}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          className="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-xl shadow-md"
         >
           Validar
         </button>
@@ -117,7 +123,7 @@ export default function AlphabetSortGame({ onNextGame, onGoHome }: Props) {
             setWords(shuffleArray(initialWords))
             setResult(null)
           }}
-          className="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
+          className="bg-gray-400 hover:bg-gray-500 text-white font-semibold px-6 py-3 rounded-xl shadow-md"
         >
           Reiniciar
         </button>
