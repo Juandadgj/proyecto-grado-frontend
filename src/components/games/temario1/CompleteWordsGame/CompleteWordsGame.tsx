@@ -11,6 +11,7 @@ type Sentence = {
   id: number;
   parts: WordPart[]; // Alterna entre texto y campos a llenar
   solution: string;
+  image?: string;
 };
 
 const sentences: Sentence[] = [
@@ -23,6 +24,7 @@ const sentences: Sentence[] = [
       { type: 'input', value: '' },
       { type: 'text', value: 'lo' },
     ],
+    image: '/unit1/consonante.jpg',
   },
   {
     id: 3,
@@ -33,6 +35,7 @@ const sentences: Sentence[] = [
       { type: 'input', value: '' },
       { type: 'text', value: 'ta' },
     ],
+    image: '/unit1/consonante.jpg',
   },
   {
     id: 4,
@@ -42,6 +45,7 @@ const sentences: Sentence[] = [
       { type: 'input', value: '' },
       { type: 'text', value: 'sa' },
     ],
+    image: '/unit1/consonante.jpg',
   },
   {
     id: 5,
@@ -51,6 +55,7 @@ const sentences: Sentence[] = [
       { type: 'input', value: '' },
       { type: 'text', value: 'to' },
     ],
+    image: '/unit1/consonante.jpg',
   },
   {
     id: 6,
@@ -61,6 +66,7 @@ const sentences: Sentence[] = [
       { type: 'input', value: '' },
       { type: 'text', value: 'go' },
     ],
+    image: '/unit1/consonante.jpg',
   },
   {
     id: 7,
@@ -70,6 +76,7 @@ const sentences: Sentence[] = [
       { type: 'input', value: '' },
       { type: 'text', value: 'or' },
     ],
+    image: '/unit1/consonante.jpg',
   },
   {
     id: 8,
@@ -79,6 +86,7 @@ const sentences: Sentence[] = [
       { type: 'input', value: '' },
       { type: 'text', value: 'l' },
     ],
+    image: '/unit1/consonante.jpg',
   },
   {
     id: 9,
@@ -89,6 +97,7 @@ const sentences: Sentence[] = [
       { type: 'input', value: '' },
       { type: 'text', value: 'na' },
     ],
+    image: '/unit1/consonante.jpg',
   },
   {
     id: 10,
@@ -99,6 +108,7 @@ const sentences: Sentence[] = [
       { type: 'input', value: '' },
       { type: 'text', value: 'ro' },
     ],
+    image: '/unit1/consonante.jpg',
   },
 ];
 
@@ -130,6 +140,7 @@ export default function CompleteWordsGame() {
             key={sentence.id}
             className="p-4 border rounded-xl shadow-md bg-white flex flex-col items-center justify-center text-lg space-y-2"
           >
+            <img src={sentence.image} alt={sentence.solution} className="w-32 h-32 mb-4" />
             <div className="flex flex-wrap justify-center space-x-1">
               {sentence.parts.map((part, pIndex) =>
                 part.type === 'text' ? (
