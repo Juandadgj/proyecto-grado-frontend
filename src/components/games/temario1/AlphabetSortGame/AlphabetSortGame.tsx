@@ -87,7 +87,7 @@ export default function AlphabetSortGame({ onNextGame, onGoHome }: Props) {
 
   return (
     <div className="min-h-full px-4 py-6 flex flex-col gap-6">
-      <h2 className="text-3xl font-extrabold text-center text-orange-800">
+      <h2 className="text-3xl font-extrabold text-center text-blue-500">
         Ordena las palabras alfabéticamente
       </h2>
 

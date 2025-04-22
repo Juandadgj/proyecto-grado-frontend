@@ -61,78 +61,60 @@ const imgs = [
 
 const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
-const AbcGame = ({ setWhatGame, whatGame, score }) => {
+const AbcGame = ({ score, setScore, onNextGame, onGoHome }) => {
   const [cards, setCards] = useState([]);
   const [flippedIndices, setFlippedIndices] = useState([]);
   const [matchedPairs, setMatchedPairs] = useState([]);
   const [turns, setTurns] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [scorePercentage, SetScorePercentage] = useState(0);
+
   useEffect(() => {
     const fetchData = async () => {
       const token = await getAccessToken();
-      if (!token) {
-        return;
+      if (token) {
+        const user = jwtDecode(token);
+        setUser(user);
       }
-      const user = jwtDecode(token);
-      setUser(user);
     };
     fetchData();
   }, []);
-  const maxTurns = 45; // Número máximo de intentos ideales
 
   useEffect(() => {
     const shuffledCards = shuffle(
       imgs.flatMap(({ img, word }) => [
-        { content: img, type: "image", word }, // Carta con imagen
-        { content: word, type: "word", word }, // Carta con palabra
+        { content: img, type: "image", word },
+        { content: word, type: "word", word },
       ])
     );
     setCards(shuffledCards);
   }, []);
 
   useEffect(() => {
-    if (matchedPairs.length === 2) {
-      // Abre el modal
-      document.getElementById("my_modal_6").checked = true;
-      let score = 0;
-      if (turns <= 30) score = 100;
-      if (turns > 30 && turns <= 60) score = (30 - (turns - 30)) * 3.33;
-      if (turns > 60) score = 0;
-      SetScorePercentage(score)
+    if (matchedPairs.length === imgs.length) {
+      document.getElementById("abc_modal").checked = true;
+
+      let calculatedScore = 0;
+      if (turns <= 30) calculatedScore = 100;
+      else if (turns <= 60) calculatedScore = (30 - (turns - 30)) * 3.33;
+      else calculatedScore = 0;
+
+      SetScorePercentage(calculatedScore);
+      setScore(prev => prev + calculatedScore);
+
       saveGame({
         type: "AbcGame",
-        score: score,
+        score: calculatedScore,
         id: user?.id,
         userId: user?.userId,
       });
-      // document.getElementById('my_modal_1').showModal();
     }
-  }, [matchedPairs, setWhatGame]);
+  }, [matchedPairs]);
 
-  const handleCloseModal = () => {
-    document.getElementById("my_modal_6").checked = false;
-
-    setWhatGame("ANIMAL_BY_SIZE");
-  };
-
-  const handleGameAgain = () => {
-    document.getElementById("my_modal_6").checked = false;
-    setCards(
-      shuffle(
-        imgs.flatMap(({ img, word }) => [
-          { content: img, type: "image", word }, // Carta con imagen
-          { content: word, type: "word", word }, // Carta con palabra
-        ])
-      )
-    );
-
-    // Reinicia los estados relevantes
-    setFlippedIndices([]);
-    setMatchedPairs([]);
-    setTurns(0);
-    setWhatGame("MEMORY");
+  const handleCardClick = (index) => {
+    if (flippedIndices.length < 2 && !flippedIndices.includes(index)) {
+      setFlippedIndices((prev) => [...prev, index]);
+    }
   };
 
   useEffect(() => {
@@ -151,12 +133,26 @@ const AbcGame = ({ setWhatGame, whatGame, score }) => {
       setTimeout(() => setFlippedIndices([]), 1000);
       setTurns((prev) => prev + 1);
     }
-  }, [flippedIndices, cards]);
+  }, [flippedIndices]);
 
-  const handleCardClick = (index) => {
-    if (flippedIndices.length < 2 && !flippedIndices.includes(index)) {
-      setFlippedIndices((prev) => [...prev, index]);
-    }
+  const handleGameAgain = () => {
+    document.getElementById("abc_modal").checked = false;
+    const reshuffled = shuffle(
+      imgs.flatMap(({ img, word }) => [
+        { content: img, type: "image", word },
+        { content: word, type: "word", word },
+      ])
+    );
+    setCards(reshuffled);
+    setFlippedIndices([]);
+    setMatchedPairs([]);
+    setTurns(0);
+    SetScorePercentage(0);
+  };
+
+  const handleCloseModal = () => {
+    document.getElementById("abc_modal").checked = false;
+    onNextGame();
   };
 
   return (
@@ -170,18 +166,20 @@ const AbcGame = ({ setWhatGame, whatGame, score }) => {
               type={card.type}
               onClick={() => handleCardClick(index)}
               isFlipped={
-                flippedIndices.includes(index) || matchedPairs.includes(card.word)
+                flippedIndices.includes(index) ||
+                matchedPairs.includes(card.word)
               }
             />
           ))}
         </div>
+
         <div className="text-black font-semibold text-xl mt-10">
           <p>Intentos: {turns}</p>
           <p>Parejas encontradas: {matchedPairs.length}</p>
         </div>
 
         {/* MODAL */}
-        <input type="checkbox" id="my_modal_6" className="modal-toggle" />
+        <input type="checkbox" id="abc_modal" className="modal-toggle" />
         <div className="modal">
           <div className="modal-box bg-white">
             <h3 className="text-lg font-bold text-center text-gray-900">
@@ -191,35 +189,34 @@ const AbcGame = ({ setWhatGame, whatGame, score }) => {
               ¡Felicidades por completar el juego!
             </p>
 
-            {/* Información de los intentos y puntuación */}
             <div className="text-center space-y-4">
               <p className="text-xl font-semibold text-gray-900">
-                Intentos realizados:{" "}
-                <span className="text-blue-500">{turns}</span>
+                Intentos realizados: <span className="text-blue-500">{turns}</span>
               </p>
               <p className="text-xl font-semibold text-gray-900">
                 Puntuación:
                 <span
-                  className={`text-2xl font-bold ${scorePercentage >= 80
+                  className={`text-2xl font-bold ${
+                    scorePercentage >= 80
                       ? "text-green-500"
                       : scorePercentage >= 50
-                        ? "text-yellow-500"
-                        : "text-red-500"
-                    }`}
+                      ? "text-yellow-500"
+                      : "text-red-500"
+                  }`}
                 >
-                  {"  " + scorePercentage}%
+                  {" " + scorePercentage}%
                 </span>
               </p>
             </div>
 
-            {/* Mensaje de ánimo */}
             <p className="text-center mt-4 text-gray-900">
               {scorePercentage >= 80
                 ? "¡Excelente trabajo!"
                 : scorePercentage >= 50
-                  ? "¡Bien hecho! Pero puedes mejorar."
-                  : "Sigue intentándolo, lo harás mejor la próxima vez."}
+                ? "¡Bien hecho! Pero puedes mejorar."
+                : "Sigue intentándolo, lo harás mejor la próxima vez."}
             </p>
+
             <div className="modal-action justify-between">
               <button
                 className="btn bg-gray-600 text-white border-black border-2"
@@ -236,8 +233,9 @@ const AbcGame = ({ setWhatGame, whatGame, score }) => {
             </div>
           </div>
         </div>
+
         <div className="w-full flex justify-center items-center text-black font-semibold text-xl">
-          <p>Puntaje obtenido: {score ?? 0}</p>
+          <p>Puntaje acumulado: {score ?? 0}</p>
         </div>
       </div>
     </div>
