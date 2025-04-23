@@ -14,7 +14,7 @@ const Footer = () => {
           width={80}   // Especifica el ancho de la imagen
           height={80}  // Especifica la altura de la imagen
         />
-        <h1 className='flex items-center font-extrabold text-4xl text-[#00cef8]'>Helpear</h1>
+        <h1 className='flex items-center font-extrabold text-4xl text-[#00cef8]'>ABClick</h1>
       </div>
             <p className="mt-2 text-sm text-gray-500">¡Diseñe, codifique y envíe!</p>
             <div className="mt-4">

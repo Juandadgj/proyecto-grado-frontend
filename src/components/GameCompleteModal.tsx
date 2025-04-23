@@ -42,18 +42,8 @@ const GameCompleteModal = ({
           </p> */}
         </div>
 
-        <div className="flex justify-center gap-4">
-          <button
-            className="btn bg-green-600 text-white hover:bg-green-700"
-            onClick={() => {
-              (document.getElementById(
-                "game_complete_modal"
-              ) as HTMLDialogElement)?.close();
-              onNextGame();
-            }}
-          >
-            Siguiente juego
-          </button>
+        <div className="flex justify-between mt-6">
+          
           <button
             className="btn btn-outline"
             onClick={() => {
@@ -64,6 +54,17 @@ const GameCompleteModal = ({
             }}
           >
             Volver al inicio
+          </button>
+          <button
+            className="btn bg-green-600 text-white hover:bg-green-700"
+            onClick={() => {
+              (document.getElementById(
+                "game_complete_modal"
+              ) as HTMLDialogElement)?.close();
+              onNextGame();
+            }}
+          >
+            Siguiente juego
           </button>
         </div>
       </div>

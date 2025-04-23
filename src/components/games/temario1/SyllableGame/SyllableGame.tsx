@@ -90,7 +90,7 @@ export const SyllableGame: React.FC<SyllableGameProps> = ({ word, imageSrc, onSo
   };
 
   return (
-    <div className="flex justify-center items-center gap-8 p-4 max-w-3xl ">
+    <div className="flex justify-center items-center gap-8 max-w-3xl ">
       <Image src={imageSrc} alt={word} width={100} height={100} className="rounded-lg" />
 
       <div className="flex flex-col items-center gap-4 ">

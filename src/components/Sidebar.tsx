@@ -47,7 +47,7 @@ const Sidebar = () => {
             />
           </Link>
           {/* <Link href="/dashboard" className="text-lg font-semibold tracking-widest text-white uppercase rounded-lg focus:outline-none focus:shadow-outline">
-            Helpear
+            ABClick
           </Link> */}
           <h1 className="text-base font-semibold tracking-widest text-white uppercase rounded-lg focus:outline-none focus:shadow-outline">!Bienvenido de nuevo {user?.username}!</h1>
           <button className="rounded-lg md:hidden focus:outline-none focus:shadow-outline" onClick={toggleOpen}>

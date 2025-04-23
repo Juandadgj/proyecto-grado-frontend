@@ -31,28 +31,26 @@ const page = () => {
   useEffect(() => {
     const correctCount = Object.values(progress).filter(Boolean).length;
     if (correctCount === words.length) {
-      (document.getElementById(
-        "game_complete_modal"
-      ) as HTMLDialogElement)?.showModal();
+      (document.getElementById("game_complete_modal") as HTMLDialogElement)?.showModal();
     }
   }, [progress]);
 
   return (
-    <div className="px-6 py-10 min-h-screen w-full overflow-auto bg-gradient-to-r from-[#b1f9fd] via-[#d1fbfd] to-[#F9F9F9] flex flex-col items-center">
-      <div className="bg-white/80 rounded-xl shadow-md p-4 mb-6">
+    <div className="px-4 sm:px-6 py-8 sm:py-10 min-h-screen w-full overflow-auto bg-gradient-to-r from-[#b1f9fd] via-[#d1fbfd] to-[#F9F9F9] flex flex-col items-center">
+      <div className="bg-white/90 rounded-2xl shadow-lg p-4 sm:p-6 w-full max-w-6xl flex flex-col items-center">
         <Rating score={turns} />
 
-        <div className="max-w-4xl w-full text-center mb-10">
-          <h1 className="text-3xl font-bold text-blue-900 mb-2">
+        <div className="w-full text-center mb-8 sm:mb-10 px-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-blue-900 mb-2">
             ¡Juguemos con las sílabas!
           </h1>
-          <p className="text-blue-800 text-lg">
-            Arrastra las sílabas al orden correcto para formar la palabra
-            correspondiente a la imagen.
+          <p className="text-blue-800 text-base sm:text-lg max-w-3xl mx-auto">
+            Arrastra las sílabas al orden correcto para formar la palabra correspondiente a la imagen.
           </p>
         </div>
 
-        <div className="w-full max-w-4xl space-y-8">
+        {/* Cambiado de column layout a grid responsive */}
+        <div className="w-full grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {words.map(({ word, imageSrc }) => (
             <SyllableGame
               key={word}
@@ -63,23 +61,18 @@ const page = () => {
           ))}
         </div>
 
-        <div className="mt-10 text-center text-blue-900 font-semibold text-lg px-6 py-3">
-          Progreso: {Object.values(progress).filter(Boolean).length} /{" "}
-          {words.length} completadas correctamente
+        <div className="mt-10 text-center text-blue-900 font-semibold text-base sm:text-lg px-4 py-3 w-full">
+          Progreso: {Object.values(progress).filter(Boolean).length} / {words.length} completadas correctamente
         </div>
       </div>
 
       <GameCompleteModal
         onNextGame={() => {
-          (document.getElementById(
-            "game_complete_modal"
-          ) as HTMLDialogElement)?.close();
-          router.push("/dashboard/games/vocales");
+          (document.getElementById("game_complete_modal") as HTMLDialogElement)?.close();
+          router.push("/dashboard/games/");
         }}
         onGoHome={() => {
-          (document.getElementById(
-            "game_complete_modal"
-          ) as HTMLDialogElement)?.close();
+          (document.getElementById("game_complete_modal") as HTMLDialogElement)?.close();
           router.push("/dashboard/games");
         }}
         rating={turns}

@@ -1,144 +1,130 @@
-"use client"
+"use client";
 
-import { useState } from "react";
-import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const DragAndDrop = () => {
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      title: "Sapo",
-      body: "Lorem, ipsum dolor sit amet consectetur adipisicing elit ipsum dolor.",
-      list: 1,
-      img: "/abcGame/SAPO.jpg",
-    },
-    {
-      id: 2,
-      title: "Rana",
-      body: "Lorem, ipsum dolor sit amet consectetur adipisicing elit ipsum dolor.",
-      list: 1,
-      img: "/abcGame/RANA.jpg",
-    },
-    {
-      id: 3,
-      title: "Caballo",
-      body: "Lorem, ipsum dolor sit amet consectetur adipisicing elit ipsum dolor.",
-      list: 3,
-      img: "/abcGame/CABALLO.jpg",
-    },
-    {
-      id: 4,
-      title: "Ratón",
-      body: "Lorem, ipsum dolor sit amet consectetur adipisicing elit ipsum dolor.",
-      list: 2,
-      img: "/abcGame/RATÓN.jpg",
-    },
-    {
-      id: 5,
-      title: "Elefante",
-      body: "Lorem, ipsum dolor sit amet consectetur adipisicing elit ipsum dolor.",
-      list: 2,
-      img: "/abcGame/ELEFANTE.jpg",
-    },
-  ]);
+const DragAndDrop = ({ onGoHome }:any) => {
+  const initialLetters = [
+    { id: 1, letter: "a", correctList: 1 },
+    { id: 2, letter: "e", correctList: 1 },
+    { id: 3, letter: "o", correctList: 1 },
+    { id: 4, letter: "i", correctList: 2 },
+    { id: 5, letter: "u", correctList: 2 },
+  ];
 
-  const getList = (list: any) => {
-    return tasks.filter((item) => item.list === list);
-  };
+  const [letters, setLetters] = useState(
+    initialLetters.map((l) => ({ ...l, list: 0 })) // Banco inicial
+  );
+  const [showModal, setShowModal] = useState(false);
 
-  const startDrag = (evt: any, item: any) => {
+  const getList = (list:any) => letters.filter((item) => item.list === list);
+
+  const startDrag = (evt:any, item:any) => {
     evt.dataTransfer.setData("itemID", item.id);
-    console.log(item);
   };
 
-  const draggingOver = (evt: any) => {
-    evt.preventDefault();
-  };
+  const draggingOver = (evt: any) => evt.preventDefault();
 
   const onDrop = (evt: any, list: any) => {
     const itemID = evt.dataTransfer.getData("itemID");
-    const item: any = tasks.find((item) => item.id == itemID);
-    item.list = list;
-
-    const newState = tasks.map((task) => {
-      if (task.id == itemID) return item;
-      return task;
-    });
-
-    setTasks(newState);
+    const updated = letters.map((l) =>
+      l.id == itemID ? { ...l, list } : l
+    );
+    setLetters(updated);
   };
 
+  useEffect(() => {
+    const allClassified = letters.every((l) => l.list !== 0);
+    const allCorrect = letters.every((l) => l.list === l.correctList);
+    if (allClassified && allCorrect) {
+      setTimeout(() => setShowModal(true), 300);
+    }
+  }, [letters]);
+
   return (
-    <>
-      <h1 color="black">Arrastrar y Soltar</h1>
-      <br />
+    <div className="max-w-4xl mx-auto px-4 py-6">
+      <h1 className="text-2xl font-bold text-center text-black mb-6">
+        Clasifica las letras según si son vocales abiertas o cerradas
+      </h1>
 
-      <div className="drag-and-drop">
-        <div className="column column--1">
-          <h3 color="black">Animales</h3>
-          <div
-            className="dd-zone"
-            onDragOver={draggingOver}
-            onDrop={(evt) => onDrop(evt, 1)}
-          >
-            {getList(1).map((item) => (
+      <div className="grid grid-cols-3 gap-6">
+        {/* Banco */}
+        <div>
+          <h2 className="text-center font-semibold mb-2">Banco</h2>
+          <div className="bg-gray-100 p-4 rounded min-h-[150px]">
+            {getList(0).map((item) => (
               <div
-                className="dd-element"
                 key={item.id}
                 draggable
-                onDragStart={(evt) => startDrag(evt, item)}
+                onDragStart={(e) => startDrag(e, item)}
+                className="cursor-pointer p-2 text-center text-lg font-bold bg-white shadow rounded mb-2"
               >
-                <strong className="title">{item.title}</strong>
-                <img src={item.img} alt="card" className="h-36 w-36" />
+                {item.letter.toUpperCase()}
               </div>
             ))}
           </div>
         </div>
 
-        <div className="column column--2">
-          <h3 color="black">Animalitos</h3>
-          <div
-            className="dd-zone"
-            onDragOver={draggingOver}
-            onDrop={(evt) => onDrop(evt, 2)}
-          >
-            {getList(2).map((item) => (
-              <div
-                className="dd-element"
-                key={item.id}
-                draggable
-                onDragStart={(evt) => startDrag(evt, item)}
-              >
-                <strong className="title">{item.title}</strong>
-                <img src={item.img} alt="card" className="h-36 w-36" />
-              </div>
-            ))}
-          </div>
+        {/* Vocales abiertas */}
+        <div
+          onDragOver={draggingOver}
+          onDrop={(e) => onDrop(e, 1)}
+          className="bg-green-100 p-4 rounded min-h-[150px]"
+        >
+          <h2 className="text-center font-semibold text-green-800 mb-2">
+            Vocales Abiertas (A, E, O)
+          </h2>
+          {getList(1).map((item) => (
+            <div
+              key={item.id}
+              draggable
+              onDragStart={(e) => startDrag(e, item)}
+              className="cursor-pointer p-2 text-center text-lg font-bold bg-white shadow rounded mb-2"
+            >
+              {item.letter.toUpperCase()}
+            </div>
+          ))}
         </div>
 
-        <div className="column column--3">
-          <h3 color="black">Animalotes</h3>
-          <div
-            className="dd-zone"
-            onDragOver={draggingOver}
-            onDrop={(evt) => onDrop(evt, 3)}
-          >
-            {getList(3).map((item) => (
-              <div
-                className="dd-element"
-                key={item.id}
-                draggable
-                onDragStart={(evt) => startDrag(evt, item)}
-              >
-                <strong className="title">{item.title}</strong>
-                <img src={item.img} alt="card" className="h-36 w-36" />
-              </div>
-            ))}
-          </div>
+        {/* Vocales cerradas */}
+        <div
+          onDragOver={draggingOver}
+          onDrop={(e) => onDrop(e, 2)}
+          className="bg-blue-100 p-4 rounded min-h-[150px]"
+        >
+          <h2 className="text-center font-semibold text-blue-800 mb-2">
+            Vocales Cerradas (I, U)
+          </h2>
+          {getList(2).map((item) => (
+            <div
+              key={item.id}
+              draggable
+              onDragStart={(e) => startDrag(e, item)}
+              className="cursor-pointer p-2 text-center text-lg font-bold bg-white shadow rounded mb-2"
+            >
+              {item.letter.toUpperCase()}
+            </div>
+          ))}
         </div>
       </div>
-    </>
+
+      {/* Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-xl text-center shadow-xl max-w-sm w-full">
+            <h2 className="text-2xl font-bold text-green-600">¡Correcto!</h2>
+            <p className="mt-2 text-gray-700">
+              Has clasificado todas las letras correctamente.
+            </p>
+            <button
+              onClick={onGoHome}
+              className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+            >
+              Volver al inicio
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

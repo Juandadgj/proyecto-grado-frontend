@@ -7,57 +7,13 @@ import { getAccessToken } from "@/services/auth.service";
 import { jwtDecode } from "jwt-decode";
 import { Rating } from "@/components/ui/rating";
 
-const imgs = [
-  {
-    id: 1,
-    img: "/abcGame/BALON.jpg",
-    word: "Balón",
-  },
-  {
-    id: 2,
-    img: "/abcGame/CABALLO.jpg",
-    word: "Caballo",
-  },
-  // {
-  // id: 3,
-  // img: "/abcGame/ELEFANTE.jpg",
-  // word: "Elefante",
-  // },
-  // {
-  // id: 4,
-  // img: "/abcGame/GATO.jpg",
-  // word: "Gato",
-  // },
-  // {
-  // id: 5,
-  // img: "/abcGame/JIRAFA.jpg",
-  // word: "Jirafa",
-  // },
-  // {
-  // id: 6,
-  // img: "/abcGame/LEÓN.jpg",
-  // word: "León",
-  // },
-  // {
-  // id: 7,
-  // img: "/abcGame/SAPO.jpg",
-  // word: "Sapo",
-  // },
-  // {
-  // id: 8,
-  // img: "/abcGame/PELOTA.jpg",
-  // word: "Pelota",
-  // },
-  // {
-  // id: 9,
-  // img: "/abcGame/RATÓN.jpg",
-  // word: "Ratón",
-  // },
-  // {
-  // id: 10,
-  // img: "/abcGame/SOMBRERO RANA.jpg",
-  // word: "Sombrero",
-  // },
+const letterPairs = [
+  { id: 1, upper: "A", lower: "a" },
+  { id: 2, upper: "B", lower: "b" },
+  { id: 3, upper: "C", lower: "c" },
+  { id: 4, upper: "D", lower: "d" },
+  { id: 5, upper: "E", lower: "e" },
+  { id: 6, upper: "F", lower: "f" },
 ];
 
 const shuffle = (array) => array.sort(() => Math.random() - 0.5);
@@ -69,6 +25,7 @@ const AbcGame = ({ score, setScore, onNextGame, onGoHome }) => {
   const [turns, setTurns] = useState(0);
   const [user, setUser] = useState(null);
   const [scorePercentage, SetScorePercentage] = useState(0);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -83,17 +40,17 @@ const AbcGame = ({ score, setScore, onNextGame, onGoHome }) => {
 
   useEffect(() => {
     const shuffledCards = shuffle(
-      imgs.flatMap(({ img, word }) => [
-        { content: img, type: "image", word },
-        { content: word, type: "word", word },
+      letterPairs.flatMap(({ upper, lower }) => [
+        { content: upper, type: "upper", pair: upper },
+        { content: lower, type: "lower", pair: upper },
       ])
     );
     setCards(shuffledCards);
   }, []);
 
   useEffect(() => {
-    if (matchedPairs.length === imgs.length) {
-      document.getElementById("abc_modal").checked = true;
+    if (matchedPairs.length === letterPairs.length) {
+      setShowModal(true);
 
       let calculatedScore = 0;
       if (turns <= 30) calculatedScore = 100;
@@ -125,10 +82,10 @@ const AbcGame = ({ score, setScore, onNextGame, onGoHome }) => {
       const secondCard = cards[secondIndex];
 
       if (
-        firstCard.word === secondCard.word &&
+        firstCard.pair === secondCard.pair &&
         firstCard.type !== secondCard.type
       ) {
-        setMatchedPairs((prev) => [...prev, firstCard.word]);
+        setMatchedPairs((prev) => [...prev, firstCard.pair]);
       }
 
       setTimeout(() => setFlippedIndices([]), 1000);
@@ -137,11 +94,12 @@ const AbcGame = ({ score, setScore, onNextGame, onGoHome }) => {
   }, [flippedIndices]);
 
   const handleGameAgain = () => {
-    document.getElementById("abc_modal").checked = false;
+    setShowModal(false);
+
     const reshuffled = shuffle(
-      imgs.flatMap(({ img, word }) => [
-        { content: img, type: "image", word },
-        { content: word, type: "word", word },
+      letterPairs.flatMap(({ upper, lower }) => [
+        { content: upper, type: "upper", pair: upper },
+        { content: lower, type: "lower", pair: upper },
       ])
     );
     setCards(reshuffled);
@@ -152,13 +110,15 @@ const AbcGame = ({ score, setScore, onNextGame, onGoHome }) => {
   };
 
   const handleCloseModal = () => {
-    document.getElementById("abc_modal").checked = false;
+    setShowModal(false);
+
     onNextGame();
   };
 
   return (
     <div>
-      <div className="memory-game">
+      <div className="flex flex-col justify-start items-center p-4 md:p-10 ">
+
         <Rating score={turns} />
         <div className="card-grid">
           {cards.map((card, index) => (
@@ -169,7 +129,7 @@ const AbcGame = ({ score, setScore, onNextGame, onGoHome }) => {
               onClick={() => handleCardClick(index)}
               isFlipped={
                 flippedIndices.includes(index) ||
-                matchedPairs.includes(card.word)
+                matchedPairs.includes(card.pair)
               }
             />
           ))}
@@ -181,61 +141,58 @@ const AbcGame = ({ score, setScore, onNextGame, onGoHome }) => {
         </div>
 
         {/* MODAL */}
-        <input type="checkbox" id="abc_modal" className="modal-toggle" />
-        <div className="modal">
-          <div className="modal-box bg-white">
-            <h3 className="text-lg font-bold text-center text-gray-900">
-              ¡Juego Terminado!
-            </h3>
-            <p className="py-4 text-center text-gray-900">
-              ¡Felicidades por completar el juego!
-            </p>
-
-            <div className="text-center space-y-4">
-              <p className="text-xl font-semibold text-gray-900">
-                Intentos realizados:{" "}
-                <span className="text-blue-500">{turns}</span>
-              </p>
-              <p className="text-xl font-semibold text-gray-900">
-                Puntuación:
-                <span
-                  className={`text-2xl font-bold ${
-                    scorePercentage >= 80
-                      ? "text-green-500"
-                      : scorePercentage >= 50
-                      ? "text-yellow-500"
-                      : "text-red-500"
-                  }`}
-                >
-                  {" " + scorePercentage}%
-                </span>
-              </p>
-            </div>
-
-            <p className="text-center mt-4 text-gray-900">
-              {scorePercentage >= 80
-                ? "¡Excelente trabajo!"
+        {showModal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-md">
+      <h3 className="text-lg font-bold text-center text-gray-900">
+        ¡Juego Terminado!
+      </h3>
+      <p className="py-4 text-center text-gray-900">
+        ¡Felicidades por completar el juego!
+      </p>
+      <div className="text-center space-y-4">
+        <p className="text-xl font-semibold text-gray-900">
+          Intentos realizados: <span className="text-blue-500">{turns}</span>
+        </p>
+        <p className="text-xl font-semibold text-gray-900">
+          Puntuación:
+          <span
+            className={`text-2xl font-bold ${
+              scorePercentage >= 80
+                ? "text-green-500"
                 : scorePercentage >= 50
-                ? "¡Bien hecho! Pero puedes mejorar."
-                : "Sigue intentándolo, lo harás mejor la próxima vez."}
-            </p>
-
-            <div className="modal-action justify-between">
-              <button
-                className="btn bg-gray-600 text-white border-black border-2"
-                onClick={handleGameAgain}
-              >
-                Repasar Juego
-              </button>
-              <button
-                className="btn bg-green-500 text-white border-green-900 border-2 hover:bg-green-950"
-                onClick={handleCloseModal}
-              >
-                Siguiente Juego
-              </button>
-            </div>
-          </div>
-        </div>
+                ? "text-yellow-500"
+                : "text-red-500"
+            }`}
+          >
+            {" " + scorePercentage}%
+          </span>
+        </p>
+      </div>
+      <p className="text-center mt-4 text-gray-900">
+        {scorePercentage >= 80
+          ? "¡Excelente trabajo!"
+          : scorePercentage >= 50
+          ? "¡Bien hecho! Pero puedes mejorar."
+          : "Sigue intentándolo, lo harás mejor la próxima vez."}
+      </p>
+      <div className="mt-6 flex justify-between">
+        <button
+          className="btn bg-gray-600 text-white border-black border-2"
+          onClick={handleGameAgain}
+        >
+          Repasar Juego
+        </button>
+        <button
+          className="btn bg-green-500 text-white border-green-900 border-2 hover:bg-green-950"
+          onClick={handleCloseModal}
+        >
+          Siguiente Juego
+        </button>
+      </div>
+    </div>
+  </div>
+)}
 
         <div className="w-full flex justify-center items-center text-black font-semibold text-xl">
           <p>Puntaje acumulado: {score ?? 0}</p>
@@ -246,3 +203,4 @@ const AbcGame = ({ score, setScore, onNextGame, onGoHome }) => {
 };
 
 export default AbcGame;
+

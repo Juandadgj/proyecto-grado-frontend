@@ -1,15 +1,18 @@
 "use client"
 import React, { useState } from 'react'
-import AbcGame from '@/components/games/temario1/game1/AbcGame'
 import AnimalBySize from '@/components/games/temario1/game2/AnimalBySize'
 import DragAndDrop from '@/components/games/temario1/game7/DragAndFrop'
+import { useRouter } from 'next/navigation'
+import AbcGame from '@/components/games/temario1/game1/AbcGame'
 
 const Page = () => {
+  const router = useRouter()
   const [step, setStep] = useState(1);
   const [score, setScore] = useState(0);
 
   const handleNext = () => setStep(prev => prev + 1);
   const handleGoHome = () => {
+    router.push('/dashboard/games')
     console.log('Volviendo al inicio...')
   };
 
@@ -29,16 +32,10 @@ const Page = () => {
             score={score}
             setWhatGame={() => {}}
             whatGame={step}
+            onNextGame={handleGoHome}
           />
         )}
         
-        {/* {step === 3 && (
-          <DragAndDrop
-            score={score}
-            setScore={setScore}
-            onGoHome={handleGoHome}
-          />
-        )} */}
       </div>
     </div>
   )

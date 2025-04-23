@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Helpear - Ingreso",
+  title: "ABClick - Ingreso",
   description: "Plataforma web para enseñar a niños con discapacidad auditiva el español comosegunda lengua",
   keywords: "español, discapacidad auditiva, aprender, enseñanza, español"
 };

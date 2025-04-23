@@ -1,8 +1,7 @@
 "use client";
 import GameCompleteModal from "@/components/GameCompleteModal";
 import { Rating } from "@/components/ui/rating";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 type Cell = {
   letter: string;
@@ -24,38 +23,40 @@ const generateGrid = (): Cell[] => {
   }));
 };
 
-export default function AlphabetGridGame() {
-  const router = useRouter();
+export default function AlphabetGridGame({ onNextGame }: any) {
   const [grid, setGrid] = useState<Cell[]>(generateGrid());
   const [result, setResult] = useState<boolean | null>(null);
   const [rating, setRating] = useState(0);
+
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
   const handleChange = (index: number, value: string) => {
-    setRating(rating + 1);
+    setRating((prev) => prev + 1);
     const updated = [...grid];
     updated[index].letter = value.toUpperCase().slice(-1);
     setGrid(updated);
+
+    // Enfocar el siguiente input editable
+    setTimeout(() => {
+      for (let i = index + 1; i < grid.length; i++) {
+        if (grid[i].editable && inputRefs.current[i]) {
+          inputRefs.current[i]?.focus();
+          break;
+        }
+      }
+    }, 50);
   };
 
   const validate = () => {
-    const correct = grid.every(
-      (cell, index) => cell.letter === fullAlphabet[index]
-    );
+    const correct = grid.every((cell, index) => cell.letter === fullAlphabet[index]);
     setResult(correct);
     if (correct) {
-      const modal = document.getElementById(
-        "game_complete_modal"
-      ) as HTMLDialogElement;
+      const modal = document.getElementById("game_complete_modal") as HTMLDialogElement;
       modal?.showModal();
     }
   };
 
-  const onNextGame = () => {
-    // Aquí podrías redirigir con router.push('/') si usas Next.js router
-    router.push("/dashboard/games");
-  };
-
   const onGoHome = () => {
-    // Aquí podrías redirigir con router.push('/') si usas Next.js router
     console.log("Volviendo al inicio...");
   };
 
@@ -75,6 +76,9 @@ export default function AlphabetGridGame() {
                 maxLength={1}
                 value={cell.letter}
                 onChange={(e) => handleChange(i, e.target.value)}
+                ref={(el) => {
+                  inputRefs.current[i] = el;
+                }}
                 className="w-full h-full text-center text-xl bg-white outline-none"
               />
             ) : (

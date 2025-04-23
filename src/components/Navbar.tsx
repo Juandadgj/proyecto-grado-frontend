@@ -25,7 +25,7 @@ const Navbar = () => {
           height={80} // Especifica la altura de la imagen
         />
         <h1 className="flex items-center font-extrabold text-4xl text-[#00cef8]">
-          Helpear
+        ABClick
         </h1>
       </div>
 

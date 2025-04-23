@@ -50,7 +50,7 @@ function Advantages() {
     <section id='advantages' className='bg-white'>
       <div className='flex p-10 pl-24 justify-between'>
         <div className='flex flex-col space-y-5'>
-          <h1 className='font-bold text-3xl text-[#212121]'>Descubra las <span className='text-[#00C1FF]'>ventajas <br /></span> exclusivas de Helpear</h1>
+          <h1 className='font-bold text-3xl text-[#212121]'>Descubra las <span className='text-[#00C1FF]'>ventajas <br /></span> exclusivas de ABClick</h1>
           <Link href="/login"><button className="w-max mx-auto text-[#00C1FF] font-semibold px-10 py-3 rounded-full border-2 border-[#00C1FF] hover:border-[#0066ff]  hover:shadow-xl">Ver mas ventajas</button>
           </Link>
         </div>
