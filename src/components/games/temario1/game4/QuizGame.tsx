@@ -124,7 +124,7 @@ const QuizGames = ({ score }: { score: number }) => {
       userId: user.id,
       id: user.id,
       score: correctCount,
-      type: "quiz",
+      game: "quiz",
     });
   };
 

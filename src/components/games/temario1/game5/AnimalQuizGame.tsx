@@ -66,7 +66,7 @@ const AnimalQuizGame = ({score}: {score: number}) => {
       userId: user.id,
       id: user.id,
       score: correctCount,
-      type: "AnimalQuiz",
+      game: "AnimalQuiz",
     });
   };
 
