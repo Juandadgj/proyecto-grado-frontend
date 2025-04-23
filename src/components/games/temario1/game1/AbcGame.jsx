@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import "./abcGame.css";
-import AbcCard from "./abcCard";
+import AbcCard from "./AbcCard";
 import { saveGame } from "@/services/games.service";
 import { getAccessToken } from "@/services/auth.service";
 import { jwtDecode } from "jwt-decode";
