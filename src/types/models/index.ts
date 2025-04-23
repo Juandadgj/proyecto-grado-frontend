@@ -31,14 +31,11 @@ export interface IActivity {
 
 export interface IRating {
   id: string;
-  type: string;
   userId: string;
   user?: IUser;
-  activityId?: string;
-  activity?: IActivity;
-  quizId?: string;
-  quiz?: IQuiz;
   score: number;
+  game: string;
+
 }
 
 export interface IStory {

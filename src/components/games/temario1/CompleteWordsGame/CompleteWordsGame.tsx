@@ -1,9 +1,10 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
+import { Rating } from "@/components/ui/rating";
+import React, { useState } from "react";
 
 type WordPart = {
-  type: 'text' | 'input';
+  type: "text" | "input";
   value: string;
 };
 
@@ -17,106 +18,112 @@ type Sentence = {
 const sentences: Sentence[] = [
   {
     id: 1,
-    solution: 'Caballo',
+    solution: "Caballo",
     parts: [
-      { type: 'text', value: 'Cab' },
-      { type: 'input', value: '' },
-      { type: 'input', value: '' },
-      { type: 'text', value: 'lo' },
+      { type: "text", value: "Cab" },
+      { type: "input", value: "" },
+      { type: "input", value: "" },
+      { type: "text", value: "lo" },
     ],
-    image: '/unit1/consonante.jpg',
+    image: "/unit1/consonante.jpg",
   },
   {
     id: 3,
-    solution: 'Pelota',
+    solution: "Pelota",
     parts: [
-      { type: 'text', value: 'Pe' },
-      { type: 'input', value: '' },
-      { type: 'input', value: '' },
-      { type: 'text', value: 'ta' },
+      { type: "text", value: "Pe" },
+      { type: "input", value: "" },
+      { type: "input", value: "" },
+      { type: "text", value: "ta" },
     ],
-    image: '/unit1/consonante.jpg',
+    image: "/unit1/consonante.jpg",
   },
   {
     id: 4,
-    solution: 'Casa',
+    solution: "Casa",
     parts: [
-      { type: 'text', value: 'C' },
-      { type: 'input', value: '' },
-      { type: 'text', value: 'sa' },
+      { type: "text", value: "C" },
+      { type: "input", value: "" },
+      { type: "text", value: "sa" },
     ],
-    image: '/unit1/consonante.jpg',
+    image: "/unit1/consonante.jpg",
   },
   {
     id: 5,
-    solution: 'Gato',
+    solution: "Gato",
     parts: [
-      { type: 'text', value: 'G' },
-      { type: 'input', value: '' },
-      { type: 'text', value: 'to' },
+      { type: "text", value: "G" },
+      { type: "input", value: "" },
+      { type: "text", value: "to" },
     ],
-    image: '/unit1/consonante.jpg',
+    image: "/unit1/consonante.jpg",
   },
   {
     id: 6,
-    solution: 'Amigo',
+    solution: "Amigo",
     parts: [
-      { type: 'text', value: 'A' },
-      { type: 'input', value: '' },
-      { type: 'input', value: '' },
-      { type: 'text', value: 'go' },
+      { type: "text", value: "A" },
+      { type: "input", value: "" },
+      { type: "input", value: "" },
+      { type: "text", value: "go" },
     ],
-    image: '/unit1/consonante.jpg',
+    image: "/unit1/consonante.jpg",
   },
   {
     id: 7,
-    solution: 'Flor',
+    solution: "Flor",
     parts: [
-      { type: 'text', value: 'F' },
-      { type: 'input', value: '' },
-      { type: 'text', value: 'or' },
+      { type: "text", value: "F" },
+      { type: "input", value: "" },
+      { type: "text", value: "or" },
     ],
-    image: '/unit1/consonante.jpg',
+    image: "/unit1/consonante.jpg",
   },
   {
     id: 8,
-    solution: 'Sol',
+    solution: "Sol",
     parts: [
-      { type: 'text', value: 'S' },
-      { type: 'input', value: '' },
-      { type: 'text', value: 'l' },
+      { type: "text", value: "S" },
+      { type: "input", value: "" },
+      { type: "text", value: "l" },
     ],
-    image: '/unit1/consonante.jpg',
+    image: "/unit1/consonante.jpg",
   },
   {
     id: 9,
-    solution: 'Manzana',
+    solution: "Manzana",
     parts: [
-      { type: 'text', value: 'Man' },
-      { type: 'input', value: '' },
-      { type: 'input', value: '' },
-      { type: 'text', value: 'na' },
+      { type: "text", value: "Man" },
+      { type: "input", value: "" },
+      { type: "input", value: "" },
+      { type: "text", value: "na" },
     ],
-    image: '/unit1/consonante.jpg',
+    image: "/unit1/consonante.jpg",
   },
   {
     id: 10,
-    solution: 'Perro',
+    solution: "Perro",
     parts: [
-      { type: 'text', value: 'P' },
-      { type: 'input', value: '' },
-      { type: 'input', value: '' },
-      { type: 'text', value: 'ro' },
+      { type: "text", value: "P" },
+      { type: "input", value: "" },
+      { type: "input", value: "" },
+      { type: "text", value: "ro" },
     ],
-    image: '/unit1/consonante.jpg',
+    image: "/unit1/consonante.jpg",
   },
 ];
 
 export default function CompleteWordsGame() {
   const [entries, setEntries] = useState(sentences);
-  const [results, setResults] = useState<(boolean | null)[]>(Array(sentences.length).fill(null));
-
-  const handleChange = (sentenceIndex: number, partIndex: number, value: string) => {
+  const [results, setResults] = useState<(boolean | null)[]>(
+    Array(sentences.length).fill(null)
+  );
+  const [turns, setTurns] = useState(0);
+  const handleChange = (
+    sentenceIndex: number,
+    partIndex: number,
+    value: string
+  ) => {
     const updated = [...entries];
     updated[sentenceIndex].parts[partIndex].value = value.slice(-1); // Solo 1 letra por input
     setEntries(updated);
@@ -124,7 +131,9 @@ export default function CompleteWordsGame() {
 
   const validate = () => {
     const newResults = entries.map((sentence, idx) => {
-      const reconstructed = sentence.parts.map((p) => (p.type === 'text' ? p.value : p.value)).join('');
+      const reconstructed = sentence.parts
+        .map((p) => (p.type === "text" ? p.value : p.value))
+        .join("");
       return reconstructed.toLowerCase() === sentence.solution.toLowerCase();
     });
     setResults(newResults);
@@ -132,7 +141,10 @@ export default function CompleteWordsGame() {
 
   return (
     <div className="p-4 max-w-5xl mx-auto">
-      <h2 className="text-2xl font-bold text-center mb-6">Completa la palabra u oración</h2>
+      <Rating score={turns} />
+      <h2 className="text-2xl font-bold text-center mb-6">
+        Completa la palabra u oración
+      </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {entries.map((sentence, sIndex) => (
@@ -140,10 +152,14 @@ export default function CompleteWordsGame() {
             key={sentence.id}
             className="p-4 border rounded-xl shadow-md bg-white flex flex-col items-center justify-center text-lg space-y-2"
           >
-            <img src={sentence.image} alt={sentence.solution} className="w-32 h-32 mb-4" />
+            <img
+              src={sentence.image}
+              alt={sentence.solution}
+              className="w-32 h-32 mb-4"
+            />
             <div className="flex flex-wrap justify-center space-x-1">
               {sentence.parts.map((part, pIndex) =>
-                part.type === 'text' ? (
+                part.type === "text" ? (
                   <span key={pIndex}>{part.value}</span>
                 ) : (
                   <input
@@ -151,15 +167,21 @@ export default function CompleteWordsGame() {
                     type="text"
                     maxLength={1}
                     value={part.value}
-                    onChange={(e) => handleChange(sIndex, pIndex, e.target.value)}
+                    onChange={(e) =>
+                      handleChange(sIndex, pIndex, e.target.value)
+                    }
                     className="w-8 h-8 border-b-2 border-gray-400 text-center mx-0.5 bg-white focus:outline-none"
                   />
                 )
               )}
             </div>
             {results[sIndex] !== null && (
-              <div className={`text-sm font-semibold ${results[sIndex] ? 'text-green-600' : 'text-red-600'}`}>
-                {results[sIndex] ? '¡Correcto!' : 'Inténtalo de nuevo'}
+              <div
+                className={`text-sm font-semibold ${
+                  results[sIndex] ? "text-green-600" : "text-red-600"
+                }`}
+              >
+                {results[sIndex] ? "¡Correcto!" : "Inténtalo de nuevo"}
               </div>
             )}
           </div>

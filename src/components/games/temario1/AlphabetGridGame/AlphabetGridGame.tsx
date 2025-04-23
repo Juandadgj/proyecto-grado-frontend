@@ -1,12 +1,15 @@
-'use client';
-import React, { useState } from 'react';
+"use client";
+import GameCompleteModal from "@/components/GameCompleteModal";
+import { Rating } from "@/components/ui/rating";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 type Cell = {
   letter: string;
   editable: boolean;
 };
 
-const fullAlphabet = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.split('');
+const fullAlphabet = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ".split("");
 
 const generateGrid = (): Cell[] => {
   const hiddenIndexes = new Set<number>();
@@ -16,30 +19,50 @@ const generateGrid = (): Cell[] => {
   }
 
   return fullAlphabet.map((letter, index) => ({
-    letter: hiddenIndexes.has(index) ? '' : letter,
+    letter: hiddenIndexes.has(index) ? "" : letter,
     editable: hiddenIndexes.has(index),
   }));
 };
 
 export default function AlphabetGridGame() {
+  const router = useRouter();
   const [grid, setGrid] = useState<Cell[]>(generateGrid());
   const [result, setResult] = useState<boolean | null>(null);
-
+  const [rating, setRating] = useState(0);
   const handleChange = (index: number, value: string) => {
+    setRating(rating + 1);
     const updated = [...grid];
     updated[index].letter = value.toUpperCase().slice(-1);
     setGrid(updated);
   };
 
   const validate = () => {
-    const correct = grid.every((cell, index) => cell.letter === fullAlphabet[index]);
+    const correct = grid.every(
+      (cell, index) => cell.letter === fullAlphabet[index]
+    );
     setResult(correct);
+    if (correct) {
+      const modal = document.getElementById(
+        "game_complete_modal"
+      ) as HTMLDialogElement;
+      modal?.showModal();
+    }
+  };
+
+  const onNextGame = () => {
+    // Aquí podrías redirigir con router.push('/') si usas Next.js router
+    router.push("/dashboard/games");
+  };
+
+  const onGoHome = () => {
+    // Aquí podrías redirigir con router.push('/') si usas Next.js router
+    console.log("Volviendo al inicio...");
   };
 
   return (
     <div className="p-6 w-full text-center space-y-6">
       <h2 className="text-3xl font-bold">Completa el abecedario</h2>
-
+      <Rating score={rating} />
       <div className="grid grid-cols-8 gap-4 w-full max-w-6xl mx-auto px-4">
         {grid.map((cell, i) => (
           <div
@@ -62,8 +85,14 @@ export default function AlphabetGridGame() {
       </div>
 
       {result !== null && (
-        <p className={`font-semibold text-lg ${result ? 'text-green-600' : 'text-red-600'}`}>
-          {result ? '¡Muy bien! Completaste el abecedario.' : 'Hay algunos errores. ¡Intenta otra vez!'}
+        <p
+          className={`font-semibold text-lg ${
+            result ? "text-green-600" : "text-red-600"
+          }`}
+        >
+          {result
+            ? "¡Muy bien! Completaste el abecedario."
+            : "Hay algunos errores. ¡Intenta otra vez!"}
         </p>
       )}
 
@@ -84,6 +113,11 @@ export default function AlphabetGridGame() {
           Reiniciar
         </button>
       </div>
+      <GameCompleteModal
+        onNextGame={onNextGame}
+        onGoHome={onGoHome}
+        rating={rating}
+      />
     </div>
   );
 }

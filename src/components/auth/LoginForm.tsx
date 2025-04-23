@@ -15,7 +15,7 @@ const SubmmitButton = () => {
       type="submit"
     >
       {pending && <span className="loading loading-spinner loading-md"></span>}
-      Iniciar sesion
+      Entrar
     </button>
   );
 };
@@ -53,7 +53,7 @@ function LoginForm() {
           htmlFor="emailOrStudentCode"
           className="block text-sm font-medium text-gray-700"
         >
-          Código estudiantil o correo electrónico
+          Nombre de usuario
         </label>
         <input
           type="text"
@@ -63,7 +63,7 @@ function LoginForm() {
           required
         />
       </div>
-      <div>
+      {/* <div>
         <label
           htmlFor="password"
           className="block text-sm font-medium text-gray-700"
@@ -77,7 +77,7 @@ function LoginForm() {
           className="mt-1 p-2 w-full border rounded-md focus:border-[#00cef8]  focus:outline-none transition-colors duration-300 bg-transparent text-black"
           required
         />
-      </div>
+      </div> */}
       {state?.message && <p className="text-red-500">{state.message}</p>}
       <div>
         <SubmmitButton />

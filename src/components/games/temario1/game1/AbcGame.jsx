@@ -5,6 +5,7 @@ import AbcCard from "./abcCard";
 import { saveGame } from "@/services/games.service";
 import { getAccessToken } from "@/services/auth.service";
 import { jwtDecode } from "jwt-decode";
+import { Rating } from "@/components/ui/rating";
 
 const imgs = [
   {
@@ -18,44 +19,44 @@ const imgs = [
     word: "Caballo",
   },
   // {
-    // id: 3,
-    // img: "/abcGame/ELEFANTE.jpg",
-    // word: "Elefante",
+  // id: 3,
+  // img: "/abcGame/ELEFANTE.jpg",
+  // word: "Elefante",
   // },
   // {
-    // id: 4,
-    // img: "/abcGame/GATO.jpg",
-    // word: "Gato",
+  // id: 4,
+  // img: "/abcGame/GATO.jpg",
+  // word: "Gato",
   // },
   // {
-    // id: 5,
-    // img: "/abcGame/JIRAFA.jpg",
-    // word: "Jirafa",
+  // id: 5,
+  // img: "/abcGame/JIRAFA.jpg",
+  // word: "Jirafa",
   // },
   // {
-    // id: 6,
-    // img: "/abcGame/LEÓN.jpg",
-    // word: "León",
+  // id: 6,
+  // img: "/abcGame/LEÓN.jpg",
+  // word: "León",
   // },
   // {
-    // id: 7,
-    // img: "/abcGame/SAPO.jpg",
-    // word: "Sapo",
+  // id: 7,
+  // img: "/abcGame/SAPO.jpg",
+  // word: "Sapo",
   // },
   // {
-    // id: 8,
-    // img: "/abcGame/PELOTA.jpg",
-    // word: "Pelota",
+  // id: 8,
+  // img: "/abcGame/PELOTA.jpg",
+  // word: "Pelota",
   // },
   // {
-    // id: 9,
-    // img: "/abcGame/RATÓN.jpg",
-    // word: "Ratón",
+  // id: 9,
+  // img: "/abcGame/RATÓN.jpg",
+  // word: "Ratón",
   // },
   // {
-    // id: 10,
-    // img: "/abcGame/SOMBRERO RANA.jpg",
-    // word: "Sombrero",
+  // id: 10,
+  // img: "/abcGame/SOMBRERO RANA.jpg",
+  // word: "Sombrero",
   // },
 ];
 
@@ -100,10 +101,10 @@ const AbcGame = ({ score, setScore, onNextGame, onGoHome }) => {
       else calculatedScore = 0;
 
       SetScorePercentage(calculatedScore);
-      setScore(prev => prev + calculatedScore);
+      setScore((prev) => prev + calculatedScore);
 
       saveGame({
-        type: "AbcGame",
+        game: "AbcGame",
         score: calculatedScore,
         id: user?.id,
         userId: user?.userId,
@@ -158,6 +159,7 @@ const AbcGame = ({ score, setScore, onNextGame, onGoHome }) => {
   return (
     <div>
       <div className="memory-game">
+        <Rating score={turns} />
         <div className="card-grid">
           {cards.map((card, index) => (
             <AbcCard
@@ -191,7 +193,8 @@ const AbcGame = ({ score, setScore, onNextGame, onGoHome }) => {
 
             <div className="text-center space-y-4">
               <p className="text-xl font-semibold text-gray-900">
-                Intentos realizados: <span className="text-blue-500">{turns}</span>
+                Intentos realizados:{" "}
+                <span className="text-blue-500">{turns}</span>
               </p>
               <p className="text-xl font-semibold text-gray-900">
                 Puntuación:

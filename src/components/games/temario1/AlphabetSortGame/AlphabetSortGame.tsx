@@ -1,66 +1,91 @@
-'use client'
-
-import React, { useState } from 'react'
+"use client";
+import React, { useEffect, useState } from "react";
 import {
   DndContext,
   closestCenter,
   useSensor,
   useSensors,
   PointerSensor,
-  DragEndEvent
-} from '@dnd-kit/core'
+  DragEndEvent,
+} from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
   useSortable,
-  verticalListSortingStrategy
-} from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
-import GameCompleteModal from '@/components/GameCompleteModal'
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import GameCompleteModal from "@/components/GameCompleteModal";
+import { saveGame } from "@/services/games.service";
+import { getAccessToken } from "@/services/auth.service";
+import { jwtDecode } from "jwt-decode";
+import { Rating } from "@/components/ui/rating";
+import { getRatings } from "@/lib/ratings/actions";
 
 const initialWords = ['Sol', 'Árbol', 'Casa', 'Elefante', 'Banco']
+const images = [{id: 'Sol', image: '/abcGame/sol.png'}, {id: 'Árbol', image: '/abcGame/arbol.png'}, {id: 'Casa', image: '/abcGame/casa.png'}, {id: 'Elefante', image: '/abcGame/elefante.jpg'}, {id: 'Banco', image: '/abcGame/banco.png'}]
 
-function SortableItem({ id }: { id: string }) {
+function SortableItem({ id, image }: { id: string, image?: string }) {
   const {
     attributes,
     listeners,
     setNodeRef,
     transform,
-    transition
-  } = useSortable({ id })
+    transition,
+  } = useSortable({ id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition: transform ? 'transform 150ms ease' : undefined
-  }
+    transition: transform ? "transform 150ms ease" : undefined,
+  };
 
-  return (
+  return ( 
     <div
       ref={setNodeRef}
       style={style}
       {...attributes}
       {...listeners}
-      className="w-full bg-white shadow-lg text-xl font-bold text-center py-6 rounded-2xl border border-gray-300 cursor-grab active:cursor-grabbing transition-transform"
+      className="w-full flex justify-center items-center bg-white shadow-lg text-xl font-bold text-center py-6 rounded-2xl border border-gray-300 cursor-grab active:cursor-grabbing transition-transform"
     >
-      {id}
+      {/* {image} */}
+      <div className="flex justify-center items-center gap-2">
+        <img src={image} alt="abc" className="w-14 h-14" />
+        {id}
+      </div>
     </div>
-  )
+  );
 }
 
 interface Props {
-  onNextGame: () => void
-  onGoHome: () => void
+  onNextGame: () => void;
+  onGoHome: () => void;
 }
 
 export default function AlphabetSortGame({ onNextGame, onGoHome }: Props) {
-  const [words, setWords] = useState(shuffleArray(initialWords))
-  const [result, setResult] = useState<boolean | null>(null)
+  const [user, setUser] = useState<any>(null);
+  const [words, setWords] = useState(shuffleArray(initialWords));
+  const [result, setResult] = useState<boolean | null>(null);
+  const [rating, setRating] = useState(0);
 
-  const sensors = useSensors(useSensor(PointerSensor))
+  const sensors = useSensors(useSensor(PointerSensor));
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = await getAccessToken();
+      if (token) {
+        const userDecode = jwtDecode(token);
+        setUser(userDecode);
+        const ratings = await getRatings(user?.id);
+        const rating = ratings.find((rating: any) => rating.game === "AbcGame");
+        setRating(rating?.score);
+      }
+    };
+    fetchData();
+  }, []);
 
   function handleDragEnd(event: DragEndEvent) {
-    const { active, over } = event
-
+    const { active, over } = event;
+    setRating(rating + 1);
     if (over && active.id !== over.id) {
       const oldIndex = words.indexOf(active.id as string)
       const newIndex = words.indexOf(over.id as string)
@@ -80,22 +105,34 @@ export default function AlphabetSortGame({ onNextGame, onGoHome }: Props) {
     setResult(correct)
 
     if (correct) {
-      const modal = document.getElementById('game_complete_modal') as HTMLDialogElement
-      modal?.showModal()
+      saveGame({
+        game: "AbcGame",
+        score: rating,
+        id: user?.id,
+        userId: user?.userId,
+      });
+      const modal = document.getElementById(
+        "game_complete_modal"
+      ) as HTMLDialogElement;
+      modal?.showModal();
     }
   }
-
+ 
   return (
     <div className="min-h-full px-4 py-6 flex flex-col gap-6">
+      <Rating score={rating} />
       <h2 className="text-3xl font-extrabold text-center text-blue-500">
         Ordena las palabras alfabéticamente
       </h2>
-
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
         <SortableContext items={words} strategy={verticalListSortingStrategy}>
           <div className="flex flex-col gap-4">
-            {words.map((word) => (
-              <SortableItem key={word} id={word} />
+            {words.map((word, i) => (
+              <SortableItem key={word} id={word} image={images.find((image: any) => image.id === word)?.image} />
             ))}
           </div>
         </SortableContext>
@@ -104,10 +141,10 @@ export default function AlphabetSortGame({ onNextGame, onGoHome }: Props) {
       {result !== null && (
         <p
           className={`font-bold text-center text-2xl ${
-            result ? 'text-green-600' : 'text-red-600'
+            result ? "text-green-600" : "text-red-600"
           }`}
         >
-          {result ? '¡Correcto!' : 'Aún no están en orden alfabético'}
+          {result ? "¡Correcto!" : "Aún no están en orden alfabético"}
         </p>
       )}
 
@@ -120,16 +157,20 @@ export default function AlphabetSortGame({ onNextGame, onGoHome }: Props) {
         </button>
         <button
           onClick={() => {
-            setWords(shuffleArray(initialWords))
-            setResult(null)
+            setRating(0);
+            setWords(shuffleArray(initialWords));
+            setResult(null);
           }}
           className="bg-gray-400 hover:bg-gray-500 text-white font-semibold px-6 py-3 rounded-xl shadow-md"
         >
           Reiniciar
         </button>
       </div>
-
-      <GameCompleteModal onNextGame={onNextGame} onGoHome={onGoHome} />
+      <GameCompleteModal
+        onNextGame={onNextGame}
+        onGoHome={onGoHome}
+        rating={rating}
+      />
     </div>
-  )
+  );
 }
