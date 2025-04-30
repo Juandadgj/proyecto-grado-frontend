@@ -10,10 +10,10 @@ const temario = [
     subtemarios: [
       { route: "abecedario", titulo: 'Abecedario', descripcion: "Aprende cada letra del abecedario con juegos y diversión.", imagen: '/unit1/consonante.jpg', locked: true  },
       // { route: "vocales", titulo: 'Vocales y Dígrafos', descripcion: "Aprende cada letra del abecedario con juegos y diversión.", imagen: '/unit1/consonante.jpg' },
-      { route: "mayusculas", titulo: 'Letra minúscula y letra mayúscula', descripcion: "Descubre cuándo usar mayúsculas y minúsculas correctamente.", imagen: '/unit1/minYMa.jpg', locked: false  },
-      { route: "silaba", titulo: 'Las silabas', descripcion: "Separa y une sílabas para formar palabras con ritmo.", imagen: '/unit1/silabas.jpg', locked: false  },
-      { route: 'oracion', titulo: 'La oración', descripcion: "Aprende a formar oraciones completas y con sentido.", imagen: '/unit1/vocales.jpg', locked: true  },
-      { route: 'partes-oracion', titulo: 'Partes de una oración', descripcion: "Identifica sujeto, verbo y complemento como un experto.", imagen: '/unit1/gameWord.jpg', locked: true  },
+      { route: "mayusculas", titulo: 'Letra minúscula y letra mayúscula', descripcion: "Descubre cuándo usar mayúsculas y minúsculas correctamente.", imagen: '/unit1/minYMa.jpg', locked: true  },
+      { route: "silaba", titulo: 'Las silabas', descripcion: "Separa y une sílabas para formar palabras con ritmo.", imagen: '/unit1/silabas.jpg', locked: true  },
+      { route: 'oracion', titulo: 'La oración', descripcion: "Aprende a formar oraciones completas y con sentido.", imagen: '/unit1/vocales.jpg', locked: false  },
+      { route: 'partes-oracion', titulo: 'Partes de una oración', descripcion: "Identifica sujeto, verbo y complemento como un experto.", imagen: '/unit1/gameWord.jpg', locked: false  },
     ],
   },
 ];

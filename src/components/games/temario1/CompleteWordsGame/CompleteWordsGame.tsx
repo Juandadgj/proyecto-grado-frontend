@@ -25,7 +25,7 @@ const sentences: Sentence[] = [
       { type: "input", value: "" },
       { type: "text", value: "lo" },
     ],
-    image: "/unit1/consonante.jpg",
+    image: "/caballo.jpg",
   },
   {
     id: 3,
@@ -36,7 +36,7 @@ const sentences: Sentence[] = [
       { type: "input", value: "" },
       { type: "text", value: "ta" },
     ],
-    image: "/unit1/consonante.jpg",
+    image: "/pelota.jpg",
   },
   {
     id: 4,
@@ -46,7 +46,7 @@ const sentences: Sentence[] = [
       { type: "input", value: "" },
       { type: "text", value: "sa" },
     ],
-    image: "/unit1/consonante.jpg",
+    image: "/casa.jpg",
   },
   {
     id: 5,
@@ -56,7 +56,7 @@ const sentences: Sentence[] = [
       { type: "input", value: "" },
       { type: "text", value: "to" },
     ],
-    image: "/unit1/consonante.jpg",
+    image: "/gato.jpg",
   },
   {
     id: 6,
@@ -67,7 +67,7 @@ const sentences: Sentence[] = [
       { type: "input", value: "" },
       { type: "text", value: "go" },
     ],
-    image: "/unit1/consonante.jpg",
+    image: "/amigo.jpg",
   },
   {
     id: 7,
@@ -77,7 +77,7 @@ const sentences: Sentence[] = [
       { type: "input", value: "" },
       { type: "text", value: "or" },
     ],
-    image: "/unit1/consonante.jpg",
+    image: "/flor.jpg",
   },
   {
     id: 8,
@@ -87,7 +87,7 @@ const sentences: Sentence[] = [
       { type: "input", value: "" },
       { type: "text", value: "l" },
     ],
-    image: "/unit1/consonante.jpg",
+    image: "/sol.jpg",
   },
   {
     id: 9,
@@ -98,7 +98,7 @@ const sentences: Sentence[] = [
       { type: "input", value: "" },
       { type: "text", value: "na" },
     ],
-    image: "/unit1/consonante.jpg",
+    image: "/manzana.jpg",
   },
   {
     id: 10,
@@ -109,7 +109,7 @@ const sentences: Sentence[] = [
       { type: "input", value: "" },
       { type: "text", value: "ro" },
     ],
-    image: "/unit1/consonante.jpg",
+    image: "/perro.jpg",
   },
 ];
 
