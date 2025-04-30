@@ -61,7 +61,7 @@ const Games = () => {
 
   return (
     <div className="px-20 pb-10 w-full  bg-gradient-to-r from-[#b1f9fd] via-[#d1fbfd] to-[#F9F9F9]">
-      <div className="flex flex-col fixed z-20 ">
+      <div className="flex flex-col fixed w-[65%] z-20 ">
         <div className="bg-gradient-to-r w-full from-[#b1f9fd] via-[#d1fbfd] to-[#F0FAFA] h-10 z-20"></div>
         <div
           style={{ backgroundColor: bgColor }}

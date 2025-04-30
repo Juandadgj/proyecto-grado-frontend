@@ -4,7 +4,7 @@ import React from "react";
 import { Rating } from "./ui/rating";
 
 interface GameCompleteModalProps {
-  onNextGame: () => void;
+  onNextGame?: () => void;
   onGoHome: () => void;
   rating: number;
 }
@@ -42,7 +42,7 @@ const GameCompleteModal = ({
           </p> */}
         </div>
 
-        <div className="flex justify-between mt-6">
+        <div className={`flex ${onNextGame == null ? 'justify-center' : 'justify-between'} mt-6`}>
           
           <button
             className="btn btn-outline"
@@ -55,7 +55,7 @@ const GameCompleteModal = ({
           >
             Volver al inicio
           </button>
-          <button
+          {onNextGame && <button
             className="btn bg-green-600 text-white hover:bg-green-700"
             onClick={() => {
               (document.getElementById(
@@ -65,7 +65,7 @@ const GameCompleteModal = ({
             }}
           >
             Siguiente juego
-          </button>
+          </button>}
         </div>
       </div>
 
