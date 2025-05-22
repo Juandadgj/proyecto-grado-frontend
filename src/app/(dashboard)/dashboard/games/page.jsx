@@ -27,6 +27,7 @@ const Games = () => {
   const sectionRefs = useRef([]);
 
   useEffect(() => {
+    getUsers()
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -58,6 +59,16 @@ const Games = () => {
       });
     };
   }, []);
+
+  async function getUsers() {
+  try {
+    const res = await fetch('/api/users');
+    const data = await res.json();
+    console.log("Usuarios desde API:", data);
+  } catch (error) {
+    console.error("Error obteniendo usuarios:", error);
+  }
+}
 
   return (
     <div className="px-20 pb-10 w-full  bg-gradient-to-r from-[#b1f9fd] via-[#d1fbfd] to-[#F9F9F9]">
