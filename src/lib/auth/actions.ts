@@ -1,37 +1,52 @@
-"use server";
+'use server';
 
-import { instance } from "@/services/http.service";
-import { FormState } from "@/types/form";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { prisma } from '@/lib/prisma';
+import { saveSession } from './session';
 
-export async function signIn(state: FormState, formData: FormData) {
-  try {
-    const validatedFields = {
-      emailOrStudentCode: formData.get("emailOrStudentCode") as string,
-      password: formData.get("password") as string,
-    };
-    const response = await instance.post("/auth/signin", validatedFields);
-    console.log(response.data);
-    cookies().set("AccessToken", response.data.accessToken);
+export type SignInResponse =
+  | { status: 'success'; role: 'STUDENT' | 'TEACHER' }
+  | { status: 'error'; message: string };
+
+export async function signIn(prevState: any, formData: FormData): Promise<SignInResponse> {
+  const identifier = formData.get('emailOrStudentCode') as string;
+  const password = formData.get('password') as string;
+
+  if (!identifier || !password) {
+    return { status: 'error', message: 'Campos requeridos.' };
+  }
+
+  const user = await prisma.user.findFirst({
+    where: {
+      OR: [{ email: identifier }, { username: identifier }],
+    },
+  });
+
+  if (!user) {
+    return { status: 'error', message: 'Usuario no encontrado.' };
+  }
+
+  if (!user.password) {
+    return { status: 'error', message: 'Contraseña no establecida para este usuario.' };
+  }
+
+  if (user.password !== password) {
+    return { status: 'error', message: 'Contraseña incorrecta.' };
+  }
+
+  if (user.role === 'STUDENT' || user.role === 'TEACHER') {
+    // Guardar la sesión
+    saveSession({
+    id: user.id,
+    role: user.role,
+    name: user.name || '',
+    email: user.email || '',
+  });
+
     return {
-      status: 'success'
-    }
-  } catch (error: any) {
-    console.log(error.message);
-    if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
-      console.log(error.response.data);
-      console.log(error.response.status);
-      if (error.response.status === 401) {
-        return {
-          message: "Usuario o contraseña incorrecto",
-        };
-      }
-    }
-    return {
-      message: "Algo salio mal",
+      status: 'success',
+      role: user.role,
     };
+  } else {
+    return { status: 'error', message: 'Rol de usuario no válido.' };
   }
 }

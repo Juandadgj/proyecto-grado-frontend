@@ -10,44 +10,31 @@ const SubmmitButton = () => {
   const { pending } = useFormStatus();
   return (
     <button
-      className="w-full flex items-center justify-center bg-black text-white mt-4 p-2 rounded-md hover:bg-gray-800 focus:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300"
-      disabled={pending}
       type="submit"
+      disabled={pending}
+      className="w-full bg-black text-white py-2 rounded"
     >
-      {pending && <span className="loading loading-spinner loading-md"></span>}
-      Entrar
+      {pending ? "Entrando..." : "Entrar"}
     </button>
   );
 };
 
-function LoginForm() {
+export default function LoginForm() {
   const router = useRouter();
-  const onSubmit = async (formData: FormData) => {
-    try {
-      const emailOrStudentCode = formData.get("emailOrStudentCode") as string;
-      const password = formData.get("password") as string;
-      const response = await login(emailOrStudentCode, password);
-      if (response.accessToken) {
-        router.push("/dashboard");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  const onGoogleLogin = () => {
-    loginWithGoogle();
-  };
+  const [state, action] = useFormState(signIn, undefined);
 
-  const [state, action] = useFormState<FormState, any>(signIn, undefined);
-  
   useEffect(() => {
     if (state?.status === "success") {
-      router.push("/dashboard");
+      if (state.role === "TEACHER") {
+        router.push("/dashboard/");
+      } else {
+        router.push("/dashboard/");
+      }
     }
   }, [state]);
 
   return (
-    <form action={action} method="POST" className="space-y-4">
+    <form action={action} className="space-y-4">
       <div>
         <label
           htmlFor="emailOrStudentCode"
@@ -63,7 +50,7 @@ function LoginForm() {
           required
         />
       </div>
-      {/* <div>
+      <div>
         <label
           htmlFor="password"
           className="block text-sm font-medium text-gray-700"
@@ -77,13 +64,13 @@ function LoginForm() {
           className="mt-1 p-2 w-full border rounded-md focus:border-[#00cef8]  focus:outline-none transition-colors duration-300 bg-transparent text-black"
           required
         />
-      </div> */}
-      {state?.message && <p className="text-red-500">{state.message}</p>}
+      </div>
+      {state?.status === "error" && (
+        <p className="text-red-500">{state.message}</p>
+      )}
       <div>
         <SubmmitButton />
       </div>
     </form>
   );
 }
-
-export default LoginForm;

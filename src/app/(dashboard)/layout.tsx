@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-// import Navbar from '../components/Navbar';
+import { getSessionFromServer } from "@/lib/auth/getSessionAction";
 import "../globals.css";
 import Sidebar from "../../components/Sidebar";
 import { ConfigProvider } from "antd";
@@ -15,11 +15,12 @@ export const metadata: Metadata = {
   keywords: "español, discapacidad auditiva, aprender, enseñanza, español",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+    const session = await getSessionFromServer();
   return (
     <html lang="en">
       <body className={poppins.className}>
@@ -34,7 +35,7 @@ export default function RootLayout({
           }}
         >
           <div className="flex h-screen">
-            <Sidebar />
+            <Sidebar user={session} />
             <div className="overflow-auto flex-grow h-screen">{children}</div>
           </div>
         </ConfigProvider>
