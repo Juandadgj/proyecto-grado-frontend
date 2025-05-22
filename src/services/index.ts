@@ -1,2 +1,2 @@
 export { HttpService } from "./http.service";
-export { login, loginWithGoogle, logout, register } from "./auth.service";
+export { loginWithGoogle, logout, register } from "./auth.service";
