@@ -4,13 +4,30 @@ import { Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { getTotalPointsFromDB } from '@/services/points.service';
+import { getSessionFromServer } from '@/lib/auth/getSessionAction';
+
+interface SessionData {
+  id: string;
+  role: 'STUDENT' | 'TEACHER';
+  name: string;
+  email: string;
+  ranking?: {
+    position: number;
+    totalScore: number;
+  };
+}
 
 const getLevelFromPoints = (points: number) => {
-  if (points >= 5000) return { level: 5, title: 'Leyenda', nextLevelPoints: 5000 };
-  if (points >= 4000) return { level: 4, title: 'Maestro', nextLevelPoints: 5000 };
-  if (points >= 3000) return { level: 3, title: 'Avanzado', nextLevelPoints: 4000 };
-  if (points >= 2000) return { level: 2, title: 'Intermedio', nextLevelPoints: 3000 };
-  if (points >= 1850) return { level: 1, title: 'Principiante', nextLevelPoints: 2000 };
+  if (points >= 5000)
+    return { level: 5, title: 'Leyenda', nextLevelPoints: 5000 };
+  if (points >= 4000)
+    return { level: 4, title: 'Maestro', nextLevelPoints: 5000 };
+  if (points >= 3000)
+    return { level: 3, title: 'Avanzado', nextLevelPoints: 4000 };
+  if (points >= 2000)
+    return { level: 2, title: 'Intermedio', nextLevelPoints: 3000 };
+  if (points >= 1850)
+    return { level: 1, title: 'Principiante', nextLevelPoints: 2000 };
   return { level: 0, title: 'Sin nivel', nextLevelPoints: 1850 };
 };
 
@@ -18,8 +35,17 @@ const LevelDisplay = () => {
   const [totalPoints, setTotalPoints] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [session, setSession] = useState<SessionData | null>(null);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const sessionData = await getSessionFromServer();
+        setSession(sessionData);
+      } catch (error) {
+        console.error('Error al obtener los datos:', error);
+      }
+    };
     const fetchTotalPoints = async () => {
       try {
         setLoading(true);
@@ -34,11 +60,14 @@ const LevelDisplay = () => {
       }
     };
 
+    fetchData();
     fetchTotalPoints();
   }, []);
 
   const { level, title, nextLevelPoints } = getLevelFromPoints(totalPoints);
   const progressPercentage = ((totalPoints % 250) / 250) * 100;
+
+  if (session?.role == 'TEACHER') return null;
 
   if (loading) {
     return (
@@ -77,7 +106,10 @@ const LevelDisplay = () => {
         />
       </div>
       <div className="text-sm text-gray-500">
-        <p>Puntos totales: <span className="font-bold text-indigo-700">{totalPoints}</span></p>
+        <p>
+          Puntos totales:{' '}
+          <span className="font-bold text-indigo-700">{totalPoints}</span>
+        </p>
         {level < 5 && (
           <p className="text-xs mt-1">
             Siguiente nivel: {nextLevelPoints} puntos

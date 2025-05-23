@@ -1,6 +1,5 @@
 "use client";
 import { signIn } from "@/lib/auth/actions";
-import { FormState } from "@/types/form";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useFormState, useFormStatus } from "react-dom";
@@ -24,11 +23,7 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (state?.status === "success") {
-      if (state.role === "TEACHER") {
-        router.push("/dashboard/");
-      } else {
-        router.push("/dashboard/");
-      }
+      router.push("/dashboard/");
     }
   }, [state]);
 

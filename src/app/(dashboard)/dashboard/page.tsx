@@ -1,13 +1,6 @@
 'use client'
-import Sidebar from '@/components/Sidebar'
 import React, { useEffect, useState } from 'react'
-import CarouselDashboard from '../../../components/CarouselDashboard';
-import SearchBar from '@/components/SearchBar';
-import Progress from '@/components/Progress';
-import UserProfileCard from '@/components/dashboard/UserProfile'
-import OngoingLessonCard from '@/components/dashboard/OngoingLesson'
 import AchievementsCard from '@/components/dashboard/Achievements'
-import LivesCard from '@/components/dashboard/LivesDisplay'
 import WelcomeBanner from '@/components/dashboard/WelcomeBanner';
 import { getSessionFromServer } from '@/lib/auth/getSessionAction';
 import LevelDisplay from '@/components/dashboard/LevelDisplay';

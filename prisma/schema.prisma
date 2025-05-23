@@ -17,7 +17,7 @@ model User {
   id             String   @id @default(auto()) @map("_id") @db.ObjectId
   username       String   @unique
   email          String?
-  role           Role?     @default(STUDENT)
+  role           Role     @default(STUDENT)
   ratings        Rating[]
   name           String?
   password       String?

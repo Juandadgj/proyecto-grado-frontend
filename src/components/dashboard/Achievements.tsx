@@ -1,8 +1,20 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { Brain, Star, Clock, Globe, BookOpen } from 'lucide-react';
 import clsx from 'clsx';
+import { getSessionFromServer } from '@/lib/auth/getSessionAction';
+
+interface SessionData {
+  id: string;
+  role: 'STUDENT' | 'TEACHER';
+  name: string;
+  email: string;
+  ranking?: {
+    position: number;
+    totalScore: number;
+  };
+}
 
 const achievements = [
   {
@@ -43,6 +55,22 @@ const achievements = [
 ];
 
 const AchievementsCard = () => {
+  const [session, setSession] = useState<SessionData | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const sessionData = await getSessionFromServer();
+        setSession(sessionData);
+      } catch (error) {
+        console.error('Error al obtener los datos:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (session?.role == 'TEACHER') return null;
+
   return (
     <div className="bg-white rounded-2xl shadow-lg p-6 transition hover:shadow-2xl border border-gray-200">
       <h2 className="text-2xl font-bold text-gray-800 mb-4">🏅 Tus Logros</h2>
@@ -53,10 +81,10 @@ const AchievementsCard = () => {
               <Tooltip.Trigger asChild>
                 <div
                   className={clsx(
-                    "w-14 h-14 rounded-xl flex items-center justify-center transition-transform duration-300 hover:scale-110 cursor-pointer",
+                    'w-14 h-14 rounded-xl flex items-center justify-center transition-transform duration-300 hover:scale-110 cursor-pointer',
                     unlocked
-                      ? "bg-green-100 text-green-600"
-                      : "bg-gray-100 text-gray-400 opacity-50"
+                      ? 'bg-green-100 text-green-600'
+                      : 'bg-gray-100 text-gray-400 opacity-50'
                   )}
                 >
                   <Icon size={28} />

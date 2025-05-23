@@ -90,3 +90,42 @@ export async function signIn(prevState: any, formData: FormData): Promise<SignIn
     return { status: 'error', message: 'Rol de usuario no válido.' };
   }
 }
+
+export async function signUp(prevState: any, formData: FormData): Promise<SignInResponse> {
+  const username = formData.get('username') as string;
+  const email = formData.get('email') as string;
+  const password = formData.get('password') as string;
+
+  if (!username || !email || !password) {
+    return { status: 'error', message: 'Campos requeridos.' };
+  }
+
+  const existUser = await prisma.user.findFirst({
+    where: {
+      OR: [{ email }, { username }],
+    },
+  });
+
+  if (existUser) {
+    return { status: 'error', message: 'Usuario ya existente.' };
+  }
+
+  const user = await prisma.user.create({
+    data: {
+      username,
+      email,
+      password: password,
+      role: 'STUDENT',
+    },
+  });
+
+  await saveSession({
+      id: user.id,
+      role: user.role,
+      name: user.name || '',
+      email: user.email || '',
+      ranking: undefined
+    });
+
+  return { status: 'success', role: 'STUDENT' };
+}

@@ -1,8 +1,8 @@
-"use client";
-import { getAccessToken } from "@/services/auth.service";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+'use client';
+import { getAccessToken } from '@/services/auth.service';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 const Navbar = () => {
   const [accessToken, setAccessToken] = useState<string | undefined>(undefined);
@@ -25,7 +25,7 @@ const Navbar = () => {
           height={80} // Especifica la altura de la imagen
         />
         <h1 className="flex items-center font-extrabold text-4xl text-[#00cef8]">
-        ABClick
+          ABClick
         </h1>
       </div>
 
@@ -55,6 +55,12 @@ const Navbar = () => {
               className="text-gray-800 hover:text-blue-500 px-3 py-2 rounded-full border-2 border-black hover:border-blue-500 text-lg font-semibold"
             >
               Iniciar sesión
+            </Link>
+            <Link
+              href="/auth/sign-up"
+              className="text-[#00cef8] hover:text-blue-500 px-3 py-2 rounded-md text-lg font-bold"
+            >
+              Registrarse
             </Link>
           </>
         ) : (

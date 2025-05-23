@@ -1,11 +1,39 @@
-"use client";
+'use client';
 
-import React from "react";
-import { motion } from "framer-motion";
-import { Gamepad2 } from "lucide-react";
-import Link from "next/link";
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { Gamepad2 } from 'lucide-react';
+import Link from 'next/link';
+import { getSessionFromServer } from '@/lib/auth/getSessionAction';
+
+interface SessionData {
+  id: string;
+  role: 'STUDENT' | 'TEACHER';
+  name: string;
+  email: string;
+  ranking?: {
+    position: number;
+    totalScore: number;
+  };
+}
 
 const PlayNowCard = () => {
+  const [session, setSession] = useState<SessionData | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const sessionData = await getSessionFromServer();
+        setSession(sessionData);
+      } catch (error) {
+        console.error('Error al obtener los datos:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (session?.role == 'TEACHER') return null;
+
   return (
     <motion.div
       className="relative bg-gradient-to-br from-pink-400 to-purple-600 text-white rounded-2xl shadow-2xl p-6 overflow-hidden group cursor-pointer hover:scale-[1.02] transition-transform"
@@ -27,7 +55,7 @@ const PlayNowCard = () => {
       <div className="flex flex-col items-center text-center space-y-4 z-10 relative">
         <motion.div
           whileHover={{ rotate: 20, scale: 1.1 }}
-          transition={{ type: "spring", stiffness: 300 }}
+          transition={{ type: 'spring', stiffness: 300 }}
           className="bg-white text-purple-600 p-4 rounded-full shadow-lg"
         >
           <Gamepad2 size={40} />
@@ -37,7 +65,8 @@ const PlayNowCard = () => {
           ¿Listo para divertirte?
         </h2>
         <p className="text-white/90 text-sm md:text-base">
-          Juega, aprende y gana puntos completando desafíos interactivos. ¡Es tu momento!
+          Juega, aprende y gana puntos completando desafíos interactivos. ¡Es tu
+          momento!
         </p>
 
         <Link href="/dashboard/games">
