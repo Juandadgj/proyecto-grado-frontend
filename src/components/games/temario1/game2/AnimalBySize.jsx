@@ -6,14 +6,14 @@ import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const WordsGame = ({ setWhatGame, whatGame, score, onNextGame }) => {
+const WordsGame = ({ setWhatGame, whatGame, onComplete, onNextGame }) => {
   const router = useRouter();
   const [responses, setResponses] = useState([]);
   const [user, setUser] = useState(null);
   const [resultMessage, setResultMessage] = useState("");
-  const [scorePercentage, setScorePercentage] = useState(0);
   const [turns, setTurns] = useState(0);
   const [allCorrect, setAllCorrect] = useState(false);
+  const [gameCompleted, setGameCompleted] = useState(false);
 
   useEffect(() => {
     if (resultMessage) {
@@ -55,15 +55,21 @@ const WordsGame = ({ setWhatGame, whatGame, score, onNextGame }) => {
     { id: 3, word: "Caballo", img: "/abcGame/CABALLO.jpg", isCorrect: true },
     { id: 4, word: "Sapito", img: "/abcGame/SAPO.jpg", isCorrect: false }, // incorrecta
     { id: 5, word: "Ratón", img: "/abcGame/RATÓN.jpg", isCorrect: true },
-    { id: 6, word: "Zacapuntas", img: "/abcGame/lapiz.jpg", isCorrect: false },
+    { id: 6, word: "Lapis", img: "/abcGame/lapiz.jpg", isCorrect: false },
     { id: 7, word: "Girrafa", img: "/abcGame/JIRAFA.jpg", isCorrect: false },
     { id: 8, word: "Oveja", img: "/abcGame/OVEJA.jpg", isCorrect: true },
   ];
 
-  const correctAnswers = words.map((w) => ({
-    id: w.id,
-    isCorrect: w.isCorrect,
-  }));
+  const correctAnswersList = [
+    { id: 1, isCorrect: true },
+    { id: 2, isCorrect: false },
+    { id: 3, isCorrect: true },
+    { id: 4, isCorrect: false },
+    { id: 5, isCorrect: true },
+    { id: 6, isCorrect: false },
+    { id: 7, isCorrect: false },
+    { id: 8, isCorrect: true },
+  ];
 
   const getBorderColor = (id) => {
     const response = responses.find((res) => res.id === id);
@@ -94,50 +100,48 @@ const WordsGame = ({ setWhatGame, whatGame, score, onNextGame }) => {
     }
 
     const allCorrect = responses.every((res) => {
-      const answer = correctAnswers.find((ans) => ans.id === res.id);
+      const answer = correctAnswersList.find((ans) => ans.id === res.id);
       return answer && answer.isCorrect === (res.choice === "correct");
     });
 
-    const score = responses.reduce((acc, res) => {
-      const answer = correctAnswers.find((ans) => ans.id === res.id);
+    const correctCount = responses.reduce((acc, res) => {
+      const answer = correctAnswersList.find((ans) => ans.id === res.id);
       return answer && answer.isCorrect === (res.choice === "correct")
         ? acc + 1
         : acc;
     }, 0);
 
-    const percentage = (score / words.length) * 100;
-    setScorePercentage(percentage);
     setAllCorrect(allCorrect);
+
+    if (!gameCompleted) {
+      setGameCompleted(true);
+      onComplete(correctCount, turns);
+    }
 
     if (allCorrect) {
       setResultMessage("¡Todas las respuestas son correctas!");
-    } else if (score > 0) {
+    } else if (correctCount > 0) {
       setResultMessage(
-        `Obtuviste ${score} respuesta(s) correcta(s). Inténtalo de nuevo.`
+        `Obtuviste ${correctCount} respuesta(s) correcta(s). Inténtalo de nuevo.`
       );
     } else {
       setResultMessage(
         "Algunas respuestas son incorrectas. Inténtalo de nuevo."
       );
     }
-
-    saveGame({
-      type: "WordsValidation",
-      score,
-      id: user?.id,
-      userId: user?.userId,
-    });
   };
 
   const resetGame = () => {
     setResponses([]);
     setResultMessage("");
+    setGameCompleted(false);
+    setTurns(0);
+    setAllCorrect(false);
   };
 
   return (
     <>
-      <div>
-        <Rating score={turns} />
+      <div className="flex flex-col justify-center items-center w-full h-full my-10 mx-6">
         <h1 className="text-xl text-black text-center">
           Selecciona el color{" "}
           <span className="text-[#00A96E] font-semibold">verde</span> para las
@@ -145,6 +149,9 @@ const WordsGame = ({ setWhatGame, whatGame, score, onNextGame }) => {
           <span className="text-[#FF5861] font-semibold">rojo</span> para las
           incorrectas
         </h1>
+        <div className="flex justify-center items-center mt-4">
+          <p className="text-black font-semibold">Intentos: {turns}</p>
+        </div>
         <br />
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center p-4">
           {words.map((w) => (
@@ -226,36 +233,16 @@ const WordsGame = ({ setWhatGame, whatGame, score, onNextGame }) => {
               Intentos realizados:{" "}
               <span className="text-blue-500">{turns}</span>
             </p>
-            <p className="text-xl font-semibold text-gray-900">
-              Puntuación:
-              <span
-                className={`text-2xl font-bold ${
-                  scorePercentage >= 80
-                    ? "text-green-500"
-                    : scorePercentage >= 50
-                    ? "text-yellow-500"
-                    : "text-red-500"
-                }`}
-              >
-                {" " + scorePercentage}%
-              </span>
-            </p>
           </div>
 
           <p className="text-center mt-4 text-gray-900">
-            {scorePercentage >= 80
+            {turns <= 20
               ? "¡Excelente trabajo!"
-              : scorePercentage >= 50
+              : turns <= 40
               ? "¡Bien hecho! Pero puedes mejorar."
               : "Sigue intentándolo, lo harás mejor la próxima vez."}
           </p>
-          <div className="modal-action justify-between">
-            <button
-              className="btn bg-gray-600 text-white border-black border-2"
-              onClick={handleGameAgain}
-            >
-              Repasar Juego
-            </button>
+          <div className="modal-action justify-center">
             <button
               className="btn bg-green-500 text-white border-green-900 border-2 hover:bg-green-950"
               onClick={handleCloseModal}

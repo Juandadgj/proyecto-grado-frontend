@@ -42,36 +42,64 @@ export const SyllableGame: React.FC<SyllableGameProps> = ({ word, imageSrc, onSo
   const correctSyllables = useMemo(() => splitWordIntoSyllables(word.toLowerCase()), [word]);
   const [placedSyllables, setPlacedSyllables] = useState<(string | null)[]>([]);
   const [remainingSyllables, setRemainingSyllables] = useState<string[]>([]);
+  const [lastAttempt, setLastAttempt] = useState<string | null>(null);
+  const [isComplete, setIsComplete] = useState(false);
+  const [hasNotified, setHasNotified] = useState(false);
 
   useEffect(() => {
     setPlacedSyllables(Array(correctSyllables.length).fill(null));
     setRemainingSyllables([...correctSyllables].sort(() => Math.random() - 0.5));
+    setLastAttempt(null);
+    setIsComplete(false);
+    setHasNotified(false);
   }, [word]);
 
-  useEffect(() => {
-    const allPlaced = placedSyllables.every((s) => s !== null);
-    const correct = placedSyllables.join('') === word.toLowerCase();
-    if (allPlaced && onSolved) {
-      onSolved(correct);
+  const validateAttempt = (syllable: string, index: number) => {
+    const isCorrect = syllable === correctSyllables[index];
+    if (!isCorrect && syllable !== lastAttempt && !isComplete) {
+      setLastAttempt(syllable);
+      onSolved?.(false); // Notificar intento incorrecto
     }
-  }, [placedSyllables]);
+    return isCorrect;
+  };
+
+  const checkWordCompletion = (newPlaced: (string | null)[]) => {
+    if (newPlaced.every(s => s !== null)) {
+      const wordCorrect = newPlaced.join('') === word.toLowerCase();
+      if (wordCorrect && !hasNotified) {
+        setIsComplete(true);
+        setHasNotified(true);
+        onSolved?.(true);
+      } else if (!wordCorrect && !isComplete) {
+        onSolved?.(false);
+      }
+    }
+  };
 
   const handleSyllableClick = (syllable: string) => {
+    if (isComplete) return;
+
     const emptyIndex = placedSyllables.findIndex(s => s === null);
     if (emptyIndex !== -1) {
+      const isCorrect = validateAttempt(syllable, emptyIndex);
       const newPlaced = [...placedSyllables];
       newPlaced[emptyIndex] = syllable;
       setPlacedSyllables(newPlaced);
       setRemainingSyllables(prev => prev.filter(s => s !== syllable));
+      checkWordCompletion(newPlaced);
     }
   };
 
   const handleDrop = (syllable: string, boxIndex: number) => {
+    if (isComplete) return;
+
     if (placedSyllables[boxIndex] === null) {
+      const isCorrect = validateAttempt(syllable, boxIndex);
       const newPlaced = [...placedSyllables];
       newPlaced[boxIndex] = syllable;
       setPlacedSyllables(newPlaced);
       setRemainingSyllables(prev => prev.filter(s => s !== syllable));
+      checkWordCompletion(newPlaced);
     }
   };
 
@@ -87,6 +115,9 @@ export const SyllableGame: React.FC<SyllableGameProps> = ({ word, imageSrc, onSo
   const resetGame = () => {
     setPlacedSyllables(Array(correctSyllables.length).fill(null));
     setRemainingSyllables([...correctSyllables].sort(() => Math.random() - 0.5));
+    setLastAttempt(null);
+    setIsComplete(false);
+    setHasNotified(false);
   };
 
   return (
@@ -112,7 +143,9 @@ export const SyllableGame: React.FC<SyllableGameProps> = ({ word, imageSrc, onSo
           {placedSyllables.map((syllable, index) => (
             <div
               key={index}
-              className="text-blue-300 w-14 h-12 border-2 border-dashed rounded-lg flex items-center justify-center bg-white shadow-inner text-xl font-bold"
+              className={`w-14 h-12 border-2 border-dashed rounded-lg flex items-center justify-center bg-white shadow-inner text-xl font-bold ${
+                syllable && syllable !== correctSyllables[index] ? 'text-red-500' : 'text-blue-300'
+              }`}
               onDragOver={(e) => e.preventDefault()}
               onDrop={(e) => handleBoxDrop(e, index)}
             >

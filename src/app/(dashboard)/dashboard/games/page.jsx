@@ -13,7 +13,6 @@ const temario = [
       { route: "mayusculas", titulo: 'Letra minúscula y letra mayúscula', descripcion: "Descubre cuándo usar mayúsculas y minúsculas correctamente.", imagen: '/unit1/minYMa.jpg', locked: false  },
       { route: "silaba", titulo: 'Las silabas', descripcion: "Separa y une sílabas para formar palabras con ritmo.", imagen: '/unit1/silabas.jpg', locked: false  },
       { route: 'oracion', titulo: 'La oración', descripcion: "Aprende a formar oraciones completas y con sentido.", imagen: '/unit1/vocales.jpg', locked: false  },
-      { route: 'partes-oracion', titulo: 'Partes de una oración', descripcion: "Identifica sujeto, verbo y complemento como un experto.", imagen: '/unit1/gameWord.jpg', locked: false  },
     ],
   },
 ];
@@ -27,7 +26,13 @@ const Games = () => {
   const sectionRefs = useRef([]);
 
   useEffect(() => {
-    getUsers()
+    const alreadyReloaded = localStorage.getItem('pageReloaded');
+    if (!alreadyReloaded) {
+    localStorage.setItem('pageReloaded', 'true');
+    window.location.reload();
+  } else {
+    localStorage.removeItem('pageReloaded');
+  }
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -59,16 +64,6 @@ const Games = () => {
       });
     };
   }, []);
-
-  async function getUsers() {
-  try {
-    const res = await fetch('/api/users');
-    const data = await res.json();
-    console.log("Usuarios desde API:", data);
-  } catch (error) {
-    console.error("Error obteniendo usuarios:", error);
-  }
-}
 
   return (
     <div className="px-20 pb-10 w-full  bg-gradient-to-r from-[#b1f9fd] via-[#d1fbfd] to-[#F9F9F9]">

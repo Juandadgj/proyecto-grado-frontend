@@ -22,7 +22,6 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchSession = async () => {
       const sessionData = await getSessionFromServer();
-      console.log("TU", sessionData);
       setSession(sessionData);
     };
     fetchSession();
@@ -30,18 +29,18 @@ const Dashboard = () => {
 
   const streakCount = 5;
 
-const wordOfTheDay = {
-  word: "Mariposa",
-  definition: "Insecto colorido que vuela y se transforma desde una oruga."
-};
+  const wordOfTheDay = {
+    word: "Mariposa",
+    definition: "Insecto colorido que vuela y se transforma desde una oruga."
+  };
 
-const leaderboardData = [
-  { name: "Lucía", score: 1200 },
-  { name: "Mateo", score: 1100 },
-  { name: "Sofía", score: 1000 },
-  { name: "Tomás", score: 900 },
-  { name: "Valentina", score: 850 }
-];
+  const leaderboardData = [
+    { name: "Lucía", score: 1200 },
+    { name: "Mateo", score: 1100 },
+    { name: "Sofía", score: 1000 },
+    { name: "Tomás", score: 900 },
+    { name: "Valentina", score: 850 }
+  ];
 
   return (
     <div className='w-full p-16 pt-10 bg-gradient-to-r from-[#c5f7fa] via-[#e3feff] to-[#F9F9F9] '>
@@ -49,19 +48,17 @@ const leaderboardData = [
         <WelcomeBanner userName={session?.name} />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-8">
-        <LevelDisplay totalPoints={10} />
+        <LevelDisplay />
         <PlayNowCard />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8">
-          <UserProfileCard />
-          {/* <LivesCard lives={lives} nextLifeTime={nextLifeTime} formatTime={formatTime} /> */}
-          <AchievementsCard />
+        <AchievementsCard />
+        <DailyStreak streakCount={streakCount} />
+        <Leaderboard />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8">
-  <DailyStreak streakCount={streakCount} />
-  <WordOfTheDay word={wordOfTheDay.word} definition={wordOfTheDay.definition} />
-  <Leaderboard ranking={leaderboardData} />
-</div>
+      </div>
+      <WordOfTheDay word={wordOfTheDay.word} definition={wordOfTheDay.definition} />
     </div>
   )
 }

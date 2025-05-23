@@ -23,15 +23,20 @@ const generateGrid = (): Cell[] => {
   }));
 };
 
-export default function AlphabetGridGame({ onNextGame }: any) {
+interface Props {
+  onNextGame: () => void;
+  onComplete: (attempts: number) => void;
+}
+
+export default function AlphabetGridGame({ onNextGame, onComplete }: Props) {
   const [grid, setGrid] = useState<Cell[]>(generateGrid());
   const [result, setResult] = useState<boolean | null>(null);
-  const [rating, setRating] = useState(0);
+  const [attempts, setAttempts] = useState(0);
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const handleChange = (index: number, value: string) => {
-    setRating((prev) => prev + 1);
+    setAttempts(prev => prev + 1);
     const updated = [...grid];
     updated[index].letter = value.toUpperCase().slice(-1);
     setGrid(updated);
@@ -51,19 +56,20 @@ export default function AlphabetGridGame({ onNextGame }: any) {
     const correct = grid.every((cell, index) => cell.letter === fullAlphabet[index]);
     setResult(correct);
     if (correct) {
-      const modal = document.getElementById("game_complete_modal") as HTMLDialogElement;
-      modal?.showModal();
+      onComplete(attempts);
     }
   };
 
-  const onGoHome = () => {
-    console.log("Volviendo al inicio...");
+  const resetGame = () => {
+    setGrid(generateGrid());
+    setResult(null);
+    setAttempts(0);
   };
 
   return (
     <div className="p-6 w-full text-center space-y-6">
       <h2 className="text-3xl font-bold">Completa el abecedario</h2>
-      <Rating score={rating} />
+      <Rating score={attempts} />
       <div className="grid grid-cols-8 gap-4 w-full max-w-6xl mx-auto px-4">
         {grid.map((cell, i) => (
           <div
@@ -108,20 +114,12 @@ export default function AlphabetGridGame({ onNextGame }: any) {
           Validar
         </button>
         <button
-          onClick={() => {
-            setGrid(generateGrid());
-            setResult(null);
-          }}
+          onClick={resetGame}
           className="bg-gray-300 text-black px-6 py-3 rounded text-lg font-medium hover:bg-gray-400"
         >
           Reiniciar
         </button>
       </div>
-      <GameCompleteModal
-        onNextGame={onNextGame}
-        onGoHome={onGoHome}
-        rating={rating}
-      />
     </div>
   );
 }

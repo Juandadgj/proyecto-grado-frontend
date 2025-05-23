@@ -2,7 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 
-const DragAndDrop = ({ onGoHome }:any) => {
+interface Props {
+  onGoHome: () => void;
+  onComplete: (attempts: number) => void;
+}
+
+const DragAndDrop = ({ onGoHome, onComplete }: Props) => {
   const initialLetters = [
     { id: 1, letter: "a", correctList: 1 },
     { id: 2, letter: "e", correctList: 1 },
@@ -12,33 +17,41 @@ const DragAndDrop = ({ onGoHome }:any) => {
   ];
 
   const [letters, setLetters] = useState(
-    initialLetters.map((l) => ({ ...l, list: 0 })) // Banco inicial
+    initialLetters.map((l) => ({ ...l, list: 0 }))
   );
+  const [attempts, setAttempts] = useState(0);
   const [showModal, setShowModal] = useState(false);
 
-  const getList = (list:any) => letters.filter((item) => item.list === list);
+  const getList = (list: number) => letters.filter((item) => item.list === list);
 
-  const startDrag = (evt:any, item:any) => {
+  const startDrag = (evt: React.DragEvent, item: any) => {
     evt.dataTransfer.setData("itemID", item.id);
   };
 
-  const draggingOver = (evt: any) => evt.preventDefault();
+  const draggingOver = (evt: React.DragEvent) => evt.preventDefault();
 
-  const onDrop = (evt: any, list: any) => {
-    const itemID = evt.dataTransfer.getData("itemID");
+  const onDrop = (evt: React.DragEvent, list: number) => {
+    const itemID = parseInt(evt.dataTransfer.getData("itemID"));
     const updated = letters.map((l) =>
-      l.id == itemID ? { ...l, list } : l
+      l.id === itemID ? { ...l, list } : l
     );
     setLetters(updated);
+    setAttempts(prev => prev + 1);
   };
 
   useEffect(() => {
     const allClassified = letters.every((l) => l.list !== 0);
     const allCorrect = letters.every((l) => l.list === l.correctList);
     if (allClassified && allCorrect) {
-      setTimeout(() => setShowModal(true), 300);
+      onComplete(attempts);
     }
-  }, [letters]);
+  }, [letters, attempts, onComplete]);
+
+  const resetGame = () => {
+    setLetters(initialLetters.map((l) => ({ ...l, list: 0 })));
+    setAttempts(0);
+    setShowModal(false);
+  };
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-6">
@@ -105,6 +118,15 @@ const DragAndDrop = ({ onGoHome }:any) => {
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="mt-6 flex justify-center">
+        <button
+          onClick={resetGame}
+          className="bg-gray-300 text-black px-6 py-3 rounded text-lg font-medium hover:bg-gray-400"
+        >
+          Reiniciar
+        </button>
       </div>
 
       {/* Modal */}

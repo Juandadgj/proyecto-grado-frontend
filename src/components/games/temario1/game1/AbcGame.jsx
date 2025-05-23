@@ -18,14 +18,14 @@ const letterPairs = [
 
 const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
-const AbcGame = ({ score, setScore, onNextGame, onGoHome }) => {
+const AbcGame = ({ onComplete, onNextGame, onGoHome }) => {
   const [cards, setCards] = useState([]);
   const [flippedIndices, setFlippedIndices] = useState([]);
   const [matchedPairs, setMatchedPairs] = useState([]);
   const [turns, setTurns] = useState(0);
   const [user, setUser] = useState(null);
-  const [scorePercentage, SetScorePercentage] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const [gameCompleted, setGameCompleted] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,25 +49,12 @@ const AbcGame = ({ score, setScore, onNextGame, onGoHome }) => {
   }, []);
 
   useEffect(() => {
-    if (matchedPairs.length === letterPairs.length) {
+    if (matchedPairs.length === letterPairs.length && !gameCompleted) {
       setShowModal(true);
-
-      let calculatedScore = 0;
-      if (turns <= 30) calculatedScore = 100;
-      else if (turns <= 60) calculatedScore = (30 - (turns - 30)) * 3.33;
-      else calculatedScore = 0;
-
-      SetScorePercentage(calculatedScore);
-      setScore((prev) => prev + calculatedScore);
-
-      saveGame({
-        game: "AbcGame",
-        score: calculatedScore,
-        id: user?.id,
-        userId: user?.userId,
-      });
+      setGameCompleted(true);
+      onComplete(matchedPairs.length, turns);
     }
-  }, [matchedPairs]);
+  }, [matchedPairs, gameCompleted, turns, onComplete]);
 
   const handleCardClick = (index) => {
     if (flippedIndices.length < 2 && !flippedIndices.includes(index)) {
@@ -95,6 +82,7 @@ const AbcGame = ({ score, setScore, onNextGame, onGoHome }) => {
 
   const handleGameAgain = () => {
     setShowModal(false);
+    setGameCompleted(false);
 
     const reshuffled = shuffle(
       letterPairs.flatMap(({ upper, lower }) => [
@@ -106,7 +94,6 @@ const AbcGame = ({ score, setScore, onNextGame, onGoHome }) => {
     setFlippedIndices([]);
     setMatchedPairs([]);
     setTurns(0);
-    SetScorePercentage(0);
   };
 
   const handleCloseModal = () => {
@@ -118,9 +105,14 @@ const AbcGame = ({ score, setScore, onNextGame, onGoHome }) => {
   return (
     <div>
       <div className="flex flex-col justify-start items-center p-4 md:p-10 ">
-
+        <h1 className="text-2xl sm:text-3xl font-bold text-blue-900 mb-2">
+          ¡Encuentra las parejas de letras!
+        </h1>
+        <p className="text-blue-800 text-base sm:text-lg max-w-3xl mx-auto">
+          Encuentra las letras mayúsculas y minúsculas de las siguientes letras
+        </p>
         <Rating score={turns} />
-        <div className="card-grid">
+        <div className="card-grid mt-5">
           {cards.map((card, index) => (
             <AbcCard
               key={index}
@@ -136,71 +128,51 @@ const AbcGame = ({ score, setScore, onNextGame, onGoHome }) => {
         </div>
 
         <div className="text-black font-semibold text-xl mt-10">
-          <p>Intentos: {turns}</p>
           <p>Parejas encontradas: {matchedPairs.length}</p>
+          <p>Intentos: {turns}</p>
         </div>
 
         {/* MODAL */}
         {showModal && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-md">
-      <h3 className="text-lg font-bold text-center text-gray-900">
-        ¡Juego Terminado!
-      </h3>
-      <p className="py-4 text-center text-gray-900">
-        ¡Felicidades por completar el juego!
-      </p>
-      <div className="text-center space-y-4">
-        <p className="text-xl font-semibold text-gray-900">
-          Intentos realizados: <span className="text-blue-500">{turns}</span>
-        </p>
-        <p className="text-xl font-semibold text-gray-900">
-          Puntuación:
-          <span
-            className={`text-2xl font-bold ${
-              scorePercentage >= 80
-                ? "text-green-500"
-                : scorePercentage >= 50
-                ? "text-yellow-500"
-                : "text-red-500"
-            }`}
-          >
-            {" " + scorePercentage}%
-          </span>
-        </p>
-      </div>
-      <p className="text-center mt-4 text-gray-900">
-        {scorePercentage >= 80
-          ? "¡Excelente trabajo!"
-          : scorePercentage >= 50
-          ? "¡Bien hecho! Pero puedes mejorar."
-          : "Sigue intentándolo, lo harás mejor la próxima vez."}
-      </p>
-      <div className="mt-6 flex justify-between">
-        <button
-          className="btn bg-gray-600 text-white border-black border-2"
-          onClick={handleGameAgain}
-        >
-          Repasar Juego
-        </button>
-        <button
-          className="btn bg-green-500 text-white border-green-900 border-2 hover:bg-green-950"
-          onClick={handleCloseModal}
-        >
-          Siguiente Juego
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-md">
+              <h3 className="text-lg font-bold text-center text-gray-900">
+                ¡Juego Terminado!
+              </h3>
+              <p className="py-4 text-center text-gray-900">
+                ¡Felicidades por completar el juego!
+              </p>
+              <div className="text-center space-y-4">
+                <p className="text-xl font-semibold text-gray-900">
+                  Intentos realizados:{" "}
+                  <span className="text-blue-500">{turns}</span>
+                </p>
+              </div>
+              <p className="text-center mt-4 text-gray-900">
+                {turns <= 30
+                  ? "¡Excelente trabajo!"
+                  : turns <= 60
+                  ? "¡Bien hecho! Pero puedes mejorar."
+                  : "Sigue intentándolo, lo harás mejor la próxima vez."}
+              </p>
+              <div className="mt-6 flex justify-center">
+                <button
+                  className="btn bg-green-500 text-white border-green-900 border-2 hover:bg-green-950"
+                  onClick={handleCloseModal}
+                >
+                  Siguiente Juego
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
-        <div className="w-full flex justify-center items-center text-black font-semibold text-xl">
-          <p>Puntaje acumulado: {score ?? 0}</p>
-        </div>
       </div>
     </div>
   );
 };
 
 export default AbcGame;
+
+
 

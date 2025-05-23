@@ -27,13 +27,6 @@
   align-self: flex-end;
 }
 
-.card::before {
-  content: "";
-  position: absolute;
-  width: 50%;
-  border: solid rgb(50, 90, 250);
-}
-
 .card:nth-child(odd)::before {
   left: 0.2%;
   top: -4.7px;

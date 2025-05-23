@@ -7,12 +7,16 @@ interface GameCompleteModalProps {
   onNextGame?: () => void;
   onGoHome: () => void;
   rating: number;
+  showNextButton?: boolean;
+  points?: number;
 }
 
 const GameCompleteModal = ({
   onNextGame,
   onGoHome,
   rating,
+  showNextButton = true,
+  points = 0,
 }: GameCompleteModalProps) => {
   return (
     <dialog id="game_complete_modal" className="modal">
@@ -26,46 +30,35 @@ const GameCompleteModal = ({
             Intentos realizados: <span className="text-blue-500">{rating}</span>
           </p>
           <Rating score={rating} />
-          {/* <p className="text-xl font-semibold text-gray-900">
-            Puntuación:
-            <span
-              className={`text-2xl font-bold ${
-                scorePercentage >= 80
-                  ? "text-green-500"
-                  : scorePercentage >= 50
-                  ? "text-yellow-500"
-                  : "text-red-500"
-              }`}
-            >
-              {" " + scorePercentage}%
-            </span>
-          </p> */}
+          {points > 0 && (
+            <p className="text-xl font-semibold text-gray-900 mt-2">
+              Puntos obtenidos: <span className="text-green-500">{points}</span>
+            </p>
+          )}
         </div>
 
-        <div className={`flex ${onNextGame == null ? 'justify-center' : 'justify-between'} mt-6`}>
-          
-          <button
-            className="btn btn-outline"
-            onClick={() => {
-              (document.getElementById(
-                "game_complete_modal"
-              ) as HTMLDialogElement)?.close();
-              onGoHome();
-            }}
-          >
-            Volver al inicio
-          </button>
-          {onNextGame && <button
-            className="btn bg-green-600 text-white hover:bg-green-700"
-            onClick={() => {
-              (document.getElementById(
-                "game_complete_modal"
-              ) as HTMLDialogElement)?.close();
-              onNextGame();
-            }}
-          >
-            Siguiente juego
-          </button>}
+        <div className="modal-action justify-center mt-6">
+          {showNextButton && onNextGame ? (
+            <button
+              className="btn bg-green-600 text-white hover:bg-green-700"
+              onClick={() => {
+                (document.getElementById("game_complete_modal") as HTMLDialogElement)?.close();
+                onNextGame();
+              }}
+            >
+              Siguiente juego
+            </button>
+          ) : (
+            <button
+              className="btn bg-blue-600 text-white hover:bg-blue-700"
+              onClick={() => {
+                (document.getElementById("game_complete_modal") as HTMLDialogElement)?.close();
+                onGoHome();
+              }}
+            >
+              Volver al inicio
+            </button>
+          )}
         </div>
       </div>
 

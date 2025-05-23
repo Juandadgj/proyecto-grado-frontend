@@ -59,13 +59,15 @@ function SortableItem({ id, image }: { id: string, image?: string }) {
 interface Props {
   onNextGame: () => void;
   onGoHome: () => void;
+  onComplete: (attempts: number) => void;
 }
 
-export default function AlphabetSortGame({ onNextGame, onGoHome }: Props) {
+export default function AlphabetSortGame({ onNextGame, onGoHome, onComplete }: Props) {
   const [user, setUser] = useState<any>(null);
   const [words, setWords] = useState(shuffleArray(initialWords));
   const [result, setResult] = useState<boolean | null>(null);
   const [rating, setRating] = useState(0);
+  const [attempts, setAttempts] = useState(0);
 
   const sensors = useSensors(useSensor(PointerSensor));
 
@@ -85,8 +87,8 @@ export default function AlphabetSortGame({ onNextGame, onGoHome }: Props) {
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
-    setRating(rating + 1);
     if (over && active.id !== over.id) {
+      setAttempts(prev => prev + 1);
       const oldIndex = words.indexOf(active.id as string)
       const newIndex = words.indexOf(over.id as string)
       setWords(arrayMove(words, oldIndex, newIndex))
@@ -105,22 +107,12 @@ export default function AlphabetSortGame({ onNextGame, onGoHome }: Props) {
     setResult(correct)
 
     if (correct) {
-      saveGame({
-        game: "AbcGame",
-        score: rating,
-        id: user?.id,
-        userId: user?.userId,
-      });
-      const modal = document.getElementById(
-        "game_complete_modal"
-      ) as HTMLDialogElement;
-      modal?.showModal();
+      onComplete(attempts);
     }
   }
  
   return (
     <div className="min-h-full px-4 py-6 flex flex-col gap-6">
-      <Rating score={rating} />
       <h2 className="text-3xl font-extrabold text-center text-blue-500">
         Ordena las palabras alfabéticamente
       </h2>
@@ -170,6 +162,7 @@ export default function AlphabetSortGame({ onNextGame, onGoHome }: Props) {
         onNextGame={onNextGame}
         onGoHome={onGoHome}
         rating={rating}
+        showNextButton={result === true}
       />
     </div>
   );
