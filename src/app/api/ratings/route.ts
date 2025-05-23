@@ -21,7 +21,6 @@ const getUserIdFromToken = (token: string | undefined) => {
 
 export async function POST(request: Request) {
   try {
-    console.log("ENTRANDO A POST DE RATING");
     const cookieStore = cookies();
     const token = cookieStore.get('session')?.value;
     const userId = getUserIdFromToken(token);
@@ -32,7 +31,6 @@ export async function POST(request: Request) {
     }
 
     const { game, score } = await request.json();
-    console.log("Datos recibidos:", { game, score, userId });
 
     if (!game || typeof score !== 'number') {
       return NextResponse.json(
@@ -49,7 +47,6 @@ export async function POST(request: Request) {
       },
     });
 
-    console.log("Rating creado:", rating);
     return NextResponse.json(rating);
   } catch (error) {
     console.error('Error al guardar rating:', error);

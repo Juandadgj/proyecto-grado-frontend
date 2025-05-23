@@ -42,7 +42,6 @@ export const savePoints = async (gameId: string, points: number, attempts: numbe
   // Si el juego está completado, guardar en la base de datos
   if (completed) {
     try {
-      console.log("Guardando puntos en la base de datos...");
       const response = await fetch('/api/ratings', {
         method: 'POST',
         headers: {
@@ -55,7 +54,6 @@ export const savePoints = async (gameId: string, points: number, attempts: numbe
         credentials: 'include', // Importante: incluir las cookies en la petición
       });
 
-      console.log("RESPONSE", response);
       if (!response.ok) {
         console.error('Error al guardar la calificación en la base de datos:', response.statusText);
         throw new Error(`Error ${response.status}: ${response.statusText}`);

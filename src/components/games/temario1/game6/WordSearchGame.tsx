@@ -132,7 +132,6 @@ const WordSearchGame = ({setWhatGame}:any) => {
       )
       .map(wordObj => wordObj.word);
 
-      console.log("WORD", foundWordsUpdate)
   
     // Agregar nuevas palabras encontradas
     setFoundWords(prev => [...prev, ...foundWordsUpdate.filter(word => !prev.includes(word))]);

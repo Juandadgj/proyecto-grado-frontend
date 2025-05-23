@@ -18,7 +18,6 @@ const CarouselDashboard = () => {
 
   const forward = () => {
     if (currentIndex < images.length) {
-      console.log("etras")
       setCurrentIndex(currentIndex + 1);
     }
   }

@@ -11,7 +11,6 @@ type Animal = {
 
 const AnimalQuizGame = ({score}: {score: number}) => {
   // Lista de animales con sus imágenes y nombres correctos
-  console.log("s",score)
   const animals: Animal[] = [
     { id: 1, name: "Elefante", imgSrc: "/abcGame/ELEFANTE.jpg" },
     { id: 2, name: "Rana", imgSrc: "/abcGame/RANA.jpg" },
