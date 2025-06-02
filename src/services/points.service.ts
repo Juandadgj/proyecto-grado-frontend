@@ -89,4 +89,4 @@ export const getTotalPointsFromDB = async (): Promise<number> => {
     console.error('Error al obtener el total de puntos:', error);
     throw error;
   }
-}; 
+};
