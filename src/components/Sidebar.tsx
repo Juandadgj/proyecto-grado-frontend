@@ -29,7 +29,7 @@ const Sidebar = ({user}:any) => {
       <div className="flex items-center justify-between p-4">
         <Link href="/dashboard">
           <Image
-            src="/deaf.png"
+            src="/abclick/deaf.png"
             alt="Logo"
             width={60}
             height={60}
@@ -92,7 +92,7 @@ const Sidebar = ({user}:any) => {
 
       <footer className="p-4 mt-auto flex items-center space-x-3">
         <Image
-          src={user?.image || '/deaf.png'}
+          src={user?.image || '/abclick/deaf.png'}
           alt="Usuario"
           width={40}
           height={40}

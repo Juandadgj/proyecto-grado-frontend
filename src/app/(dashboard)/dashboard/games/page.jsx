@@ -8,11 +8,11 @@ const temario = [
     bgColor: "#325afa",
     titulo: 'Lee, comprende y escribe',
     subtemarios: [
-      { route: "abecedario", titulo: 'Abecedario', descripcion: "Aprende cada letra del abecedario con juegos y diversión.", imagen: '/unit1/consonante.jpg', locked: false  },
+      { route: "abecedario", titulo: 'Abecedario', descripcion: "Aprende cada letra del abecedario con juegos y diversión.", imagen: '/abclick/unit1/consonante.jpg', locked: false  },
       // { route: "vocales", titulo: 'Vocales y Dígrafos', descripcion: "Aprende cada letra del abecedario con juegos y diversión.", imagen: '/unit1/consonante.jpg' },
-      { route: "mayusculas", titulo: 'Letra minúscula y letra mayúscula', descripcion: "Descubre cuándo usar mayúsculas y minúsculas correctamente.", imagen: '/unit1/minYMa.jpg', locked: false  },
-      { route: "silaba", titulo: 'Las silabas', descripcion: "Separa y une sílabas para formar palabras con ritmo.", imagen: '/unit1/silabas.jpg', locked: false  },
-      { route: 'oracion', titulo: 'La oración', descripcion: "Aprende a formar oraciones completas y con sentido.", imagen: '/unit1/vocales.jpg', locked: false  },
+      { route: "mayusculas", titulo: 'Letra minúscula y letra mayúscula', descripcion: "Descubre cuándo usar mayúsculas y minúsculas correctamente.", imagen: '/abclick/unit1/minYMa.jpg', locked: false  },
+      { route: "silaba", titulo: 'Las silabas', descripcion: "Separa y une sílabas para formar palabras con ritmo.", imagen: '/abclick/unit1/silabas.jpg', locked: false  },
+      { route: 'oracion', titulo: 'La oración', descripcion: "Aprende a formar oraciones completas y con sentido.", imagen: '/abclick/unit1/vocales.jpg', locked: false  },
     ],
   },
 ];
